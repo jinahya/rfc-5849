@@ -140,8 +140,8 @@ public final class Base64 {
 
         final byte[] output
             = new byte[input.length / 4 * 3
-                       - input[input.length - 2] == PAD
-                       ? 2 : input[input.length - 1] == PAD ? 1 : 0];
+                       - (input[input.length - 2] == PAD
+                          ? 2 : input[input.length - 1] == PAD ? 1 : 0)];
 
         int index = 0; // output index
         for (int i = 0; i < input.length; i += 4) {
