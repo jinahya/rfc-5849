@@ -72,18 +72,36 @@ public class SignatureBaseStringBuilder {
     }
 
 
+    /**
+     * Returns the current value of HTTP method.
+     *
+     * @return the current value of HTTP method.
+     */
     public String getHttpMethod() {
 
         return httpMethod;
     }
 
 
+    /**
+     * Replaces the current value of HTTP method with given.
+     *
+     * @param httpMethod new value of HTTP method.
+     */
     public void setHttpMethod(final String httpMethod) {
 
         this.httpMethod = httpMethod;
     }
 
 
+    /**
+     * Replaces the current value of HTTP method with given and returns this
+     * instance.
+     *
+     * @param httpMethod new value of HTTP method.
+     *
+     * @return this instance.
+     */
     public SignatureBaseStringBuilder httpMethod(final String httpMethod) {
 
         setHttpMethod(httpMethod);
@@ -92,18 +110,35 @@ public class SignatureBaseStringBuilder {
     }
 
 
+    /**
+     * Returns the current value of base URI.
+     *
+     * @return the current value of base URI.
+     */
     public String getBaseUri() {
 
         return baseUri;
     }
 
 
+    /**
+     * Replaces the value of base URI with given.
+     *
+     * @param baseUri new value of base URI.
+     */
     public void setBaseUri(final String baseUri) {
 
         this.baseUri = baseUri;
     }
 
 
+    /**
+     * Replaces the value of base URI with given and returns this instance.
+     *
+     * @param baseUri new value of base URI.
+     *
+     * @return this instance.
+     */
     public SignatureBaseStringBuilder baseUri(final String baseUri) {
 
         setBaseUri(baseUri);
@@ -112,6 +147,11 @@ public class SignatureBaseStringBuilder {
     }
 
 
+    /**
+     * Returns a map of request parameters.
+     *
+     * @return a map of request parameters.
+     */
     public Map getRequestParameters() {
 
         if (requestParameters == null) {

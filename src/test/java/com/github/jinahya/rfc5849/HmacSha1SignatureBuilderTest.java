@@ -18,15 +18,16 @@
 package com.github.jinahya.rfc5849;
 
 
-import java.io.UnsupportedEncodingException;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 
 /**
+ * An abstract class for testing {@link SignatureBuilder} for {@code HMAC-SHA1}
+ * method.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @param <T>
+ * @param <T> signature builder type parameter
  */
 public abstract class HmacSha1SignatureBuilderTest<T extends SignatureBuilder>
     extends SignatureBuilderTest<T> {

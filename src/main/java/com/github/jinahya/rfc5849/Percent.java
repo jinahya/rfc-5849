@@ -28,15 +28,15 @@ import java.net.URLEncoder;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class Percent {
+public final class Percent {
 
 
-    private static Method REPLACE_ALL = null;
+    private static Method replaceAll = null;
 
 
     static {
         try {
-            REPLACE_ALL = String.class.getMethod(
+            replaceAll = String.class.getMethod(
                 "replaceAll", new Class[]{String.class, String.class});
         } catch (final NoSuchMethodException nsme) {
             nsme.printStackTrace();
@@ -59,9 +59,9 @@ public class Percent {
             throw new RuntimeException(uee);
         }
 
-        if (REPLACE_ALL != null) {
+        if (replaceAll != null) {
             try {
-                s = (String) REPLACE_ALL.invoke(s, new Object[]{"\\+", "%20"});
+                s = (String) replaceAll.invoke(s, new Object[]{"\\+", "%20"});
             } catch (final Exception e) {
                 e.printStackTrace();
             }
@@ -91,9 +91,9 @@ public class Percent {
      */
     public static String decode(String s) {
 
-        if (REPLACE_ALL != null) {
+        if (replaceAll != null) {
             try {
-                s = (String) REPLACE_ALL.invoke(s, new Object[]{"%20", "+"});
+                s = (String) replaceAll.invoke(s, new Object[]{"%20", "+"});
             } catch (final Exception e) {
                 e.printStackTrace();
             }

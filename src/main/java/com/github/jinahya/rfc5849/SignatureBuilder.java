@@ -108,9 +108,9 @@ public abstract class SignatureBuilder {
      */
     public String getKey() {
 
-        return Percent.encode(consumerSecret)
+        return Percent.encode(getConsumerSecret())
                + "&"
-               + Percent.encode(tokenSecret);
+               + Percent.encode(getTokenSecret());
     }
 
 

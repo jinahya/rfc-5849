@@ -25,7 +25,7 @@ import java.io.UnsupportedEncodingException;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class Base64 {
+public final class Base64 {
 
 
     private static final byte[] ENCODE = {
@@ -90,7 +90,7 @@ public class Base64 {
                 }
             }
             for (int j = 3; j >= 0; j--) {
-                output[index + j] = (pads-- > 0) ? PAD : ENCODE[word & 0x3F];
+                output[index + j] = pads-- > 0 ? PAD : ENCODE[word & 0x3F];
                 word >>= 6;
             }
             index += 4;
@@ -140,8 +140,8 @@ public class Base64 {
 
         final byte[] output
             = new byte[input.length / 4 * 3
-                       - (input[input.length - 2] == PAD
-                          ? 2 : (input[input.length - 1] == PAD ? 1 : 0))];
+                       - input[input.length - 2] == PAD
+                       ? 2 : input[input.length - 1] == PAD ? 1 : 0];
 
         int index = 0; // output index
         for (int i = 0; i < input.length; i += 4) {

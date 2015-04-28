@@ -23,6 +23,7 @@ import static java.util.concurrent.ThreadLocalRandom.current;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
 
 
@@ -47,6 +48,23 @@ public class Base64Test {
     }
 
 
+    @Test
+    public void encodeEmptyBytes() {
+
+        final byte[] encoded = Base64.encode(new byte[0]);
+
+        assertNotNull(encoded);
+        assertEquals(encoded.length, 0);
+    }
+
+
+    @Test(expectedExceptions = {NullPointerException.class})
+    public void encodeNullBytes() {
+
+        Base64.encode(null);
+    }
+
+
     @Test(invocationCount = 1024)
     public void decode() {
 
@@ -58,6 +76,23 @@ public class Base64Test {
         final byte[] actual = Base64.decode(encoded);
 
         assertEquals(actual, expected);
+    }
+
+
+    @Test(expectedExceptions = {NullPointerException.class})
+    public void decodeNullBytes() {
+
+        Base64.decode((byte[]) null);
+    }
+
+
+    @Test
+    public void decodeEmptyBytes() {
+
+        final byte[] decoded = Base64.decode(new byte[0]);
+
+        assertNotNull(decoded);
+        assertEquals(decoded.length, 0);
     }
 
 

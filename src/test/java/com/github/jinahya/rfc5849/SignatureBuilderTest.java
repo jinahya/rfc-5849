@@ -22,9 +22,10 @@ import java.util.Objects;
 
 
 /**
+ * An abstract class for testing {@link SignatureBuilder}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @param <T>
+ * @param <T> signature builder type parameter.
  */
 public abstract class SignatureBuilderTest<T extends SignatureBuilder> {
 
