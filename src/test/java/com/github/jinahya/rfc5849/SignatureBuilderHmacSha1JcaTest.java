@@ -18,31 +18,17 @@
 package com.github.jinahya.rfc5849;
 
 
-import org.bouncycastle.crypto.Mac;
-import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.crypto.macs.HMac;
-import org.bouncycastle.crypto.params.KeyParameter;
-
-
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class HmacSha1BcSignatureBuilder extends SignatureBuilder {
+public class SignatureBuilderHmacSha1JcaTest
+    extends SignatureBuilderHmacSha1Test<SignatureBuilderHmacSha1Jca> {
 
 
-    public String build() throws Exception {
+    public SignatureBuilderHmacSha1JcaTest() {
 
-        final Mac mac = new HMac(new SHA1Digest());
-        mac.init(new KeyParameter(getKeyBytes()));
-
-        final byte[] input = getBaseStringBytes();
-        mac.update(input, 0, input.length);
-
-        final byte[] output = new byte[mac.getMacSize()];
-        mac.doFinal(output, 0);
-
-        return Base64.encodeToString(output);
+        super(SignatureBuilderHmacSha1Jca.class);
     }
 
 

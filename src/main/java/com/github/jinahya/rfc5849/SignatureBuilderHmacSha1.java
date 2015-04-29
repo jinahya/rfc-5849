@@ -22,13 +22,15 @@ package com.github.jinahya.rfc5849;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class HmacSha1BcSignatureBuilderTest
-    extends HmacSha1SignatureBuilderTest<HmacSha1BcSignatureBuilder> {
+public abstract class SignatureBuilderHmacSha1 extends SignatureBuilder {
 
 
-    public HmacSha1BcSignatureBuilderTest() {
+    public static final String SIGNATURE_METHOD = "HMAC-SHA1";
 
-        super(HmacSha1BcSignatureBuilder.class);
+
+    public SignatureBuilderHmacSha1() {
+
+        super(SIGNATURE_METHOD);
     }
 
 

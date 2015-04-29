@@ -18,36 +18,22 @@
 package com.github.jinahya.rfc5849;
 
 
-import java.security.Key;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class HmacSha1JcaSignatureBuilder extends SignatureBuilder {
+//@FunctionalInterface
+public interface Builder {
 
 
     /**
-     * Standard algorithm name for HMAC-SHA1.
+     * Builds output.
+     *
+     * @return output.
+     *
+     * @throws Exception if failed to build.
      */
-    private static final String ALGORITHM = "HmacSHA1";
-
-
-    public String build() throws Exception {
-
-        final byte[] keyBytes = getKeyBytes();
-        final Key key = new SecretKeySpec(keyBytes, ALGORITHM);
-
-        final Mac mac = Mac.getInstance(ALGORITHM);
-        mac.init(key);
-
-        final byte[] output = mac.doFinal(getBaseStringBytes());
-
-        return Base64.encodeToString(output);
-    }
+    String build() throws Exception;
 
 
 }

@@ -26,7 +26,7 @@ import java.util.Random;
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public final class NonceBuilder {
+public final class NonceBuilder implements Builder {
 
 
     public static NonceBuilder newInstance(final Random random) {
@@ -41,7 +41,7 @@ public final class NonceBuilder {
     }
 
 
-    private NonceBuilder(final Random random) {
+    public NonceBuilder(final Random random) {
 
         super();
 
@@ -53,7 +53,14 @@ public final class NonceBuilder {
     }
 
 
-    public String build() {
+    public NonceBuilder() {
+
+        this(new SecureRandom());
+    }
+
+
+    //@Override
+    public String build() throws Exception {
 
         return Long.toString((System.currentTimeMillis() << 20)
                              | random.nextInt(1048576));

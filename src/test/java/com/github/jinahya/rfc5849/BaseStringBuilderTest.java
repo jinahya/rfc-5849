@@ -18,7 +18,6 @@
 package com.github.jinahya.rfc5849;
 
 
-import java.io.UnsupportedEncodingException;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
@@ -27,22 +26,22 @@ import org.testng.annotations.Test;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBaseStringBuilderTest {
+public class BaseStringBuilderTest {
 
 
     /**
+     * Tests against twitter example.
      *
-     * @throws UnsupportedEncodingException
+     * @throws Exception if an error occurs.
      *
      * @see
      * <a href="https://dev.twitter.com/oauth/overview/creating-signatures">Creating
      * a signature</a>
      */
     @Test
-    public void twitterExample() throws UnsupportedEncodingException {
+    public void twitterExample() throws Exception {
 
-        final SignatureBaseStringBuilder builder
-            = new SignatureBaseStringBuilder();
+        final BaseStringBuilder builder = new BaseStringBuilder();
 
         builder.httpMethod("POST");
         builder.baseUri("https://api.twitter.com/1/statuses/update.json");
@@ -79,14 +78,16 @@ public class SignatureBaseStringBuilderTest {
 
 
     /**
+     * Tests against nouncer example.
      *
-     * @throws UnsupportedEncodingException
+     * @throws Exception if an error occurs.
+     *
      * @see <a href="http://nouncer.com/oauth/signature.html">signature</a>
      */
-    public void nouncerExample() throws UnsupportedEncodingException {
+    @Test
+    public void nouncerExample() throws Exception {
 
-        final SignatureBaseStringBuilder builder
-            = new SignatureBaseStringBuilder();
+        final BaseStringBuilder builder = new BaseStringBuilder();
 
         builder.httpMethod("GET");
         builder.baseUri("http://photos.example.net/photos");
@@ -115,7 +116,6 @@ public class SignatureBaseStringBuilderTest {
         final String actual = builder.build();
 
         assertEquals(actual, expected);
-
     }
 
 

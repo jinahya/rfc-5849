@@ -29,20 +29,31 @@ import org.testng.annotations.Test;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> signature builder type parameter
  */
-public abstract class HmacSha1SignatureBuilderTest<T extends SignatureBuilder>
+public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHmacSha1>
     extends SignatureBuilderTest<T> {
 
 
-    public HmacSha1SignatureBuilderTest(final Class<T> builderType) {
+    public SignatureBuilderHmacSha1Test(final Class<T> builderType) {
 
         super(builderType);
     }
 
 
+//    @Override
+//    protected T newInstance() {
+//
+//        try {
+//            final Constructor<T> constructor
+//                = builderType.getConstructor(SignatureBaseStringBuilder.class);
+//            return constructor.newInstance(new SignatureBaseStringBuilder());
+//        } catch (final ReflectiveOperationException roe) {
+//            throw new RuntimeException(roe);
+//        }
+//    }
     @Test
     public void twitterExample() throws Exception {
 
-        final String signatureBaseString
+        final String baseString
             = "POST"
               + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
               + "&include_entities%3Dtrue"
@@ -59,9 +70,9 @@ public abstract class HmacSha1SignatureBuilderTest<T extends SignatureBuilder>
         final T builder = newInstance();
 
         builder
-            .baseString(signatureBaseString)
             .consumerSecret(consumerSecret)
-            .tokenSecret(tokenSecret);
+            .tokenSecret(tokenSecret)
+            .baseStringBuilder(BaseStringBuilder.ofPrebuilt(baseString));
 
         final String expected = "tnnArxj06cWHq44gCs1OSKk/jLY=";
         final String actual = builder.build();
@@ -70,9 +81,10 @@ public abstract class HmacSha1SignatureBuilderTest<T extends SignatureBuilder>
     }
 
 
+    @Test
     public void nouncerExample() throws Exception {
 
-        final String signatureBaseString
+        final String baseString
             = "GET"
               + "&http%3A%2F%2Fphotos.example.net%2Fphotos"
               + "&file%3Dvacation.jpg"
@@ -83,15 +95,15 @@ public abstract class HmacSha1SignatureBuilderTest<T extends SignatureBuilder>
               + "%26oauth_token%3Dnnch734d00sl2jdk"
               + "%26oauth_version%3D1.0"
               + "%26size%3Doriginal";
-        final String consumerSecret = "kd94hf93k423kf44&";
+        final String consumerSecret = "kd94hf93k423kf44";
         final String tokenSecret = "pfkkdhi9sl3r4s00";
 
         final T builder = newInstance();
 
         builder
-            .baseString(signatureBaseString)
             .consumerSecret(consumerSecret)
-            .tokenSecret(tokenSecret);
+            .tokenSecret(tokenSecret)
+            .baseStringBuilder(BaseStringBuilder.ofPrebuilt(baseString));
 
         final String expected = "tR3+Ty81lMeYAr/Fid0kMTYa/WM=";
         final String actual = builder.build();

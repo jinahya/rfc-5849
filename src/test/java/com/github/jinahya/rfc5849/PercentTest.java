@@ -19,6 +19,7 @@ package com.github.jinahya.rfc5849;
 
 
 import static java.lang.invoke.MethodHandles.lookup;
+import java.lang.reflect.Field;
 import static java.util.concurrent.ThreadLocalRandom.current;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -37,7 +38,24 @@ public class PercentTest {
     @Test(invocationCount = 1024)
     public void encodeDecode() {
 
-        final String enc = "UTF-8";
+        final String expected
+            = RandomStringUtils.random(current().nextInt(0, 1024));
+
+        final String encoded = Percent.encode(expected);
+
+        final String actual = Percent.decode(encoded);
+
+        assertEquals(actual, expected);
+    }
+
+
+    @Test(invocationCount = 1024)
+    public void encodeDecodeWithoutReplaceAll()
+        throws ReflectiveOperationException {
+
+        final Field field = Percent.class.getDeclaredField("replaceAll");
+        field.setAccessible(true);
+        field.set(null, null);
 
         final String expected
             = RandomStringUtils.random(current().nextInt(0, 1024));

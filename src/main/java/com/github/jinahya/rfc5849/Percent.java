@@ -118,7 +118,6 @@ public final class Percent {
         } catch (final UnsupportedEncodingException uee) {
             throw new RuntimeException(uee);
         }
-
     }
 
 

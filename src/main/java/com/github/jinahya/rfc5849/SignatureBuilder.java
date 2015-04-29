@@ -18,51 +18,36 @@
 package com.github.jinahya.rfc5849;
 
 
-import java.io.UnsupportedEncodingException;
-
-
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public abstract class SignatureBuilder {
+public abstract class SignatureBuilder implements Builder {
 
 
-    public SignatureBuilder() {
+    public static final String KEY_OAUTH_SIGNATURE = "oauth_signature";
+
+
+    public SignatureBuilder(final String signatureMethod) {
 
         super();
+
+        if (signatureMethod == null) {
+            throw new NullPointerException("null signatureMethod");
+        }
+
+        this.signatureMethod = signatureMethod;
     }
 
 
     /**
-     * Builds the signature.
+     * Returns signature method.
      *
-     * @return the signature.
-     *
-     * @throws Exception an any error occurs.
+     * @return signature method.
      */
-    public abstract String build() throws Exception;
+    public String getSignatureMethod() {
 
-
-    /**
-     * Returns the current consumer secret.
-     *
-     * @return the current consumer secret.
-     */
-    public String getConsumerSecret() {
-
-        return consumerSecret;
-    }
-
-
-    /**
-     * Replaces the consumer secret with given.
-     *
-     * @param consumerSecret new consumer secret.
-     */
-    public void setConsumerSecret(final String consumerSecret) {
-
-        this.consumerSecret = consumerSecret;
+        return signatureMethod;
     }
 
 
@@ -75,88 +60,79 @@ public abstract class SignatureBuilder {
      */
     public SignatureBuilder consumerSecret(final String consumerSecret) {
 
-        setConsumerSecret(consumerSecret);
+        this.consumerSecret = consumerSecret;
 
         return this;
-    }
-
-
-    public String getTokenSecret() {
-
-        return tokenSecret;
-    }
-
-
-    public void setTokenSecret(final String tokenSecret) {
-
-        this.tokenSecret = tokenSecret;
     }
 
 
     public SignatureBuilder tokenSecret(final String tokenSecret) {
 
-        setTokenSecret(tokenSecret);
+        this.tokenSecret = tokenSecret;
 
         return this;
     }
 
 
-    /**
-     * Returns the key string.
-     *
-     * @return the key string.
-     */
-    public String getKey() {
+    public BaseStringBuilder getBaseStringBuilder() {
 
-        return Percent.encode(getConsumerSecret())
-               + "&"
-               + Percent.encode(getTokenSecret());
+        return baseStringBuilder;
     }
 
 
-    /**
-     * Returns key bytes.
-     *
-     * @return key bytes.
-     */
-    public byte[] getKeyBytes() {
+    public void setBaseStringBuilder(
+        final BaseStringBuilder baseStringBuilder) {
 
-        try {
-            return getKey().getBytes("ISO-8859-1");
-        } catch (UnsupportedEncodingException uee) {
-            throw new RuntimeException(uee);
-        }
+        this.baseStringBuilder = baseStringBuilder;
     }
 
 
-    public String getBaseString() {
+    public SignatureBuilder baseStringBuilder(
+        final BaseStringBuilder baseStringBuilder) {
 
-        return baseString;
-    }
-
-
-    public void setBaseString(final String baseString) {
-
-        this.baseString = baseString;
-    }
-
-
-    public SignatureBuilder baseString(final String baseString) {
-
-        setBaseString(baseString);
+        setBaseStringBuilder(baseStringBuilder);
 
         return this;
     }
 
 
-    public byte[] getBaseStringBytes() {
+    public String build() throws Exception {
 
-        try {
-            return getBaseString().getBytes("ISO-8859-1");
-        } catch (final UnsupportedEncodingException uee) {
-            throw new RuntimeException(uee);
+        if (consumerSecret == null) {
+            throw new IllegalStateException("no consumerSecret set");
         }
+
+        if (tokenSecret == null) {
+            throw new IllegalStateException("no tokenSecret set");
+        }
+
+        if (baseStringBuilder == null) {
+            throw new IllegalStateException("no baseStringBuilder set");
+        }
+
+        if (baseStringBuilder.getOauthSignatureMethod() == null) {
+            baseStringBuilder.setOauthSignatureMethod(signatureMethod);
+        }
+
+        final String keyString
+            = Percent.encode(consumerSecret) + "&"
+              + Percent.encode(tokenSecret);
+        final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
+
+        final String baseString = baseStringBuilder.build();
+        final byte[] baseStringBytes = baseString.getBytes("ISo-8859-1");
+
+        final byte[] signature = signature(keyBytes, baseStringBytes);
+
+        return Base64.encodeToString(signature);
     }
+
+
+    protected abstract byte[] signature(byte[] keyBytes, byte[] baseStringBytes)
+        throws Exception;
+
+
+    private final String signatureMethod;
 
 
     private String consumerSecret;
@@ -165,7 +141,7 @@ public abstract class SignatureBuilder {
     private String tokenSecret;
 
 
-    private String baseString;
+    private BaseStringBuilder baseStringBuilder;
 
 
 }
