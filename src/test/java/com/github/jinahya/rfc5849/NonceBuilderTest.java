@@ -18,17 +18,28 @@
 package com.github.jinahya.rfc5849;
 
 
+import static java.lang.invoke.MethodHandles.lookup;
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
+import org.testng.annotations.Test;
+
+
 /**
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public final class TimestampBuilder implements Builder {
+public class NonceBuilderTest {
 
 
-    public String build() throws Exception {
+    @Test
+    public void build() throws Exception {
 
-        return Long.toString(System.currentTimeMillis() / 1000L);
+        final String built = new NonceBuilder().build();
+        logger.debug("built: {}", built);
     }
+
+
+    private transient final Logger logger = getLogger(lookup().lookupClass());
 
 
 }
