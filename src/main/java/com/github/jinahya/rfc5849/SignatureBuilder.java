@@ -51,29 +51,6 @@ public abstract class SignatureBuilder implements Builder {
     }
 
 
-    /**
-     * Replaces the consumer secret with given and return self.
-     *
-     * @param consumerSecret new consumer secret.
-     *
-     * @return self.
-     */
-    public SignatureBuilder consumerSecret(final String consumerSecret) {
-
-        this.consumerSecret = consumerSecret;
-
-        return this;
-    }
-
-
-    public SignatureBuilder tokenSecret(final String tokenSecret) {
-
-        this.tokenSecret = tokenSecret;
-
-        return this;
-    }
-
-
     public BaseStringBuilder getBaseStringBuilder() {
 
         return baseStringBuilder;
@@ -96,52 +73,10 @@ public abstract class SignatureBuilder implements Builder {
     }
 
 
-    public String build() throws Exception {
-
-        if (consumerSecret == null) {
-            throw new IllegalStateException("no consumerSecret set");
-        }
-
-        if (tokenSecret == null) {
-            throw new IllegalStateException("no tokenSecret set");
-        }
-
-        if (baseStringBuilder == null) {
-            throw new IllegalStateException("no baseStringBuilder set");
-        }
-
-        if (baseStringBuilder.getOauthSignatureMethod() == null) {
-            baseStringBuilder.setOauthSignatureMethod(signatureMethod);
-        }
-
-        final String keyString
-            = Percent.encode(consumerSecret) + "&"
-              + Percent.encode(tokenSecret);
-        final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
-
-        final String baseString = baseStringBuilder.build();
-        final byte[] baseStringBytes = baseString.getBytes("ISo-8859-1");
-
-        final byte[] signature = signature(keyBytes, baseStringBytes);
-
-        return Base64.encodeToString(signature);
-    }
+    protected final String signatureMethod;
 
 
-    protected abstract byte[] signature(byte[] keyBytes, byte[] baseStringBytes)
-        throws Exception;
-
-
-    private final String signatureMethod;
-
-
-    private String consumerSecret;
-
-
-    private String tokenSecret;
-
-
-    private BaseStringBuilder baseStringBuilder;
+    BaseStringBuilder baseStringBuilder;
 
 
 }

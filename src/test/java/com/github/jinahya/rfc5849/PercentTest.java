@@ -35,7 +35,7 @@ import org.testng.annotations.Test;
 public class PercentTest {
 
 
-    @Test(invocationCount = 1024)
+    @Test(invocationCount = 128)
     public void encodeDecode() {
 
         final String expected
@@ -49,7 +49,7 @@ public class PercentTest {
     }
 
 
-    @Test(invocationCount = 1024)
+    @Test(invocationCount = 128)
     public void encodeDecodeWithoutReplaceAll()
         throws ReflectiveOperationException {
 

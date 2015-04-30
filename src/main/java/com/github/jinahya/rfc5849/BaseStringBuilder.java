@@ -18,9 +18,9 @@
 package com.github.jinahya.rfc5849;
 
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 
@@ -65,7 +65,7 @@ public class BaseStringBuilder implements Builder {
 
         return new BaseStringBuilder() {
 
-            public String build() {
+            public String build() throws Exception {
 
                 return prebuilt;
             }
@@ -94,31 +94,33 @@ public class BaseStringBuilder implements Builder {
             requestParameters.put(KEY_OAUTH_VERSION, "1.0");
         }
 
-        final String[] keys
-            = (String[]) requestParameters.keySet().toArray(
-                new String[requestParameters.size()]);
-        for (int i = 0; i < keys.length; i++) {
-            final String key = keys[i];
-            final String value = (String) requestParameters.remove(key);
-            requestParameters.put(Percent.encode(key), Percent.encode(value));
+        final Map encodedParameters = new TreeMap();
+        for (final Iterator iterator = requestParameters.entrySet().iterator();
+             iterator.hasNext();) {
+            final Map.Entry entry = (Map.Entry) iterator.next();
+            final String key = (String) entry.getKey();
+            final String value = (String) entry.getValue();
+            encodedParameters.put(Percent.encode(key), Percent.encode(value));
         }
 
         final StringBuffer buffer = new StringBuffer();
-        final Iterator i = requestParameters.entrySet().iterator();
-        if (i.hasNext()) {
-            final Map.Entry e = (Map.Entry) i.next();
-            buffer
-                .append((String) e.getKey())
-                .append("=")
-                .append((String) e.getValue());
-        }
-        while (i.hasNext()) {
-            final Map.Entry e = (Map.Entry) i.next();
-            buffer
-                .append("&")
-                .append((String) e.getKey())
-                .append("=")
-                .append((String) e.getValue());
+        {
+            final Iterator i = encodedParameters.entrySet().iterator();
+            if (i.hasNext()) {
+                final Map.Entry e = (Map.Entry) i.next();
+                buffer
+                    .append((String) e.getKey())
+                    .append("=")
+                    .append((String) e.getValue());
+            }
+            while (i.hasNext()) {
+                final Map.Entry e = (Map.Entry) i.next();
+                buffer
+                    .append("&")
+                    .append((String) e.getKey())
+                    .append("=")
+                    .append((String) e.getValue());
+            }
         }
 
         return httpMethod.toUpperCase()
@@ -326,7 +328,7 @@ public class BaseStringBuilder implements Builder {
     private String baseUri;
 
 
-    private final SortedMap requestParameters = new TreeMap();
+    private final Map requestParameters = new HashMap();
 
 
     private NonceBuilder nonceBuilder;

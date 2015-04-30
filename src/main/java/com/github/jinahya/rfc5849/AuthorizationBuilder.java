@@ -122,41 +122,41 @@ public class AuthorizationBuilder implements Builder {
                              .getOauthVersion());
 
         final StringBuffer buffer = new StringBuffer("OAuth");
-
-        if (realm != null) {
-            buffer
-                .append(" ")
-                .append(KEY_REALM)
-                .append("=")
-                .append("\"")
-                .append(realm)
-                .append("\"");
-        }
-
-        final Iterator i = headerParameters.entrySet().iterator();
-        if (i.hasNext()) {
-            final Map.Entry entry = (Map.Entry) i.next();
+        {
             if (realm != null) {
-                buffer.append(",");
+                buffer
+                    .append(" ")
+                    .append(KEY_REALM)
+                    .append("=")
+                    .append("\"")
+                    .append(realm)
+                    .append("\"");
             }
-            buffer
-                .append(" ")
-                .append(Percent.encode((String) entry.getKey()))
-                .append("=")
-                .append("\"")
-                .append(Percent.encode((String) entry.getValue()))
-                .append("\"");
-        }
-        while (i.hasNext()) {
-            final Map.Entry entry = (Map.Entry) i.next();
-            buffer
-                .append(",")
-                .append(" ")
-                .append(Percent.encode((String) entry.getKey()))
-                .append("=")
-                .append("\"")
-                .append(Percent.encode((String) entry.getValue()))
-                .append("\"");
+            final Iterator i = headerParameters.entrySet().iterator();
+            if (i.hasNext()) {
+                final Map.Entry entry = (Map.Entry) i.next();
+                if (realm != null) {
+                    buffer.append(",");
+                }
+                buffer
+                    .append(" ")
+                    .append(Percent.encode((String) entry.getKey()))
+                    .append("=")
+                    .append("\"")
+                    .append(Percent.encode((String) entry.getValue()))
+                    .append("\"");
+            }
+            while (i.hasNext()) {
+                final Map.Entry entry = (Map.Entry) i.next();
+                buffer
+                    .append(",")
+                    .append(" ")
+                    .append(Percent.encode((String) entry.getKey()))
+                    .append("=")
+                    .append("\"")
+                    .append(Percent.encode((String) entry.getValue()))
+                    .append("\"");
+            }
         }
 
         return buffer.toString();

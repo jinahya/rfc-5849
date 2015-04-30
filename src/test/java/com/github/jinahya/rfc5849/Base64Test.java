@@ -34,7 +34,7 @@ import org.testng.annotations.Test;
 public class Base64Test {
 
 
-    @Test(invocationCount = 1024)
+    @Test(invocationCount = 128)
     public void encode() {
 
         final byte[] expected = new byte[current().nextInt(1024)];
@@ -65,7 +65,7 @@ public class Base64Test {
     }
 
 
-    @Test(invocationCount = 1024)
+    @Test(invocationCount = 128)
     public void decode() {
 
         final byte[] expected = new byte[current().nextInt(1024)];

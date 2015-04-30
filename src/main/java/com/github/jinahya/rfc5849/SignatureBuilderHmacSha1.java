@@ -22,7 +22,8 @@ package com.github.jinahya.rfc5849;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public abstract class SignatureBuilderHmacSha1 extends SignatureBuilder {
+public abstract class SignatureBuilderHmacSha1
+    extends SignatureBuilderPlaintext {
 
 
     public static final String SIGNATURE_METHOD = "HMAC-SHA1";
@@ -32,6 +33,32 @@ public abstract class SignatureBuilderHmacSha1 extends SignatureBuilder {
 
         super(SIGNATURE_METHOD);
     }
+
+
+    public String build() throws Exception {
+
+        if (baseStringBuilder == null) {
+            throw new IllegalStateException("no baseStringBuilder set");
+        }
+
+        if (baseStringBuilder.getOauthSignatureMethod() == null) {
+            baseStringBuilder.setOauthSignatureMethod(signatureMethod);
+        }
+
+        final String keyString = super.build();
+        final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
+
+        final String baseString = baseStringBuilder.build();
+        final byte[] baseStringBytes = baseString.getBytes("ISo-8859-1");
+
+        final byte[] signature = signature(keyBytes, baseStringBytes);
+
+        return Base64.encodeToString(signature);
+    }
+
+
+    protected abstract byte[] signature(byte[] keyBytes, byte[] baseStringBytes)
+        throws Exception;
 
 
 }
