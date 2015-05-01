@@ -18,6 +18,9 @@
 package com.github.jinahya.rfc5849;
 
 
+import static java.lang.invoke.MethodHandles.lookup;
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
@@ -147,6 +150,246 @@ public class AuthorizationBuilderTest {
 
         assertEquals(actual, expected);
     }
+
+
+    /**
+     *
+     * @throws Exception
+     * @see <a href="http://tools.ietf.org/html/rfc5849#section-1.2">1.2.
+     * Example</a>
+     */
+    @Test
+    public void rfc5849Secion1_2() throws Exception {
+
+        final String consumerKey = "dpf43f3p2l4k3l03";
+        final String consumerSecret = "kd94hf93k423kf44";
+
+        {
+            final String documented
+                = "OAuth"
+                  + " realm=\"Photos\","
+                  + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
+                  + " oauth_signature_method=\"HMAC-SHA1\","
+                  + " oauth_timestamp=\"137131200\","
+                  + " oauth_nonce=\"wIjqoS\","
+                  + " oauth_callback=\"http%3A%2F%2Fprinter.example.com%2Fready\","
+                  + " oauth_signature=\"74KNZJeDHnMBp0EMJ9ZHt%2FXKycU%3D\"";
+            final String expected
+                = "OAuth"
+                  + " realm=\"Photos\","
+                  + " oauth_callback=\"http%3A%2F%2Fprinter.example.com%2Fready\","
+                  + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
+                  + " oauth_nonce=\"wIjqoS\","
+                  + " oauth_signature=\"74KNZJeDHnMBp0EMJ9ZHt%2FXKycU%3D\","
+                  + " oauth_signature_method=\"HMAC-SHA1\","
+                  + " oauth_timestamp=\"137131200\"";
+            final AuthorizationBuilder builder = new AuthorizationBuilder()
+                .realm("Photos")
+                .signatureBuilder(
+                    new SignatureBuilderHmacSha1Bc()
+                    .consumerSecret(consumerSecret)
+                    .tokenSecret("")
+                    .baseStringBuilder(
+                        new BaseStringBuilder()
+                        .httpMethod("POST")
+                        .baseUri("https://photos.example.net/initiate")
+                        .oauthConsumerKey(consumerKey)
+                        .oauthTimestamp("137131200")
+                        .oauthNonce("wIjqoS")
+                        .oauthCallback("http://printer.example.com/ready")
+                    )
+                );
+            final String actual = builder.build();
+            assertEquals(actual, expected);
+        }
+
+        {
+            final String oauthToken = "hh5s93j4hdidpola";
+            final String oauthTokenSecret = "hdhd0244k9j7ao03";
+            final String oauthVerifier = "hfdp7dh39dks9884";
+
+            final String documented
+                = "OAuth"
+                  + " realm=\"Photos\","
+                  + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
+                  + " oauth_token=\"hh5s93j4hdidpola\","
+                  + " oauth_signature_method=\"HMAC-SHA1\","
+                  + " oauth_timestamp=\"137131201\","
+                  + " oauth_nonce=\"walatlh\","
+                  + " oauth_verifier=\"hfdp7dh39dks9884\","
+                  + " oauth_signature=\"gKgrFCywp7rO0OXSjdot%2FIHF7IU%3D\"";
+
+            final String expected
+                = "OAuth"
+                  + " realm=\"Photos\","
+                  + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
+                  + " oauth_nonce=\"walatlh\","
+                  + " oauth_signature=\"gKgrFCywp7rO0OXSjdot%2FIHF7IU%3D\","
+                  + " oauth_signature_method=\"HMAC-SHA1\","
+                  + " oauth_timestamp=\"137131201\","
+                  + " oauth_token=\"hh5s93j4hdidpola\","
+                  + " oauth_verifier=\"hfdp7dh39dks9884\"";
+            final AuthorizationBuilder builder = new AuthorizationBuilder()
+                .realm("Photos")
+                .signatureBuilder(
+                    new SignatureBuilderHmacSha1Bc()
+                    .consumerSecret(consumerSecret)
+                    .tokenSecret(oauthTokenSecret)
+                    .baseStringBuilder(
+                        new BaseStringBuilder()
+                        .httpMethod("POST")
+                        .baseUri("https://photos.example.net/token")
+                        .oauthConsumerKey(consumerKey)
+                        .oauthTimestamp("137131201")
+                        .oauthNonce("walatlh")
+                        .oauthToken(oauthToken)
+                        .oauthVerifier(oauthVerifier)
+                    )
+                );
+            final String actual = builder.build();
+            assertEquals(actual, expected);
+        }
+
+        {
+            final String oauthToken = "nnch734d00sl2jdk";
+            final String oauthTokenSecret = "pfkkdhi9sl3r4s00";
+
+            final String documented
+                = "OAuth"
+                  + " realm=\"Photos\","
+                  + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
+                  + " oauth_token=\"nnch734d00sl2jdk\","
+                  + " oauth_signature_method=\"HMAC-SHA1\","
+                  + " oauth_timestamp=\"137131202\","
+                  + " oauth_nonce=\"chapoH\","
+                  + " oauth_signature=\"MdpQcU8iPSUjWoN%2FUDMsK2sui9I%3D\"";
+            final String expected
+                = "OAuth"
+                  + " realm=\"Photos\","
+                  + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
+                  + " oauth_nonce=\"chapoH\","
+                  + " oauth_signature=\"MdpQcU8iPSUjWoN%2FUDMsK2sui9I%3D\","
+                  + " oauth_signature_method=\"HMAC-SHA1\","
+                  + " oauth_timestamp=\"137131202\","
+                  + " oauth_token=\"nnch734d00sl2jdk\"";
+            final AuthorizationBuilder builder = new AuthorizationBuilder()
+                .realm("Photos")
+                .signatureBuilder(
+                    new SignatureBuilderHmacSha1Bc()
+                    .consumerSecret(consumerSecret)
+                    .tokenSecret(oauthTokenSecret)
+                    .baseStringBuilder(
+                        new BaseStringBuilder()
+                        .httpMethod("GET")
+                        .baseUri("http://photos.example.net/photos")
+                        .oauthConsumerKey(consumerKey)
+                        .oauthTimestamp("137131202")
+                        .oauthNonce("chapoH")
+                        .oauthToken(oauthToken)
+                        .requestParameter("file", "vacation.jpg")
+                        .requestParameter("size", "original")
+                    )
+                );
+            final String actual = builder.build();
+            assertEquals(actual, expected);
+        }
+    }
+
+
+    /**
+     *
+     * @throws Exception
+     * @see <a href="http://tools.ietf.org/html/rfc5849#section-2.1">2.1.
+     * Temporary Credentials</a>
+     */
+    @Test
+    public void rfc5849Section2_1() throws Exception {
+
+        final String documented
+            = "OAuth"
+              + " realm=\"Example\","
+              + " oauth_consumer_key=\"jd83jd92dhsh93js\","
+              + " oauth_signature_method=\"PLAINTEXT\","
+              + " oauth_callback=\"http%3A%2F%2Fclient.example.net%2Fcb%3Fx%3D1\","
+              + " oauth_signature=\"ja893SD9%26\"";
+
+        final String expected
+            = "OAuth"
+              + " realm=\"Example\","
+              + " oauth_callback=\"http%3A%2F%2Fclient.example.net%2Fcb%3Fx%3D1\","
+              + " oauth_consumer_key=\"jd83jd92dhsh93js\","
+              + " oauth_signature=\"ja893SD9%26\","
+              + " oauth_signature_method=\"PLAINTEXT\"";
+
+        final AuthorizationBuilder builder = new AuthorizationBuilder()
+            .realm("Example")
+            .signatureBuilder(
+                new SignatureBuilderPlaintext()
+                .consumerSecret("ja893SD9")
+                .tokenSecret("")
+                .baseStringBuilder(
+                    new BaseStringBuilder()
+                    .oauthConsumerKey("jd83jd92dhsh93js")
+                    .oauthCallback("http://client.example.net/cb?x=1")
+                )
+            );
+
+        final String actual = builder.build();
+
+        logger.debug("actual: {}", actual);
+
+        assertEquals(actual, expected);
+    }
+
+
+    /**
+     *
+     * @throws Exception
+     * @see <a href="http://tools.ietf.org/html/rfc5849#section-2.3">2.3. Token
+     * Credentials</a>
+     */
+    @Test
+    public void rfc5849Section2_3() throws Exception {
+
+        final String documented
+            = "OAuth"
+              + " realm=\"Example\","
+              + " oauth_consumer_key=\"jd83jd92dhsh93js\","
+              + " oauth_token=\"hdk48Djdsa\","
+              + " oauth_signature_method=\"PLAINTEXT\","
+              + " oauth_verifier=\"473f82d3\","
+              + " oauth_signature=\"ja893SD9%26xyz4992k83j47x0b\"";
+
+        final String expected
+            = "OAuth"
+              + " realm=\"Example\","
+              + " oauth_consumer_key=\"jd83jd92dhsh93js\","
+              + " oauth_signature=\"ja893SD9%26xyz4992k83j47x0b\","
+              + " oauth_signature_method=\"PLAINTEXT\","
+              + " oauth_token=\"hdk48Djdsa\","
+              + " oauth_verifier=\"473f82d3\"";
+
+        final AuthorizationBuilder builder = new AuthorizationBuilder()
+            .realm("Example")
+            .signatureBuilder(
+                new SignatureBuilderPlaintext()
+                .consumerSecret("ja893SD9")
+                .tokenSecret("xyz4992k83j47x0b")
+                .baseStringBuilder(
+                    new BaseStringBuilder()
+                    .oauthConsumerKey("jd83jd92dhsh93js")
+                    .oauthToken("hdk48Djdsa")
+                    .oauthVerifier("473f82d3")
+                )
+            );
+
+        final String actual = builder.build();
+
+        assertEquals(actual, expected);
+    }
+
+
+    private transient final Logger logger = getLogger(lookup().lookupClass());
 
 
 }

@@ -100,6 +100,9 @@ public class AuthorizationBuilder implements Builder {
 
         final String oauthSignature = signatureBuilder.build();
 
+        headerParameters.put(BaseStringBuilder.KEY_OAUTH_CALLBACK,
+                             signatureBuilder.getBaseStringBuilder()
+                             .getOauthCallback());
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_CONSUMER_KEY,
                              signatureBuilder.getBaseStringBuilder()
                              .getOAuthConsumerKey());
@@ -117,9 +120,19 @@ public class AuthorizationBuilder implements Builder {
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_TOKEN,
                              signatureBuilder.getBaseStringBuilder()
                              .getOauthToken());
+        headerParameters.put(BaseStringBuilder.KEY_OAUTH_VERIFIER,
+                             signatureBuilder.getBaseStringBuilder()
+                             .getOauthVerifier());
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_VERSION,
                              signatureBuilder.getBaseStringBuilder()
                              .getOauthVersion());
+
+        for (final Iterator i = headerParameters.entrySet().iterator();
+             i.hasNext();) {
+            if (((Map.Entry) i.next()).getValue() == null) {
+                i.remove();
+            }
+        }
 
         final StringBuffer buffer = new StringBuffer("OAuth");
         {

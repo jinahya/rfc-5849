@@ -22,7 +22,7 @@ package com.github.jinahya.rfc5849;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public abstract class SignatureBuilderPlaintext extends SignatureBuilder {
+public class SignatureBuilderPlaintext extends SignatureBuilder {
 
 
     public static final String SIGNATURE_METHOD = "PLAINTEXT";
@@ -72,6 +72,10 @@ public abstract class SignatureBuilderPlaintext extends SignatureBuilder {
 
         if (tokenSecret == null) {
             throw new IllegalStateException("no tokenSecret set");
+        }
+
+        if (baseStringBuilder.getOauthSignatureMethod() == null) {
+            baseStringBuilder.setOauthSignatureMethod(signatureMethod);
         }
 
         return Percent.encode(consumerSecret) + "&"

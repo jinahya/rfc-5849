@@ -50,6 +50,12 @@ public class BaseStringBuilder implements Builder {
     public static final String KEY_OAUTH_VERSION = "oauth_version";
 
 
+    public static final String KEY_OAUTH_VERIFIER = "oauth_verifier";
+
+
+    public static final String KEY_OAUTH_CALLBACK = "oauth_callback";
+
+
     /**
      * Returns an instance whose {@link #build()} always returns given value.
      *
@@ -70,11 +76,20 @@ public class BaseStringBuilder implements Builder {
                 return prebuilt;
             }
 
+
         };
     }
 
 
     public String build() throws Exception {
+
+        if (httpMethod == null) {
+            throw new IllegalStateException("no httpMethod set");
+        }
+
+        if (baseUri == null) {
+            throw new IllegalStateException("no baseUri set");
+        }
 
         if (!requestParameters.containsKey(KEY_OAUTH_NONCE)) {
             if (nonceBuilder == null) {
@@ -88,10 +103,6 @@ public class BaseStringBuilder implements Builder {
                 timestampBuilder = new TimestampBuilder();
             }
             oauthTimestamp(timestampBuilder.build());
-        }
-
-        if (!requestParameters.containsKey(KEY_OAUTH_VERSION)) {
-            requestParameters.put(KEY_OAUTH_VERSION, "1.0");
         }
 
         final Map encodedParameters = new TreeMap();
@@ -317,6 +328,46 @@ public class BaseStringBuilder implements Builder {
     public BaseStringBuilder oauthVersion(final String oauthVersion) {
 
         setOauthVersion(oauthVersion);
+
+        return this;
+    }
+
+
+    public String getOauthVerifier() {
+
+        return (String) requestParameters.get(KEY_OAUTH_VERIFIER);
+    }
+
+
+    public void setOauthVerifier(final String oauthVerifier) {
+
+        requestParameters.put(KEY_OAUTH_VERIFIER, oauthVerifier);
+    }
+
+
+    public BaseStringBuilder oauthVerifier(final String oauthVerifier) {
+
+        setOauthVerifier(oauthVerifier);
+
+        return this;
+    }
+
+
+    public String getOauthCallback() {
+
+        return (String) requestParameters.get(KEY_OAUTH_CALLBACK);
+    }
+
+
+    public void setOauthCallback(final String oauthCallback) {
+
+        requestParameters.put(KEY_OAUTH_CALLBACK, oauthCallback);
+    }
+
+
+    public BaseStringBuilder oauthCallback(final String oauthCallback) {
+
+        setOauthCallback(oauthCallback);
 
         return this;
     }
