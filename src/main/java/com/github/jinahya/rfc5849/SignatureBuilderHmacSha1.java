@@ -41,15 +41,15 @@ public abstract class SignatureBuilderHmacSha1
             throw new IllegalStateException("no baseStringBuilder set");
         }
 
-        if (baseStringBuilder.getOauthSignatureMethod() == null) {
-            baseStringBuilder.setOauthSignatureMethod(signatureMethod);
-        }
+//        if (baseStringBuilder.oauthSignatureMethod() == null) {
+//            baseStringBuilder.setOauthSignatureMethod(signatureMethod);
+//        }
 
         final String keyString = super.build();
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
 
         final String baseString = baseStringBuilder.build();
-        final byte[] baseStringBytes = baseString.getBytes("ISo-8859-1");
+        final byte[] baseStringBytes = baseString.getBytes("ISO-8859-1");
 
         final byte[] signature = signature(keyBytes, baseStringBytes);
 

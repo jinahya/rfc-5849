@@ -159,7 +159,7 @@ public class AuthorizationBuilderTest {
      * Example</a>
      */
     @Test
-    public void rfc5849Secion1_2() throws Exception {
+    public void rfc5849Section1_2() throws Exception {
 
         final String consumerKey = "dpf43f3p2l4k3l03";
         final String consumerSecret = "kd94hf93k423kf44";
@@ -380,6 +380,64 @@ public class AuthorizationBuilderTest {
                     .oauthConsumerKey("jd83jd92dhsh93js")
                     .oauthToken("hdk48Djdsa")
                     .oauthVerifier("473f82d3")
+                )
+            );
+
+        final String actual = builder.build();
+
+        assertEquals(actual, expected);
+    }
+
+
+    /**
+     *
+     * @throws Exception
+     * @see <a href="http://tools.ietf.org/html/rfc5849#section-3.1">3.1. Making
+     * Requests</a>
+     */
+    @Test(enabled = false)
+    public void rfc5849Section_3_1() throws Exception {
+
+        final String documented
+            = "OAuth"
+              + " realm=\"Example\","
+              + " oauth_consumer_key=\"9djdj82h48djs9d2\","
+              + " oauth_token=\"kkk9d7dh3k39sjv7\","
+              + " oauth_signature_method=\"HMAC-SHA1\","
+              + " oauth_timestamp=\"137131201\","
+              + " oauth_nonce=\"7d8f3e4a\","
+              + " oauth_signature=\"bYT5CMsGcbgUdFHObYMEfcx6bsw%3D\"";
+
+        final String expected
+            = "OAuth"
+              + " realm=\"Example\","
+              + " oauth_consumer_key=\"9djdj82h48djs9d2\","
+              + " oauth_nonce=\"7d8f3e4a\","
+              + " oauth_signature=\"bYT5CMsGcbgUdFHObYMEfcx6bsw%3D\","
+              + " oauth_signature_method=\"HMAC-SHA1\","
+              + " oauth_timestamp=\"137131201\","
+              + " oauth_token=\"kkk9d7dh3k39sjv7\"";
+
+        final AuthorizationBuilder builder = new AuthorizationBuilder()
+            .realm("Example")
+            .signatureBuilder(
+                new SignatureBuilderHmacSha1Bc()
+                .consumerSecret("j49sk3j29djd")
+                .tokenSecret("dh893hdasih9")
+                .baseStringBuilder(
+                    new BaseStringBuilder()
+                    .httpMethod("POST")
+                    .baseUri("http://example.com/request")
+                    .oauthConsumerKey("9djdj82h48djs9d2")
+                    .oauthNonce("7d8f3e4a")
+                    .oauthTimestamp("137131201")
+                    .oauthToken("kkk9d7dh3k39sjv7")
+                    .requestParameter("b5", "=%3D")
+                    .requestParameter("a3", "a")
+                    .requestParameter("c@", "")
+                    .requestParameter("a2", "r b")
+                    .requestParameter("c2", "")
+                    .requestParameter("a3", "2 q")
                 )
             );
 

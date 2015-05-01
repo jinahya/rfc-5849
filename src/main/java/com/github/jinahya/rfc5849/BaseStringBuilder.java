@@ -18,8 +18,11 @@
 package com.github.jinahya.rfc5849;
 
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -104,33 +107,37 @@ public class BaseStringBuilder implements Builder {
             }
             oauthTimestamp(timestampBuilder.build());
         }
+        //System.out.println(requestParameters);
 
         final Map encodedParameters = new TreeMap();
+
         for (final Iterator iterator = requestParameters.entrySet().iterator();
              iterator.hasNext();) {
             final Map.Entry entry = (Map.Entry) iterator.next();
-            final String key = (String) entry.getKey();
-            final String value = (String) entry.getValue();
-            encodedParameters.put(Percent.encode(key), Percent.encode(value));
+            final String decodedKey = (String) entry.getKey();
+            final List decodedValues = (List) entry.getValue();
+            final String encodedKey = Percent.encode(decodedKey);
+            final List encodedValues = new ArrayList(decodedValues.size());
+            for (final Iterator j = decodedValues.iterator(); j.hasNext();) {
+                encodedValues.add(Percent.encode((String) j.next()));
+            }
+            encodedParameters.put(encodedKey, encodedValues);
         }
+        //System.out.println(encodedParameters);
 
         final StringBuffer buffer = new StringBuffer();
         {
             final Iterator i = encodedParameters.entrySet().iterator();
-            if (i.hasNext()) {
-                final Map.Entry e = (Map.Entry) i.next();
-                buffer
-                    .append((String) e.getKey())
-                    .append("=")
-                    .append((String) e.getValue());
-            }
             while (i.hasNext()) {
                 final Map.Entry e = (Map.Entry) i.next();
-                buffer
-                    .append("&")
-                    .append((String) e.getKey())
-                    .append("=")
-                    .append((String) e.getValue());
+                final String key = (String) e.getKey();
+                final List values = (List) e.getValue();
+                for (final Iterator j = values.iterator(); j.hasNext();) {
+                    buffer.append("&").append(key).append("=").append(j.next());
+                }
+            }
+            if (buffer.length() > 0) {
+                buffer.deleteCharAt(0);
             }
         }
 
@@ -182,21 +189,90 @@ public class BaseStringBuilder implements Builder {
     public BaseStringBuilder requestParameter(final String key,
                                               final String value) {
 
-        requestParameters.put(key, value);
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
+
+//        if (key.startsWith("oauth_")) {
+//            throw new IllegalArgumentException("key starts with oauth_");
+//        }
+
+        if (value == null) {
+            throw new NullPointerException("null value");
+        }
+
+        if (key.startsWith("oauth_")) {
+            requestParameters.put(key, Collections.singletonList(value));
+            return this;
+        }
+
+        List values = (List) requestParameters.get(key);
+        if (values == null) {
+            values = new ArrayList();
+            requestParameters.put(key, values);
+        }
+        values.add(value);
+
+        //requestParameters.put(key, value);
 
         return this;
     }
 
 
-    public String getOAuthConsumerKey() {
+    public String protocolParameter(final String key) {
 
-        return (String) requestParameters.get(KEY_OAUTH_CONSUMER_KEY);
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
+
+        if (!key.startsWith("oauth_")) {
+            throw new IllegalArgumentException(
+                "key(" + key + ") doesn start with oauth_");
+        }
+
+        final List list = (List) requestParameters.get(key);
+
+        return list == null ? null : (String) list.get(0);
     }
 
 
-    public void setOAuthConsumerKey(final String oauthConsumerKey) {
+    public BaseStringBuilder protocolParameter(final String key,
+                                               final String value) {
 
-        requestParameter(KEY_OAUTH_CONSUMER_KEY, oauthConsumerKey);
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
+
+        if (!key.startsWith("oauth_")) {
+            throw new IllegalArgumentException(
+                "key(" + key + ") doesn start with oauth_");
+        }
+
+        if (value == null) {
+            throw new NullPointerException("null value");
+        }
+
+        requestParameters.put(key, Collections.singletonList(value));
+
+        return this;
+    }
+
+
+    public String oauthCallback() {
+
+        return protocolParameter(KEY_OAUTH_CALLBACK);
+    }
+
+
+    public BaseStringBuilder oauthCallback(final String oauthCallback) {
+
+        return protocolParameter(KEY_OAUTH_CALLBACK, oauthCallback);
+    }
+
+
+    public String oauthConsumerKey() {
+
+        return protocolParameter(KEY_OAUTH_CONSUMER_KEY);
     }
 
 
@@ -209,29 +285,19 @@ public class BaseStringBuilder implements Builder {
      */
     public BaseStringBuilder oauthConsumerKey(final String oauthConsumerKey) {
 
-        setOAuthConsumerKey(oauthConsumerKey);
-
-        return this;
+        return protocolParameter(KEY_OAUTH_CONSUMER_KEY, oauthConsumerKey);
     }
 
 
-    public String getOauthNonce() {
+    public String oauthNonce() {
 
-        return (String) requestParameters.get(KEY_OAUTH_NONCE);
-    }
-
-
-    public void setOauthNonce(final String oauthNonce) {
-
-        requestParameters.put(KEY_OAUTH_NONCE, oauthNonce);
+        return protocolParameter(KEY_OAUTH_NONCE);
     }
 
 
     public BaseStringBuilder oauthNonce(final String oauthNonce) {
 
-        setOauthNonce(oauthNonce);
-
-        return this;
+        return protocolParameter(KEY_OAUTH_NONCE, oauthNonce);
     }
 
 
@@ -243,44 +309,29 @@ public class BaseStringBuilder implements Builder {
     }
 
 
-    public String getOauthSignatureMethod() {
+    public String oauthSignatureMethod() {
 
-        return (String) requestParameters.get(KEY_OAUTH_SIGNATURE_METHOD);
-    }
-
-
-    public void setOauthSignatureMethod(final String oauthSignatureMethod) {
-
-        requestParameters.put(KEY_OAUTH_SIGNATURE_METHOD, oauthSignatureMethod);
+        return protocolParameter(KEY_OAUTH_SIGNATURE_METHOD);
     }
 
 
     public BaseStringBuilder oauthSignatureMethod(
         final String oauthSignatureMethod) {
 
-        setOauthSignatureMethod(oauthSignatureMethod);
-
-        return this;
+        return protocolParameter(KEY_OAUTH_SIGNATURE_METHOD,
+                                 oauthSignatureMethod);
     }
 
 
     public String getOauthTimestamp() {
 
-        return (String) requestParameters.get(KEY_OAUTH_TIMESTAMP);
-    }
-
-
-    public void setOAuthTimestamp(final String oauthTimestamp) {
-
-        requestParameters.put(KEY_OAUTH_TIMESTAMP, oauthTimestamp);
+        return protocolParameter(KEY_OAUTH_TIMESTAMP);
     }
 
 
     public BaseStringBuilder oauthTimestamp(final String oauthTimestamp) {
 
-        setOAuthTimestamp(oauthTimestamp);
-
-        return this;
+        return protocolParameter(KEY_OAUTH_TIMESTAMP, oauthTimestamp);
     }
 
 
@@ -293,83 +344,39 @@ public class BaseStringBuilder implements Builder {
     }
 
 
-    public String getOauthToken() {
+    public String oauthToken() {
 
-        return (String) requestParameters.get(KEY_OAUTH_TOKEN);
-    }
-
-
-    public void setOauthToken(final String oauthToken) {
-
-        requestParameters.put(KEY_OAUTH_TOKEN, oauthToken);
+        return protocolParameter(KEY_OAUTH_TOKEN);
     }
 
 
     public BaseStringBuilder oauthToken(final String oauthToken) {
 
-        setOauthToken(oauthToken);
-
-        return this;
+        return protocolParameter(KEY_OAUTH_TOKEN, oauthToken);
     }
 
 
-    public String getOauthVersion() {
+    public String oauthVersion() {
 
-        return (String) requestParameters.get(KEY_OAUTH_VERSION);
-    }
-
-
-    public void setOauthVersion(final String oauthVersion) {
-
-        requestParameters.put(KEY_OAUTH_VERSION, oauthVersion);
+        return protocolParameter(KEY_OAUTH_VERSION);
     }
 
 
     public BaseStringBuilder oauthVersion(final String oauthVersion) {
 
-        setOauthVersion(oauthVersion);
-
-        return this;
+        return protocolParameter(KEY_OAUTH_VERSION, oauthVersion);
     }
 
 
-    public String getOauthVerifier() {
+    public String oauthVerifier() {
 
-        return (String) requestParameters.get(KEY_OAUTH_VERIFIER);
-    }
-
-
-    public void setOauthVerifier(final String oauthVerifier) {
-
-        requestParameters.put(KEY_OAUTH_VERIFIER, oauthVerifier);
+        return protocolParameter(KEY_OAUTH_VERIFIER);
     }
 
 
     public BaseStringBuilder oauthVerifier(final String oauthVerifier) {
 
-        setOauthVerifier(oauthVerifier);
-
-        return this;
-    }
-
-
-    public String getOauthCallback() {
-
-        return (String) requestParameters.get(KEY_OAUTH_CALLBACK);
-    }
-
-
-    public void setOauthCallback(final String oauthCallback) {
-
-        requestParameters.put(KEY_OAUTH_CALLBACK, oauthCallback);
-    }
-
-
-    public BaseStringBuilder oauthCallback(final String oauthCallback) {
-
-        setOauthCallback(oauthCallback);
-
-        return this;
+        return protocolParameter(KEY_OAUTH_VERIFIER, oauthVerifier);
     }
 
 

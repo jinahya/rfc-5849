@@ -74,8 +74,8 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
             throw new IllegalStateException("no tokenSecret set");
         }
 
-        if (baseStringBuilder.getOauthSignatureMethod() == null) {
-            baseStringBuilder.setOauthSignatureMethod(signatureMethod);
+        if (baseStringBuilder.oauthSignatureMethod() == null) {
+            baseStringBuilder.oauthSignatureMethod(signatureMethod);
         }
 
         return Percent.encode(consumerSecret) + "&"

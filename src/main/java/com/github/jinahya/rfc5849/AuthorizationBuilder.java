@@ -54,6 +54,13 @@ public class AuthorizationBuilder implements Builder {
     }
 
 
+    /**
+     * 
+     * @param key
+     * @param value
+     * @return 
+     * @deprecated 
+     */
     public AuthorizationBuilder headerParamerer(final String key,
                                                 final String value) {
 
@@ -99,33 +106,35 @@ public class AuthorizationBuilder implements Builder {
         }
 
         final String oauthSignature = signatureBuilder.build();
-
+        
+        final Map headerParameters = new TreeMap();
+        
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_CALLBACK,
                              signatureBuilder.getBaseStringBuilder()
-                             .getOauthCallback());
+                             .oauthCallback());
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_CONSUMER_KEY,
                              signatureBuilder.getBaseStringBuilder()
-                             .getOAuthConsumerKey());
+                             .oauthConsumerKey());
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_NONCE,
                              signatureBuilder.getBaseStringBuilder()
-                             .getOauthNonce());
+                             .oauthNonce());
         headerParameters.put(SignatureBuilder.KEY_OAUTH_SIGNATURE,
                              oauthSignature);
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_SIGNATURE_METHOD,
                              signatureBuilder.getBaseStringBuilder()
-                             .getOauthSignatureMethod());
+                             .oauthSignatureMethod());
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_TIMESTAMP,
                              signatureBuilder.getBaseStringBuilder()
                              .getOauthTimestamp());
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_TOKEN,
                              signatureBuilder.getBaseStringBuilder()
-                             .getOauthToken());
+                             .oauthToken());
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_VERIFIER,
                              signatureBuilder.getBaseStringBuilder()
-                             .getOauthVerifier());
+                             .oauthVerifier());
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_VERSION,
                              signatureBuilder.getBaseStringBuilder()
-                             .getOauthVersion());
+                             .oauthVersion());
 
         for (final Iterator i = headerParameters.entrySet().iterator();
              i.hasNext();) {
@@ -179,6 +188,10 @@ public class AuthorizationBuilder implements Builder {
     private String realm;
 
 
+    /**
+     * 
+     * @deprecated 
+     */
     private final SortedMap headerParameters = new TreeMap();
 
 
