@@ -25,7 +25,7 @@ package com.github.jinahya.rfc5849;
 public class SignatureBuilderPlaintext extends SignatureBuilder {
 
 
-    public static final String SIGNATURE_METHOD = "PLAINTEXT";
+    private static final String SIGNATURE_METHOD = "PLAINTEXT";
 
 
     protected SignatureBuilderPlaintext(final String signatureMethod) {

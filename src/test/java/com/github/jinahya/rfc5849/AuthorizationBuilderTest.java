@@ -33,7 +33,7 @@ public class AuthorizationBuilderTest {
 
 
     /**
-     * Tests against example form {@code dev.twitter.com/oauth}.
+     * Tests against the example from {@code dev.twitter.com/oauth}.
      *
      * @throws Exception if an error occurs.
      *
@@ -45,7 +45,7 @@ public class AuthorizationBuilderTest {
      * a request Overview</a>
      */
     @Test
-    public void testTwitterExample() throws Exception {
+    public void twitterExample() throws Exception {
 
         final AuthorizationBuilder builder = new AuthorizationBuilder()
             .signatureBuilder(
@@ -94,14 +94,37 @@ public class AuthorizationBuilderTest {
 
 
     /**
+     * Tests against the example from {@code http://nouncer.com/oauth}.
      *
-     * @throws Exception
+     * @throws Exception if an error occurs.
      *
      * @see <a href="http://nouncer.com/oauth/authentication.html">OAuth 1.0
      * Authentication Sandbox</a>
      */
     @Test
-    public void testNouncerExample() throws Exception {
+    public void nouncerExample() throws Exception {
+
+        final String documented
+            = "OAuth"
+              + " realm=\"http://photos.example.net/photos\","
+              + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
+              + " oauth_token=\"nnch734d00sl2jdk\","
+              + " oauth_nonce=\"kllo9940pd9333jh\","
+              + " oauth_timestamp=\"1191242096\","
+              + " oauth_signature_method=\"HMAC-SHA1\","
+              + " oauth_version=\"1.0\","
+              + " oauth_signature=\"tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D\"";
+
+        final String expected
+            = "OAuth"
+              + " realm=\"http://photos.example.net/photos\","
+              + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
+              + " oauth_nonce=\"kllo9940pd9333jh\","
+              + " oauth_signature=\"tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D\","
+              + " oauth_signature_method=\"HMAC-SHA1\","
+              + " oauth_timestamp=\"1191242096\","
+              + " oauth_token=\"nnch734d00sl2jdk\","
+              + " oauth_version=\"1.0\"";
 
         final AuthorizationBuilder builder = new AuthorizationBuilder()
             .realm("http://photos.example.net/photos")
@@ -126,28 +149,6 @@ public class AuthorizationBuilderTest {
 
         final String actual = builder.build();
 
-        final String documented
-            = "OAuth"
-              + " realm=\"http://photos.example.net/photos\","
-              + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
-              + " oauth_token=\"nnch734d00sl2jdk\","
-              + " oauth_nonce=\"kllo9940pd9333jh\","
-              + " oauth_timestamp=\"1191242096\","
-              + " oauth_signature_method=\"HMAC-SHA1\","
-              + " oauth_version=\"1.0\","
-              + " oauth_signature=\"tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D\"";
-
-        final String expected
-            = "OAuth"
-              + " realm=\"http://photos.example.net/photos\","
-              + " oauth_consumer_key=\"dpf43f3p2l4k3l03\","
-              + " oauth_nonce=\"kllo9940pd9333jh\","
-              + " oauth_signature=\"tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D\","
-              + " oauth_signature_method=\"HMAC-SHA1\","
-              + " oauth_timestamp=\"1191242096\","
-              + " oauth_token=\"nnch734d00sl2jdk\","
-              + " oauth_version=\"1.0\"";
-
         assertEquals(actual, expected);
     }
 
@@ -159,7 +160,7 @@ public class AuthorizationBuilderTest {
      * Example</a>
      */
     @Test
-    public void rfc5849Section1_2() throws Exception {
+    public void rfc5849_1_2() throws Exception {
 
         final String consumerKey = "dpf43f3p2l4k3l03";
         final String consumerSecret = "kd94hf93k423kf44";
@@ -303,7 +304,7 @@ public class AuthorizationBuilderTest {
      * Temporary Credentials</a>
      */
     @Test
-    public void rfc5849Section2_1() throws Exception {
+    public void rfc5849_2_1() throws Exception {
 
         final String documented
             = "OAuth"
@@ -349,7 +350,7 @@ public class AuthorizationBuilderTest {
      * Credentials</a>
      */
     @Test
-    public void rfc5849Section2_3() throws Exception {
+    public void rfc5849_2_3() throws Exception {
 
         final String documented
             = "OAuth"
@@ -396,7 +397,7 @@ public class AuthorizationBuilderTest {
      * Requests</a>
      */
     @Test(enabled = false)
-    public void rfc5849Section_3_1() throws Exception {
+    public void rfc5849_3_1() throws Exception {
 
         final String documented
             = "OAuth"

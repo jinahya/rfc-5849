@@ -26,7 +26,7 @@ public abstract class SignatureBuilderHmacSha1
     extends SignatureBuilderPlaintext {
 
 
-    public static final String SIGNATURE_METHOD = "HMAC-SHA1";
+    private static final String SIGNATURE_METHOD = "HMAC-SHA1";
 
 
     public SignatureBuilderHmacSha1() {
@@ -40,10 +40,6 @@ public abstract class SignatureBuilderHmacSha1
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
-
-//        if (baseStringBuilder.oauthSignatureMethod() == null) {
-//            baseStringBuilder.setOauthSignatureMethod(signatureMethod);
-//        }
 
         final String keyString = super.build();
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");

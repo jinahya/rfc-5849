@@ -31,7 +31,8 @@ import org.bouncycastle.crypto.params.KeyParameter;
 public class SignatureBuilderHmacSha1Bc extends SignatureBuilderHmacSha1 {
 
 
-    protected byte[] signature(final byte[] keyBytes, final byte[] baseStringBytes)
+    protected byte[] signature(final byte[] keyBytes,
+                               final byte[] baseStringBytes)
         throws Exception {
 
         final Mac mac = new HMac(new SHA1Digest());

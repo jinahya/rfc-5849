@@ -36,7 +36,8 @@ public class SignatureBuilderHmacSha1Jca extends SignatureBuilderHmacSha1 {
     private static final String ALGORITHM = "HmacSHA1";
 
 
-    protected byte[] signature(final byte[] keyBytes, final byte[] baseStringBytes)
+    protected byte[] signature(final byte[] keyBytes,
+                               final byte[] baseStringBytes)
         throws Exception {
 
         final Key key = new SecretKeySpec(keyBytes, ALGORITHM);
