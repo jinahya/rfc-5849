@@ -13,7 +13,7 @@
     <artifactId>oss-parent</artifactId>
     <version>9</version>
   </parent>
-  <dependencyManagement/>
+  <dependencyManagement />
   <dependencies>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -313,28 +313,6 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>fp11</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-              <compilerArguments>
-                <!--bootclasspath>${env.JAVE_ME_3.4_HOME}/lib/cdc_1.1.jar</bootclasspath-->
-                <bootclasspath>C:\Program Files\Java_ME_platform_SDK_3.4\lib\cdc_1.1.jar;C:\Program Files\Java_ME_platform_SDK_3.4\lib\fp_1.1.jar;C:\Program Files\Java_ME_platform_SDK_3.4\lib\jsr177_1.0.jar</bootclasspath>
-              </compilerArguments>
-              <compilerArgs>
-                <!--arg>-bootclasspath "C:\Program Files\Java_ME_platform_SDK_3.4\lib\cdc_1.1.jar"</arg-->
-                <!--arg>-Xbootclasspath ${env.JAVE_ME_3.4_HOME}/lib/cdc_1.1.jar</arg-->
-                <!--arg>-Xbootclasspath ${env.JAVE_ME_3.4_HOME}/lib/cdc_1.1.jar:${env.JAVE_ME_3.4_HOME}/lib/fp_1.1.jar</arg-->
-              </compilerArgs>
-            </configuration>
           </plugin>
         </plugins>
       </build>
