@@ -32,8 +32,8 @@ import java.util.Set;
  * A multivalued map.
  *
  * @author Jin Kwon &lt;onacit at gmail.com&gt;
- * @param <K>
- * @param <V>
+ * @param <K> key type parameter
+ * @param <V> value type parameter
  */
 public class Multivalued<K, V> {
 
