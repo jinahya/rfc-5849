@@ -391,12 +391,13 @@ public class AuthorizationBuilderTest {
 
 
     /**
+     * Tests against the example from {@code 3.1. Making Requests}.
      *
-     * @throws Exception
+     * @throws Exception if an error occurs.
      * @see <a href="http://tools.ietf.org/html/rfc5849#section-3.1">3.1. Making
      * Requests</a>
      */
-    @Test(enabled = false)
+    @Test(enabled = true)
     public void rfc5849_3_1() throws Exception {
 
         final String documented
@@ -409,12 +410,13 @@ public class AuthorizationBuilderTest {
               + " oauth_nonce=\"7d8f3e4a\","
               + " oauth_signature=\"bYT5CMsGcbgUdFHObYMEfcx6bsw%3D\"";
 
+        // with errata
         final String expected
             = "OAuth"
               + " realm=\"Example\","
               + " oauth_consumer_key=\"9djdj82h48djs9d2\","
               + " oauth_nonce=\"7d8f3e4a\","
-              + " oauth_signature=\"bYT5CMsGcbgUdFHObYMEfcx6bsw%3D\","
+              + " oauth_signature=\"r6%2FTJjbCOr97%2F%2BUU0NsvSne7s5g%3D\","
               + " oauth_signature_method=\"HMAC-SHA1\","
               + " oauth_timestamp=\"137131201\","
               + " oauth_token=\"kkk9d7dh3k39sjv7\"";

@@ -18,32 +18,29 @@
 package com.github.jinahya.rfc5849;
 
 
-import org.bouncycastle.crypto.Mac;
-import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.crypto.macs.HMac;
-import org.bouncycastle.crypto.params.KeyParameter;
-
-
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderHmacSha1Bc extends SignatureBuilderHmacSha1 {
+public final class Constants {
 
 
-    protected byte[] build(final byte[] keyBytes,
-                               final byte[] baseStringBytes)
-        throws Exception {
+    public static final String OAUTH_CALLBACK_CONFIRMED
+        = "oauth_callback_confirmed";
 
-        final Mac mac = new HMac(new SHA1Digest());
-        mac.init(new KeyParameter(keyBytes));
 
-        mac.update(baseStringBytes, 0, baseStringBytes.length);
+    public static final String OAUTH_CALLBACK_OUT_OF_BAND = "oob";
 
-        final byte[] output = new byte[mac.getMacSize()];
-        mac.doFinal(output, 0);
 
-        return output;
+    public static final String OAUTH_TOKEN = "oauth_token";
+
+
+    public static final String OAUTH_TOKEN_SECRET = "oauth_token_secret";
+
+
+    public Constants() {
+
+        super();
     }
 
 

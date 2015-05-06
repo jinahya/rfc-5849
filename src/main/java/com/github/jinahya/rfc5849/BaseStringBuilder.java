@@ -18,6 +18,7 @@
 package com.github.jinahya.rfc5849;
 
 
+import com.github.jinahya.rfc5849.net.Form;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -79,7 +80,6 @@ public class BaseStringBuilder implements Builder {
                 return prebuilt;
             }
 
-
         };
     }
 
@@ -121,6 +121,7 @@ public class BaseStringBuilder implements Builder {
             for (final Iterator j = decodedValues.iterator(); j.hasNext();) {
                 encodedValues.add(Percent.encode((String) j.next()));
             }
+            Collections.sort(encodedValues);
             encodedParameters.put(encodedKey, encodedValues);
         }
         //System.out.println(encodedParameters);
@@ -141,9 +142,15 @@ public class BaseStringBuilder implements Builder {
             }
         }
 
-        return httpMethod.toUpperCase()
-               + "&" + Percent.encode(baseUri)
-               + "&" + Percent.encode(buffer.toString());
+        final String built = httpMethod.toUpperCase()
+                             + "&" + Percent.encode(baseUri)
+                             + "&" + Percent.encode(buffer.toString());
+
+        if (printer != null) {
+            printer.println("built: " + built);
+        }
+
+        return built;
     }
 
 
@@ -193,10 +200,6 @@ public class BaseStringBuilder implements Builder {
             throw new NullPointerException("null key");
         }
 
-//        if (key.startsWith("oauth_")) {
-//            throw new IllegalArgumentException("key starts with oauth_");
-//        }
-
         if (value == null) {
             throw new NullPointerException("null value");
         }
@@ -212,8 +215,6 @@ public class BaseStringBuilder implements Builder {
             requestParameters.put(key, values);
         }
         values.add(value);
-
-        //requestParameters.put(key, value);
 
         return this;
     }
@@ -380,6 +381,35 @@ public class BaseStringBuilder implements Builder {
     }
 
 
+    public BaseStringBuilder form(final Form form) {
+
+        if (form == null) {
+            throw new NullPointerException("null form");
+        }
+
+        for (final Iterator i = form.asMap().entrySet().iterator();
+             i.hasNext();) {
+            final Map.Entry e = (Map.Entry) i.next();
+            final String key = (String) e.getKey();
+            String value = (String) e.getValue();
+            if (value == null) {
+                value = "";
+            }
+            requestParameter(key, value);
+        }
+
+        return this;
+    }
+
+
+    public BaseStringBuilder printer(final java.io.PrintStream printer) {
+
+        this.printer = printer;
+
+        return this;
+    }
+
+
     private String httpMethod;
 
 
@@ -393,6 +423,9 @@ public class BaseStringBuilder implements Builder {
 
 
     private TimestampBuilder timestampBuilder;
+
+
+    private java.io.PrintStream printer;
 
 
 }

@@ -47,13 +47,13 @@ public abstract class SignatureBuilderHmacSha1
         final String baseString = baseStringBuilder.build();
         final byte[] baseStringBytes = baseString.getBytes("ISO-8859-1");
 
-        final byte[] signature = signature(keyBytes, baseStringBytes);
+        final byte[] signature = build(keyBytes, baseStringBytes);
 
         return Base64.encodeToString(signature);
     }
 
 
-    protected abstract byte[] signature(byte[] keyBytes, byte[] baseStringBytes)
+    protected abstract byte[] build(byte[] keyBytes, byte[] baseStringBytes)
         throws Exception;
 
 

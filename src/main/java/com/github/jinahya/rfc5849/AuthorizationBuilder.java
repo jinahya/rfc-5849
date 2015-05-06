@@ -20,7 +20,6 @@ package com.github.jinahya.rfc5849;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 
@@ -54,30 +53,6 @@ public class AuthorizationBuilder implements Builder {
     }
 
 
-    /**
-     * 
-     * @param key
-     * @param value
-     * @return 
-     * @deprecated 
-     */
-    public AuthorizationBuilder headerParamerer(final String key,
-                                                final String value) {
-
-        if (key == null) {
-            throw new NullPointerException("null key");
-        }
-
-        if (value == null) {
-            throw new NullPointerException("null value");
-        }
-
-        headerParameters.put(key, value);
-
-        return this;
-    }
-
-
     public SignatureBuilder getSignatureBuilder() {
 
         return signatureBuilder;
@@ -106,9 +81,9 @@ public class AuthorizationBuilder implements Builder {
         }
 
         final String oauthSignature = signatureBuilder.build();
-        
+
         final Map headerParameters = new TreeMap();
-        
+
         headerParameters.put(BaseStringBuilder.KEY_OAUTH_CALLBACK,
                              signatureBuilder.getBaseStringBuilder()
                              .oauthCallback());
@@ -186,13 +161,6 @@ public class AuthorizationBuilder implements Builder {
 
 
     private String realm;
-
-
-    /**
-     * 
-     * @deprecated 
-     */
-    private final SortedMap headerParameters = new TreeMap();
 
 
     private SignatureBuilder signatureBuilder;

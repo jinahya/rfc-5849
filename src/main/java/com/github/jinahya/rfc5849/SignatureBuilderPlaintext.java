@@ -19,6 +19,7 @@ package com.github.jinahya.rfc5849;
 
 
 /**
+ * A signature builder for {@code PLAINTEXT}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */

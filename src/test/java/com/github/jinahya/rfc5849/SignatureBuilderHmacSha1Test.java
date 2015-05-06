@@ -39,17 +39,6 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
     }
 
 
-//    @Override
-//    protected T newInstance() {
-//
-//        try {
-//            final Constructor<T> constructor
-//                = builderType.getConstructor(SignatureBaseStringBuilder.class);
-//            return constructor.newInstance(new SignatureBaseStringBuilder());
-//        } catch (final ReflectiveOperationException roe) {
-//            throw new RuntimeException(roe);
-//        }
-//    }
     @Test
     public void twitterExample() throws Exception {
 
@@ -61,10 +50,13 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
               + "%26oauth_nonce%3DkYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg"
               + "%26oauth_signature_method%3DHMAC-SHA1"
               + "%26oauth_timestamp%3D1318622958"
-              + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
+              + ("%26oauth_token"
+                 + "%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb")
               + "%26oauth_version%3D1.0"
-              + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521";
-        final String consumerSecret = "kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw";
+              + ("%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C"
+                 + "%2520a%2520signed%2520OAuth%2520request%2521");
+        final String consumerSecret
+            = "kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw";
         final String tokenSecret = "LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE";
 
         final T builder = newInstance();

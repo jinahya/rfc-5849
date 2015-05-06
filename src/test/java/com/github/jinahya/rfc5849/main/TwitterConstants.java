@@ -15,39 +15,23 @@
  */
 
 
-package com.github.jinahya.rfc5849;
-
-
-import java.security.Key;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+package com.github.jinahya.rfc5849.main;
 
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderHmacSha1Jca extends SignatureBuilderHmacSha1 {
+public final class TwitterConstants {
 
 
-    /**
-     * Standard algorithm name for HMAC-SHA1.
-     */
-    private static final String ALGORITHM = "HmacSHA1";
+    public static final String URL_REQUEST_TOKEN
+        = "https://api.twitter.com/oauth/request_token";
 
 
-    protected byte[] build(final byte[] keyBytes,
-                               final byte[] baseStringBytes)
-        throws Exception {
+    private TwitterConstants() {
 
-        final Key key = new SecretKeySpec(keyBytes, ALGORITHM);
-
-        final Mac mac = Mac.getInstance(ALGORITHM);
-        mac.init(key);
-
-        final byte[] output = mac.doFinal(baseStringBytes);
-
-        return output;
+        super();
     }
 
 
