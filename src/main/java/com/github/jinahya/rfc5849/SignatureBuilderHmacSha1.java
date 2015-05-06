@@ -18,6 +18,10 @@
 package com.github.jinahya.rfc5849;
 
 
+import com.github.jinahya.rfc5849.util.Base64;
+
+
+
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;

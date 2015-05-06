@@ -35,7 +35,6 @@ public class NonceBuilderTest {
     public void build() throws Exception {
 
         final String built = new NonceBuilder().build();
-        logger.debug("built: {}", built);
     }
 
 

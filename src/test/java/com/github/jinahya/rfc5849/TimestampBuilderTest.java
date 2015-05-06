@@ -35,7 +35,6 @@ public class TimestampBuilderTest {
     public void build() throws Exception {
 
         final String built = new TimestampBuilder().build();
-        logger.debug("built: {}", built);
     }
 
 

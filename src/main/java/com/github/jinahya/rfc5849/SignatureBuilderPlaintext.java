@@ -18,6 +18,10 @@
 package com.github.jinahya.rfc5849;
 
 
+import com.github.jinahya.rfc5849.util.Percent;
+
+
+
 /**
  * A signature builder for {@code PLAINTEXT}.
  *

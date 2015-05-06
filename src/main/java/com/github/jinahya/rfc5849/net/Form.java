@@ -46,6 +46,13 @@ public class Form {
     }
 
 
+    /**
+     *
+     * @param name the name of the parameter.
+     * @param value the value of the parameter.
+     *
+     * @return this instance.
+     */
     public Form param(final String name, final String value) {
 
         if (name == null) {

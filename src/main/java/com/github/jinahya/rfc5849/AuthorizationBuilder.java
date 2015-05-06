@@ -18,6 +18,7 @@
 package com.github.jinahya.rfc5849;
 
 
+import com.github.jinahya.rfc5849.util.Percent;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
@@ -84,30 +85,30 @@ public class AuthorizationBuilder implements Builder {
 
         final Map headerParameters = new TreeMap();
 
-        headerParameters.put(BaseStringBuilder.KEY_OAUTH_CALLBACK,
+        headerParameters.put(Constants.OAUTH_CALLBACK,
                              signatureBuilder.getBaseStringBuilder()
                              .oauthCallback());
-        headerParameters.put(BaseStringBuilder.KEY_OAUTH_CONSUMER_KEY,
+        headerParameters.put(Constants.OAUTH_CONSUMER_KEY,
                              signatureBuilder.getBaseStringBuilder()
                              .oauthConsumerKey());
-        headerParameters.put(BaseStringBuilder.KEY_OAUTH_NONCE,
+        headerParameters.put(Constants.OAUTH_NONCE,
                              signatureBuilder.getBaseStringBuilder()
                              .oauthNonce());
         headerParameters.put(SignatureBuilder.KEY_OAUTH_SIGNATURE,
                              oauthSignature);
-        headerParameters.put(BaseStringBuilder.KEY_OAUTH_SIGNATURE_METHOD,
+        headerParameters.put(Constants.OAUTH_SIGNATURE_METHOD,
                              signatureBuilder.getBaseStringBuilder()
                              .oauthSignatureMethod());
-        headerParameters.put(BaseStringBuilder.KEY_OAUTH_TIMESTAMP,
+        headerParameters.put(Constants.OAUTH_TIMESTAMP,
                              signatureBuilder.getBaseStringBuilder()
                              .getOauthTimestamp());
-        headerParameters.put(BaseStringBuilder.KEY_OAUTH_TOKEN,
+        headerParameters.put(Constants.OAUTH_TOKEN,
                              signatureBuilder.getBaseStringBuilder()
                              .oauthToken());
-        headerParameters.put(BaseStringBuilder.KEY_OAUTH_VERIFIER,
+        headerParameters.put(Constants.OAUTH_VERIFIER,
                              signatureBuilder.getBaseStringBuilder()
                              .oauthVerifier());
-        headerParameters.put(BaseStringBuilder.KEY_OAUTH_VERSION,
+        headerParameters.put(Constants.OAUTH_VERSION,
                              signatureBuilder.getBaseStringBuilder()
                              .oauthVersion());
 

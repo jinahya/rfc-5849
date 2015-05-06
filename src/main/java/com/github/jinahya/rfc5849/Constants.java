@@ -25,6 +25,9 @@ package com.github.jinahya.rfc5849;
 public final class Constants {
 
 
+    public static final String OAUTH_CALLBACK = "oauth_callback";
+
+
     public static final String OAUTH_CALLBACK_CONFIRMED
         = "oauth_callback_confirmed";
 
@@ -32,10 +35,29 @@ public final class Constants {
     public static final String OAUTH_CALLBACK_OUT_OF_BAND = "oob";
 
 
+    public static final String OAUTH_CONSUMER_KEY = "oauth_consumer_key";
+
+
+    public static final String OAUTH_NONCE = "oauth_nonce";
+
+
+    public static final String OAUTH_SIGNATURE_METHOD
+        = "oauth_signature_method";
+
+
+    public static final String OAUTH_TIMESTAMP = "oauth_timestamp";
+
+
     public static final String OAUTH_TOKEN = "oauth_token";
 
 
     public static final String OAUTH_TOKEN_SECRET = "oauth_token_secret";
+
+
+    public static final String OAUTH_VERIFIER = "oauth_verifier";
+
+
+    public static final String OAUTH_VERSION = "oauth_version";
 
 
     public Constants() {

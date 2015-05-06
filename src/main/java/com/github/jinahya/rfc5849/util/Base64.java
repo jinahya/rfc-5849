@@ -15,7 +15,7 @@
  */
 
 
-package com.github.jinahya.rfc5849;
+package com.github.jinahya.rfc5849.util;
 
 
 import java.io.UnsupportedEncodingException;

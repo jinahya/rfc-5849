@@ -18,6 +18,7 @@
 package com.github.jinahya.rfc5849;
 
 
+import com.github.jinahya.rfc5849.util.Percent;
 import com.github.jinahya.rfc5849.net.Form;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,31 +34,6 @@ import java.util.TreeMap;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class BaseStringBuilder implements Builder {
-
-
-    public static final String KEY_OAUTH_CONSUMER_KEY = "oauth_consumer_key";
-
-
-    public static final String KEY_OAUTH_NONCE = "oauth_nonce";
-
-
-    public static final String KEY_OAUTH_SIGNATURE_METHOD
-        = "oauth_signature_method";
-
-
-    public static final String KEY_OAUTH_TIMESTAMP = "oauth_timestamp";
-
-
-    public static final String KEY_OAUTH_TOKEN = "oauth_token";
-
-
-    public static final String KEY_OAUTH_VERSION = "oauth_version";
-
-
-    public static final String KEY_OAUTH_VERIFIER = "oauth_verifier";
-
-
-    public static final String KEY_OAUTH_CALLBACK = "oauth_callback";
 
 
     /**
@@ -94,14 +70,14 @@ public class BaseStringBuilder implements Builder {
             throw new IllegalStateException("no baseUri set");
         }
 
-        if (!requestParameters.containsKey(KEY_OAUTH_NONCE)) {
+        if (!requestParameters.containsKey(Constants.OAUTH_NONCE)) {
             if (nonceBuilder == null) {
                 nonceBuilder = new NonceBuilder();
             }
             oauthNonce(nonceBuilder.build());
         }
 
-        if (!requestParameters.containsKey(KEY_OAUTH_TIMESTAMP)) {
+        if (!requestParameters.containsKey(Constants.OAUTH_TIMESTAMP)) {
             if (timestampBuilder == null) {
                 timestampBuilder = new TimestampBuilder();
             }
@@ -261,19 +237,19 @@ public class BaseStringBuilder implements Builder {
 
     public String oauthCallback() {
 
-        return protocolParameter(KEY_OAUTH_CALLBACK);
+        return protocolParameter(Constants.OAUTH_CALLBACK);
     }
 
 
     public BaseStringBuilder oauthCallback(final String oauthCallback) {
 
-        return protocolParameter(KEY_OAUTH_CALLBACK, oauthCallback);
+        return protocolParameter(Constants.OAUTH_CALLBACK, oauthCallback);
     }
 
 
     public String oauthConsumerKey() {
 
-        return protocolParameter(KEY_OAUTH_CONSUMER_KEY);
+        return protocolParameter(Constants.OAUTH_CONSUMER_KEY);
     }
 
 
@@ -286,19 +262,19 @@ public class BaseStringBuilder implements Builder {
      */
     public BaseStringBuilder oauthConsumerKey(final String oauthConsumerKey) {
 
-        return protocolParameter(KEY_OAUTH_CONSUMER_KEY, oauthConsumerKey);
+        return protocolParameter(Constants.OAUTH_CONSUMER_KEY, oauthConsumerKey);
     }
 
 
     public String oauthNonce() {
 
-        return protocolParameter(KEY_OAUTH_NONCE);
+        return protocolParameter(Constants.OAUTH_NONCE);
     }
 
 
     public BaseStringBuilder oauthNonce(final String oauthNonce) {
 
-        return protocolParameter(KEY_OAUTH_NONCE, oauthNonce);
+        return protocolParameter(Constants.OAUTH_NONCE, oauthNonce);
     }
 
 
@@ -312,27 +288,27 @@ public class BaseStringBuilder implements Builder {
 
     public String oauthSignatureMethod() {
 
-        return protocolParameter(KEY_OAUTH_SIGNATURE_METHOD);
+        return protocolParameter(Constants.OAUTH_SIGNATURE_METHOD);
     }
 
 
     public BaseStringBuilder oauthSignatureMethod(
         final String oauthSignatureMethod) {
 
-        return protocolParameter(KEY_OAUTH_SIGNATURE_METHOD,
+        return protocolParameter(Constants.OAUTH_SIGNATURE_METHOD,
                                  oauthSignatureMethod);
     }
 
 
     public String getOauthTimestamp() {
 
-        return protocolParameter(KEY_OAUTH_TIMESTAMP);
+        return protocolParameter(Constants.OAUTH_TIMESTAMP);
     }
 
 
     public BaseStringBuilder oauthTimestamp(final String oauthTimestamp) {
 
-        return protocolParameter(KEY_OAUTH_TIMESTAMP, oauthTimestamp);
+        return protocolParameter(Constants.OAUTH_TIMESTAMP, oauthTimestamp);
     }
 
 
@@ -347,37 +323,37 @@ public class BaseStringBuilder implements Builder {
 
     public String oauthToken() {
 
-        return protocolParameter(KEY_OAUTH_TOKEN);
+        return protocolParameter(Constants.OAUTH_TOKEN);
     }
 
 
     public BaseStringBuilder oauthToken(final String oauthToken) {
 
-        return protocolParameter(KEY_OAUTH_TOKEN, oauthToken);
+        return protocolParameter(Constants.OAUTH_TOKEN, oauthToken);
     }
 
 
     public String oauthVersion() {
 
-        return protocolParameter(KEY_OAUTH_VERSION);
+        return protocolParameter(Constants.OAUTH_VERSION);
     }
 
 
     public BaseStringBuilder oauthVersion(final String oauthVersion) {
 
-        return protocolParameter(KEY_OAUTH_VERSION, oauthVersion);
+        return protocolParameter(Constants.OAUTH_VERSION, oauthVersion);
     }
 
 
     public String oauthVerifier() {
 
-        return protocolParameter(KEY_OAUTH_VERIFIER);
+        return protocolParameter(Constants.OAUTH_VERIFIER);
     }
 
 
     public BaseStringBuilder oauthVerifier(final String oauthVerifier) {
 
-        return protocolParameter(KEY_OAUTH_VERIFIER, oauthVerifier);
+        return protocolParameter(Constants.OAUTH_VERIFIER, oauthVerifier);
     }
 
 
@@ -407,6 +383,24 @@ public class BaseStringBuilder implements Builder {
         this.printer = printer;
 
         return this;
+    }
+
+
+    public void copyProtocolParameters(final Map map) {
+
+        if (map == null) {
+            throw new NullPointerException("null map");
+        }
+
+        for (final Iterator i = requestParameters.entrySet().iterator();
+             i.hasNext();) {
+
+            final Map.Entry e = (Map.Entry) i.next();
+            final String key = (String) e.getKey();
+            if (key.startsWith("oauth_")) {
+                map.put(key, ((List) e.getValue()).get(0));
+            }
+        }
     }
 
 
