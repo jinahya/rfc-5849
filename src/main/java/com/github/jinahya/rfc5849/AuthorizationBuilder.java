@@ -28,7 +28,7 @@ import java.util.TreeMap;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class AuthorizationBuilder implements Builder {
+public class AuthorizationBuilder implements Builder<String> {
 
 
     public static final String KEY_REALM = "realm";
@@ -48,7 +48,7 @@ public class AuthorizationBuilder implements Builder {
 
     public AuthorizationBuilder realm(final String realm) {
 
-        setRealm(realm);
+        this.realm = realm;
 
         return this;
     }
@@ -69,12 +69,13 @@ public class AuthorizationBuilder implements Builder {
     public AuthorizationBuilder signatureBuilder(
         final SignatureBuilder signatureBuilder) {
 
-        setSignatureBuidler(signatureBuilder);
+        this.signatureBuilder = signatureBuilder;
 
         return this;
     }
 
 
+    @Override
     public String build() throws Exception {
 
         if (signatureBuilder == null) {
@@ -83,42 +84,44 @@ public class AuthorizationBuilder implements Builder {
 
         final String oauthSignature = signatureBuilder.build();
 
-        final Map headerParameters = new TreeMap();
+        final Map<String, String> headerParameters
+            = new TreeMap<String, String>();
 
-        headerParameters.put(Constants.OAUTH_CALLBACK,
-                             signatureBuilder.getBaseStringBuilder()
-                             .oauthCallback());
-        headerParameters.put(Constants.OAUTH_CONSUMER_KEY,
-                             signatureBuilder.getBaseStringBuilder()
-                             .oauthConsumerKey());
-        headerParameters.put(Constants.OAUTH_NONCE,
-                             signatureBuilder.getBaseStringBuilder()
-                             .oauthNonce());
+        signatureBuilder.getBaseStringBuilder()
+            .copyProtocolParameters(headerParameters);
+
+//        headerParameters.put(Constants.OAUTH_CALLBACK,
+//                             signatureBuilder.getBaseStringBuilder()
+//                             .oauthCallback());
+//        headerParameters.put(Constants.OAUTH_CONSUMER_KEY,
+//                             signatureBuilder.getBaseStringBuilder()
+//                             .oauthConsumerKey());
+//        headerParameters.put(Constants.OAUTH_NONCE,
+//                             signatureBuilder.getBaseStringBuilder()
+//                             .oauthNonce());
         headerParameters.put(SignatureBuilder.KEY_OAUTH_SIGNATURE,
                              oauthSignature);
-        headerParameters.put(Constants.OAUTH_SIGNATURE_METHOD,
-                             signatureBuilder.getBaseStringBuilder()
-                             .oauthSignatureMethod());
-        headerParameters.put(Constants.OAUTH_TIMESTAMP,
-                             signatureBuilder.getBaseStringBuilder()
-                             .getOauthTimestamp());
-        headerParameters.put(Constants.OAUTH_TOKEN,
-                             signatureBuilder.getBaseStringBuilder()
-                             .oauthToken());
-        headerParameters.put(Constants.OAUTH_VERIFIER,
-                             signatureBuilder.getBaseStringBuilder()
-                             .oauthVerifier());
-        headerParameters.put(Constants.OAUTH_VERSION,
-                             signatureBuilder.getBaseStringBuilder()
-                             .oauthVersion());
-
-        for (final Iterator i = headerParameters.entrySet().iterator();
-             i.hasNext();) {
-            if (((Map.Entry) i.next()).getValue() == null) {
-                i.remove();
-            }
-        }
-
+//        headerParameters.put(Constants.OAUTH_SIGNATURE_METHOD,
+//                             signatureBuilder.getBaseStringBuilder()
+//                             .oauthSignatureMethod());
+//        headerParameters.put(Constants.OAUTH_TIMESTAMP,
+//                             signatureBuilder.getBaseStringBuilder()
+//                             .getOauthTimestamp());
+//        headerParameters.put(Constants.OAUTH_TOKEN,
+//                             signatureBuilder.getBaseStringBuilder()
+//                             .oauthToken());
+//        headerParameters.put(Constants.OAUTH_VERIFIER,
+//                             signatureBuilder.getBaseStringBuilder()
+//                             .oauthVerifier());
+//        headerParameters.put(Constants.OAUTH_VERSION,
+//                             signatureBuilder.getBaseStringBuilder()
+//                             .oauthVersion());
+//        for (final Iterator i = headerParameters.entrySet().iterator();
+//             i.hasNext();) {
+//            if (((Map.Entry) i.next()).getValue() == null) {
+//                i.remove();
+//            }
+//        }
         final StringBuffer buffer = new StringBuffer("OAuth");
         {
             if (realm != null) {

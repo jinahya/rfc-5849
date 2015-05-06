@@ -26,18 +26,12 @@ import java.util.Random;
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public final class NonceBuilder implements Builder {
-
-
-    public static NonceBuilder newInstance(final Random random) {
-
-        return new NonceBuilder(random);
-    }
+public final class NonceBuilder implements Builder<String> {
 
 
     public static NonceBuilder newInstance() {
 
-        return newInstance(new SecureRandom());
+        return new NonceBuilder(new SecureRandom());
     }
 
 
@@ -53,13 +47,7 @@ public final class NonceBuilder implements Builder {
     }
 
 
-    public NonceBuilder() {
-
-        this(new SecureRandom());
-    }
-
-
-    //@Override
+    @Override
     public String build() throws Exception {
 
         return Long.toString((System.currentTimeMillis() << 20)

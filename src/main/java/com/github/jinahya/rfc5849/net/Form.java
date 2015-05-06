@@ -18,14 +18,14 @@
 package com.github.jinahya.rfc5849.net;
 
 
+import com.github.jinahya.rfc5849.util.Multivalued;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 
@@ -36,11 +36,15 @@ import java.util.StringTokenizer;
 public class Form {
 
 
-    public Map asMap() {
+    public Form() {
 
-        if (params == null) {
-            params = new HashMap();
-        }
+        super();
+
+        params = new Multivalued<String, String>();
+    }
+
+
+    public Multivalued<String, String> params() {
 
         return params;
     }
@@ -59,13 +63,7 @@ public class Form {
             throw new NullPointerException("null name");
         }
 
-        List values = (List) asMap().get(name);
-        if (values == null) {
-            values = new ArrayList();
-            asMap().put(name, values);
-        }
-
-        values.add(value);
+        params.add(name, value);
 
         return this;
     }
@@ -75,16 +73,21 @@ public class Form {
 
         final StringBuffer buffer = new StringBuffer();
 
-        for (final Iterator i = asMap().entrySet().iterator(); i.hasNext();) {
-            final Map.Entry e = (Map.Entry) i.next();
-            final String k = (String) e.getKey();
-            final String v = (String) e.getValue();
-            if (buffer.length() > 0) {
-                buffer.append("&");
-            }
-            buffer.append(URLEncoder.encode(k, "UTF-8"));
-            if (v != null) {
-                buffer.append("=").append(URLEncoder.encode(v, "UTF-8"));
+        for (final Iterator<Entry<String, List<String>>> i
+            = params.map().entrySet().iterator();
+             i.hasNext();) {
+            final Entry<String, List<String>> e = i.next();
+            final String keys = e.getKey();
+            final List<String> values = e.getValue();
+            for (final String value : values) {
+                if (buffer.length() > 0) {
+                    buffer.append("&");
+                }
+                buffer.append(URLEncoder.encode(keys, "UTF-8"));
+                if (value != null) {
+                    buffer.append("=")
+                        .append(URLEncoder.encode(value, "UTF-8"));
+                }
             }
         }
 
@@ -116,7 +119,7 @@ public class Form {
     }
 
 
-    private Map params; // = new HashMap();
+    private final Multivalued<String, String> params;
 
 
 }

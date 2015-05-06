@@ -37,7 +37,7 @@ public final class Percent {
     static {
         try {
             replaceAll = String.class.getMethod(
-                "replaceAll", new Class[]{String.class, String.class});
+                "replaceAll", new Class<?>[]{String.class, String.class});
         } catch (final NoSuchMethodException nsme) {
             nsme.printStackTrace();
         }

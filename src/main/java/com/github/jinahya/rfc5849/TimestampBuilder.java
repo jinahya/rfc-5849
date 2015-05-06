@@ -22,7 +22,7 @@ package com.github.jinahya.rfc5849;
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public final class TimestampBuilder implements Builder {
+public final class TimestampBuilder implements Builder<String> {
 
 
     public String build() throws Exception {

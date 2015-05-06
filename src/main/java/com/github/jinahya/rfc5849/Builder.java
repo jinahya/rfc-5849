@@ -21,9 +21,10 @@ package com.github.jinahya.rfc5849;
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @author Jin Kwon &lt;onacit at gmail.com&gt;
+ * @param <T>
  */
-//@FunctionalInterface
-public interface Builder {
+public interface Builder<T> {
 
 
     /**
@@ -33,7 +34,7 @@ public interface Builder {
      *
      * @throws Exception if failed to build.
      */
-    String build() throws Exception;
+    T build() throws Exception;
 
 
 }

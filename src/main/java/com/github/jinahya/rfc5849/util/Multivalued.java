@@ -21,31 +21,40 @@ package com.github.jinahya.rfc5849.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 
 /**
  * A multivalued map.
  *
  * @author Jin Kwon &lt;onacit at gmail.com&gt;
+ * @param <K>
+ * @param <V>
  */
-public class StringToStrings {
+public class Multivalued<K, V> {
 
 
-    public StringToStrings() {
+    public Multivalued() {
 
         super();
 
-        map = new HashMap();
+        map = new HashMap<K, List<V>>();
     }
 
 
-    public void add(final String key, final String value) {
+    public void add(final K key, final V value) {
 
-        List values = (List) map.get(key);
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
+
+        List<V> values = map.get(key);
         if (values == null) {
-            values = new ArrayList();
+            values = new ArrayList<V>();
             map.put(key, values);
         }
 
@@ -53,39 +62,45 @@ public class StringToStrings {
     }
 
 
-    public void putSingle(final String key, final String value) {
+    public void putSingle(final K key, final V value) {
 
-        final List values = new ArrayList();
-        values.add(value);
+        map.remove(key);
 
-        map.put(key, values);
+        add(key, value);
     }
 
 
-    public String getFirst(final String key) {
+    public V getFirst(final K key) {
 
-        final List values = (List) map.get(key);
+        final List<V> values = map.get(key);
 
         if (values == null) {
             return null;
         }
 
-        return (String) values.get(0);
+        return values.get(0);
     }
 
 
-    /**
-     * Returns an unmodifiable map.
-     *
-     * @return an unmodifiable map.
-     */
-    public Map getMap() {
+    public Map<K, List<V>> map() {
 
         return Collections.unmodifiableMap(map);
     }
 
 
-    private final Map map;
+    public Set<Entry<K, List<V>>> entrySet() {
+
+        return map().entrySet();
+    }
+
+
+    public Iterator<Entry<K, List<V>>> entryIterator() {
+
+        return entrySet().iterator();
+    }
+
+
+    private final Map<K, List<V>> map;
 
 
 }

@@ -22,7 +22,7 @@ package com.github.jinahya.rfc5849;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public abstract class SignatureBuilder implements Builder {
+public abstract class SignatureBuilder implements Builder<String> {
 
 
     public static final String KEY_OAUTH_SIGNATURE = "oauth_signature";

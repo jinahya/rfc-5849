@@ -81,7 +81,7 @@ public class TwitterPinBasedOAuth {
                     .oauthCallback(Constants.OAUTH_CALLBACK_OUT_OF_BAND)
                     .oauthConsumerKey(consumerKey)
                     .oauthVersion("1.0")
-                    .nonceBuilder(new NonceBuilder())
+                    .nonceBuilder(NonceBuilder.newInstance())
                     .timestampBuilder(new TimestampBuilder())
                     .printer(System.out)
                 )
@@ -99,10 +99,9 @@ public class TwitterPinBasedOAuth {
         logger.debug("encoded: {}", encoded);
         connection.disconnect();
         final Form form = new Form().decode(encoded);
-        final String oauthToken
-            = (String) ((List) form.asMap().get(Constants.OAUTH_TOKEN)).get(0);;
-        final String oauthTokenSecret = (String) ((List) form.asMap().get(Constants.OAUTH_TOKEN_SECRET)).get(0);
-        final String oauthCallbackConfirmed = (String) ((List) form.asMap().get(Constants.OAUTH_CALLBACK_CONFIRMED)).get(0);
+        final String oauthToken = form.params().getFirst(Constants.OAUTH_TOKEN);
+        final String oauthTokenSecret = form.params().getFirst(Constants.OAUTH_TOKEN_SECRET);
+        final String oauthCallbackConfirmed = form.params().getFirst(Constants.OAUTH_CALLBACK_CONFIRMED);
     }
 
 
