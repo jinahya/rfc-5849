@@ -22,9 +22,10 @@ package com.github.jinahya.rfc5849;
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public final class TimestampBuilder implements Builder<String> {
+public class TimestampBuilder implements Builder<String> {
 
 
+    @Override
     public String build() throws Exception {
 
         return Long.toString(System.currentTimeMillis() / 1000L);

@@ -46,10 +46,14 @@ public class Multivalued<K, V> {
     }
 
 
-    public void add(final K key, final V value) {
+    public Multivalued<K, V> add(final K key, final V value) {
 
         if (key == null) {
             throw new NullPointerException("null key");
+        }
+
+        if (value == null) {
+            throw new NullPointerException("null value");
         }
 
         List<V> values = map.get(key);
@@ -59,14 +63,16 @@ public class Multivalued<K, V> {
         }
 
         values.add(value);
+
+        return this;
     }
 
 
-    public void putSingle(final K key, final V value) {
+    public Multivalued<K, V> putSingle(final K key, final V value) {
 
         map.remove(key);
 
-        add(key, value);
+        return add(key, value);
     }
 
 

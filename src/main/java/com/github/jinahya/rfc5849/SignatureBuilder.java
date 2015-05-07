@@ -25,9 +25,6 @@ package com.github.jinahya.rfc5849;
 public abstract class SignatureBuilder implements Builder<String> {
 
 
-    public static final String KEY_OAUTH_SIGNATURE = "oauth_signature";
-
-
     public SignatureBuilder(final String signatureMethod) {
 
         super();
@@ -64,10 +61,20 @@ public abstract class SignatureBuilder implements Builder<String> {
     }
 
 
+    public BaseStringBuilder baseStringBuilder() {
+
+        return baseStringBuilder;
+    }
+
+
     public SignatureBuilder baseStringBuilder(
         final BaseStringBuilder baseStringBuilder) {
 
-        setBaseStringBuilder(baseStringBuilder);
+        this.baseStringBuilder = baseStringBuilder;
+
+        if (this.baseStringBuilder != null) {
+            this.baseStringBuilder.oauthSignatureMethod(signatureMethod);
+        }
 
         return this;
     }
@@ -76,7 +83,7 @@ public abstract class SignatureBuilder implements Builder<String> {
     protected final String signatureMethod;
 
 
-    BaseStringBuilder baseStringBuilder;
+    private BaseStringBuilder baseStringBuilder;
 
 
 }

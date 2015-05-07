@@ -41,6 +41,9 @@ public final class Constants {
     public static final String OAUTH_NONCE = "oauth_nonce";
 
 
+    public static final String OAUTH_SIGNATURE = "oauth_signature";
+
+
     public static final String OAUTH_SIGNATURE_METHOD
         = "oauth_signature_method";
 

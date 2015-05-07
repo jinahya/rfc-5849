@@ -21,7 +21,6 @@ package com.github.jinahya.rfc5849;
 import com.github.jinahya.rfc5849.util.Base64;
 
 
-
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
@@ -39,16 +38,17 @@ public abstract class SignatureBuilderHmacSha1
     }
 
 
+    @Override
     public String build() throws Exception {
 
-        if (baseStringBuilder == null) {
+        if (baseStringBuilder() == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
 
         final String keyString = super.build();
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
 
-        final String baseString = baseStringBuilder.build();
+        final String baseString = baseStringBuilder().build();
         final byte[] baseStringBytes = baseString.getBytes("ISO-8859-1");
 
         final byte[] signature = build(keyBytes, baseStringBytes);

@@ -26,7 +26,7 @@ import java.util.Random;
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public final class NonceBuilder implements Builder<String> {
+public class NonceBuilder implements Builder<String> {
 
 
     public static NonceBuilder newInstance() {
@@ -55,7 +55,7 @@ public final class NonceBuilder implements Builder<String> {
     }
 
 
-    private final Random random;
+    protected final Random random;
 
 
 }

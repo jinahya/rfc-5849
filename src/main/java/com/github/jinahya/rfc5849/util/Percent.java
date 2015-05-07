@@ -18,10 +18,7 @@
 package com.github.jinahya.rfc5849.util;
 
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 
 
 /**
@@ -39,7 +36,33 @@ public final class Percent {
             replaceAll = String.class.getMethod(
                 "replaceAll", new Class<?>[]{String.class, String.class});
         } catch (final NoSuchMethodException nsme) {
-            nsme.printStackTrace();
+            nsme.printStackTrace(System.out);
+        }
+    }
+
+
+    private static final Method ENCODE;
+
+
+    static {
+        try {
+            ENCODE = Class.forName("java.net.URLEncoder").getMethod(
+                "encode", new Class<?>[]{String.class, String.class});
+        } catch (final Exception e) {
+            throw new InstantiationError(e.getMessage());
+        }
+    }
+
+
+    private static final Method DECODE;
+
+
+    static {
+        try {
+            DECODE = Class.forName("java.net.URLDecoder").getMethod(
+                "decode", new Class<?>[]{String.class, String.class});
+        } catch (final Exception e) {
+            throw new InstantiationError(e.getMessage());
         }
     }
 
@@ -54,11 +77,16 @@ public final class Percent {
     public static String encode(String s) {
 
         try {
-            s = URLEncoder.encode(s, "UTF-8");
-        } catch (final UnsupportedEncodingException uee) {
-            throw new RuntimeException(uee);
+            s = (String) ENCODE.invoke(null, s, "UTF-8");
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
         }
 
+//        try {
+//            s = URLEncoder.encode(s, "UTF-8");
+//        } catch (final UnsupportedEncodingException uee) {
+//            throw new RuntimeException(uee);
+//        }
         if (replaceAll != null) {
             try {
                 s = (String) replaceAll.invoke(s, new Object[]{"\\+", "%20"});
@@ -114,10 +142,16 @@ public final class Percent {
         }
 
         try {
-            return URLDecoder.decode(s, "UTF-8");
-        } catch (final UnsupportedEncodingException uee) {
-            throw new RuntimeException(uee);
+            return (String) DECODE.invoke(null, s, "UTF-8");
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
         }
+
+//        try {
+//            return URLDecoder.decode(s, "UTF-8");
+//        } catch (final UnsupportedEncodingException uee) {
+//            throw new RuntimeException(uee);
+//        }
     }
 
 

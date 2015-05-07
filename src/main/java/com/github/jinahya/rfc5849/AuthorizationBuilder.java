@@ -31,7 +31,7 @@ import java.util.TreeMap;
 public class AuthorizationBuilder implements Builder<String> {
 
 
-    public static final String KEY_REALM = "realm";
+    public static final String REALM = "realm";
 
 
     public String getRealm() {
@@ -82,52 +82,20 @@ public class AuthorizationBuilder implements Builder<String> {
             throw new IllegalStateException("no signatureBuilder set");
         }
 
-        final String oauthSignature = signatureBuilder.build();
-
         final Map<String, String> headerParameters
             = new TreeMap<String, String>();
 
+        final String oauthSignature = signatureBuilder.build();
+        headerParameters.put(Constants.OAUTH_SIGNATURE, oauthSignature);
         signatureBuilder.getBaseStringBuilder()
             .copyProtocolParameters(headerParameters);
 
-//        headerParameters.put(Constants.OAUTH_CALLBACK,
-//                             signatureBuilder.getBaseStringBuilder()
-//                             .oauthCallback());
-//        headerParameters.put(Constants.OAUTH_CONSUMER_KEY,
-//                             signatureBuilder.getBaseStringBuilder()
-//                             .oauthConsumerKey());
-//        headerParameters.put(Constants.OAUTH_NONCE,
-//                             signatureBuilder.getBaseStringBuilder()
-//                             .oauthNonce());
-        headerParameters.put(SignatureBuilder.KEY_OAUTH_SIGNATURE,
-                             oauthSignature);
-//        headerParameters.put(Constants.OAUTH_SIGNATURE_METHOD,
-//                             signatureBuilder.getBaseStringBuilder()
-//                             .oauthSignatureMethod());
-//        headerParameters.put(Constants.OAUTH_TIMESTAMP,
-//                             signatureBuilder.getBaseStringBuilder()
-//                             .getOauthTimestamp());
-//        headerParameters.put(Constants.OAUTH_TOKEN,
-//                             signatureBuilder.getBaseStringBuilder()
-//                             .oauthToken());
-//        headerParameters.put(Constants.OAUTH_VERIFIER,
-//                             signatureBuilder.getBaseStringBuilder()
-//                             .oauthVerifier());
-//        headerParameters.put(Constants.OAUTH_VERSION,
-//                             signatureBuilder.getBaseStringBuilder()
-//                             .oauthVersion());
-//        for (final Iterator i = headerParameters.entrySet().iterator();
-//             i.hasNext();) {
-//            if (((Map.Entry) i.next()).getValue() == null) {
-//                i.remove();
-//            }
-//        }
         final StringBuffer buffer = new StringBuffer("OAuth");
         {
             if (realm != null) {
                 buffer
                     .append(" ")
-                    .append(KEY_REALM)
+                    .append(REALM)
                     .append("=")
                     .append("\"")
                     .append(realm)
