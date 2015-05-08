@@ -6,7 +6,7 @@
   <!-- The Basics -->
   <groupId>com.github.jinahya</groupId>
   <artifactId>rfc-5849</artifactId>
-  <version>0.4-SNAPSHOT</version>
+  <version>0.4</version>
   <packaging>jar</packaging>
   <!--parent>
     <groupId>org.sonatype.oss</groupId>
@@ -273,6 +273,7 @@
 
   <!-- More Project Information -->
   <name>${project.artifactId}</name>
+  <description>an implementation of rfc-5849</description>
   <url>http://jinahya.github.io/rfc-5849/sites/${project.version}</url>
   <inceptionYear>2015</inceptionYear>
   <licenses>
@@ -304,7 +305,7 @@
     <connection>scm:git:git@github.com:jinahya/rfc-5849.git</connection>
     <developerConnection>scm:git:git@github.com:jinahya/rfc-5849.git</developerConnection>
     <url>https://github.com/jinahya/rfc-5849</url>
-    <tag>HEAD</tag>
+    <tag>0.4</tag>
   </scm>
   <prerequisites />
   <repositories />
