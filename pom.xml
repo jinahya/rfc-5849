@@ -273,6 +273,7 @@
 
   <!-- More Project Information -->
   <name>${project.artifactId}</name>
+  <description>an implementation of rfc-5849</description>
   <url>http://jinahya.github.io/rfc-5849/sites/${project.version}</url>
   <inceptionYear>2015</inceptionYear>
   <licenses>
