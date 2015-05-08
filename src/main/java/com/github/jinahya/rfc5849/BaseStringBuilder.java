@@ -115,7 +115,7 @@ public class BaseStringBuilder implements Builder<String> {
             encodedParameters.put(encodedKey, encodedValues);
         }
 
-        final StringBuffer buffer = new StringBuffer();
+        final StringBuilder buffer = new StringBuilder();
         {
             for (final Entry<String, List<String>> e
                  : encodedParameters.entrySet()) {

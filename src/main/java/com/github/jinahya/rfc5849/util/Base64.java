@@ -116,7 +116,9 @@ public final class Base64 {
         try {
             return new String(encode(input), "ISO-8859-1");
         } catch (final UnsupportedEncodingException uee) {
-            throw new RuntimeException(uee);
+            //throw new RuntimeException(uee);
+            uee.printStackTrace(System.err);
+            throw new RuntimeException(uee.getMessage());
         }
     }
 
@@ -185,7 +187,9 @@ public final class Base64 {
         try {
             return decode(input.getBytes("ISO-8859-1"));
         } catch (final UnsupportedEncodingException uee) {
-            throw new RuntimeException(uee);
+            //throw new RuntimeException(uee);
+            uee.printStackTrace(System.err);
+            throw new RuntimeException(uee.getMessage());
         }
     }
 
