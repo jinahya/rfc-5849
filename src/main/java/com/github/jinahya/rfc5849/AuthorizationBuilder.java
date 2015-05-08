@@ -90,10 +90,10 @@ public class AuthorizationBuilder implements Builder<String> {
         signatureBuilder.getBaseStringBuilder()
             .copyProtocolParameters(headerParameters);
 
-        final StringBuffer buffer = new StringBuffer("OAuth");
+        final StringBuilder builder = new StringBuilder("OAuth");
         {
             if (realm != null) {
-                buffer
+                builder
                     .append(" ")
                     .append(REALM)
                     .append("=")
@@ -105,9 +105,9 @@ public class AuthorizationBuilder implements Builder<String> {
             if (i.hasNext()) {
                 final Map.Entry entry = (Map.Entry) i.next();
                 if (realm != null) {
-                    buffer.append(",");
+                    builder.append(",");
                 }
-                buffer
+                builder
                     .append(" ")
                     .append(Percent.encode((String) entry.getKey()))
                     .append("=")
@@ -117,7 +117,7 @@ public class AuthorizationBuilder implements Builder<String> {
             }
             while (i.hasNext()) {
                 final Map.Entry entry = (Map.Entry) i.next();
-                buffer
+                builder
                     .append(",")
                     .append(" ")
                     .append(Percent.encode((String) entry.getKey()))
@@ -128,7 +128,7 @@ public class AuthorizationBuilder implements Builder<String> {
             }
         }
 
-        return buffer.toString();
+        return builder.toString();
     }
 
 

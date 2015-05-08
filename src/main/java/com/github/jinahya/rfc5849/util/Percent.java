@@ -18,7 +18,11 @@
 package com.github.jinahya.rfc5849.util;
 
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 /**
@@ -67,6 +71,21 @@ public final class Percent {
     }
 
 
+    public static final List<Boolean> STRING_BUILDER_FOUND;
+
+
+    static {
+        final List<Boolean> list = new ArrayList<Boolean>(1);
+        try {
+            Class.forName("java.lang.StringBuilder");
+            list.add(Boolean.TRUE);
+        } catch (final ClassNotFoundException snfe) {
+            list.add(Boolean.FALSE);
+        }
+        STRING_BUILDER_FOUND = Collections.unmodifiableList(list);
+    }
+
+
     /**
      * Percent-encodes given string.
      *
@@ -76,17 +95,22 @@ public final class Percent {
      */
     public static String encode(String s) {
 
+        if (true) {
+            try {
+                return encode(s, "UTF-8");
+            } catch (final UnsupportedEncodingException uee) {
+                throw new RuntimeException(uee.getMessage());
+            }
+        }
+
         try {
             s = (String) ENCODE.invoke(null, s, "UTF-8");
         } catch (final Exception e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e.getMessage());
         }
 
-//        try {
-//            s = URLEncoder.encode(s, "UTF-8");
-//        } catch (final UnsupportedEncodingException uee) {
-//            throw new RuntimeException(uee);
-//        }
         if (replaceAll != null) {
             try {
                 s = (String) replaceAll.invoke(s, new Object[]{"\\+", "%20"});
@@ -110,6 +134,44 @@ public final class Percent {
     }
 
 
+    public static String encode(final String s, final String enc)
+        throws UnsupportedEncodingException {
+
+        if (s == null) {
+            throw new NullPointerException("null decoded");
+        }
+
+        if (enc == null) {
+            throw new NullPointerException("null enc");
+        }
+
+        final byte[] source = s.getBytes(enc);
+        final byte[] auxiliary = new byte[source.length * 3];
+
+        int j = 0;
+        for (int i = 0; i < source.length; i++) {
+            if ((source[i] >= 0x30 && source[i] <= 0x39)
+                || (source[i] >= 0x41 && source[i] <= 0x5A)
+                || (source[i] >= 0x61 && source[i] <= 0x7A)
+                || source[i] == 0x2D
+                || source[i] == 0x2E
+                || source[i] == 0x5F
+                || source[i] == 0x7E) {
+                auxiliary[j++] = source[i];
+                continue;
+            }
+            auxiliary[j++] = 0x25;
+            Hex.encodeSingle(source[i], auxiliary, j);
+            j += 2;
+        }
+
+        final byte[] target = new byte[j];
+        System.arraycopy(auxiliary, 0, target, 0, j);
+
+        return new String(target, "US-ASCII");
+    }
+
+
     /**
      * Percent-decodes given string.
      *
@@ -118,6 +180,14 @@ public final class Percent {
      * @return decoding result.
      */
     public static String decode(String s) {
+
+        if (true) {
+            try {
+                return decode(s, "UTF-8");
+            } catch (final UnsupportedEncodingException uee) {
+                throw new RuntimeException(uee.getMessage());
+            }
+        }
 
         if (replaceAll != null) {
             try {
@@ -144,14 +214,48 @@ public final class Percent {
         try {
             return (String) DECODE.invoke(null, s, "UTF-8");
         } catch (final Exception e) {
-            throw new RuntimeException(e);
+            //throw new RuntimeException(e);
+            e.printStackTrace(System.err);
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+
+    public static String decode(final String s, final String enc)
+        throws UnsupportedEncodingException {
+
+        if (s == null) {
+            throw new NullPointerException("null s");
         }
 
-//        try {
-//            return URLDecoder.decode(s, "UTF-8");
-//        } catch (final UnsupportedEncodingException uee) {
-//            throw new RuntimeException(uee);
-//        }
+        if (enc == null) {
+            throw new NullPointerException("null enc");
+        }
+
+        final byte[] source = s.getBytes("US-ASCII");
+        final byte[] auxiliary = new byte[source.length];
+
+        int j = 0;
+        for (int i = 0; i < source.length; i++) {
+            if ((source[i] >= 0x30 && source[i] <= 0x39)
+                || (source[i] >= 0x41 && source[i] <= 0x5A)
+                || (source[i] >= 0x61 && source[i] <= 0x7A)
+                || source[i] == 0x2D
+                || source[i] == 0x2E
+                || source[i] == 0x5F
+                || source[i] == 0x7E) {
+                auxiliary[j++] = source[i];
+                continue;
+            }
+            i++; // 0x25
+            auxiliary[j++] = (byte) Hex.decodeSingle(source, i);
+            i++;
+        }
+
+        final byte[] target = new byte[j];
+        System.arraycopy(auxiliary, 0, target, 0, j);
+
+        return new String(target, enc);
     }
 
 
