@@ -6,7 +6,7 @@
   <!-- The Basics -->
   <groupId>com.github.jinahya</groupId>
   <artifactId>rfc-5849</artifactId>
-  <version>0.6-SNAPSHOT</version>
+  <version>0.6</version>
   <packaging>jar</packaging>
   <dependencyManagement />
   <dependencies>
@@ -205,15 +205,7 @@
               <target>
                 <taskdef name="retrotranslator" classname="net.sf.retrotranslator.transformer.RetrotranslatorTask" classpathref="maven.plugin.classpath" />
                 <mkdir dir="${project.build.outputDirectory.retrotranslated14}" />
-                <retrotranslator srcdir="${project.build.outputDirectory}"
-                                 destdir="${project.build.outputDirectory.retrotranslated14}"
-                                 embed="com.github.jinahya.rfc5849.retrotranslated14"
-                                 failonwarning="false"
-                                 smart="true"
-                                 stripannot="true"
-                                 stripsign="true"
-                                 syncvolatile="true"
-                                 target="1.4" verbose="true" verify="false">
+                <retrotranslator srcdir="${project.build.outputDirectory}" destdir="${project.build.outputDirectory.retrotranslated14}" embed="com.github.jinahya.rfc5849.retrotranslated14" failonwarning="false" smart="true" stripannot="true" stripsign="true" syncvolatile="true" target="1.4" verbose="true" verify="false">
                   <classpath>
                     <fileset dir="${basedir}/ext/retrotranslated14" includes="**/*.jar" />
                   </classpath>
@@ -387,7 +379,7 @@
     <connection>scm:git:git@github.com:jinahya/rfc-5849.git</connection>
     <developerConnection>scm:git:git@github.com:jinahya/rfc-5849.git</developerConnection>
     <url>https://github.com/jinahya/rfc-5849</url>
-    <tag>HEAD</tag>
+    <tag>0.6</tag>
   </scm>
   <prerequisites />
   <repositories />
