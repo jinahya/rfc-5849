@@ -86,6 +86,18 @@ public final class Percent {
     }
 
 
+    private static boolean unreserved(final int b) {
+
+        return (b >= 0x30 && b <= 0x39) // digits
+               || (b >= 0x41 && b <= 0x5A) // uppercase letters
+               || (b >= 0x61 && b <= 0x7A) // lowercase letters
+               || b == 0x2D // '-'
+               || b == 0x2E // '.'
+               || b == 0x5F // '_'
+               || b == 0x7E; // '~'
+    }
+
+
     /**
      * Percent-encodes given string.
      *
@@ -150,13 +162,7 @@ public final class Percent {
 
         int j = 0;
         for (int i = 0; i < source.length; i++) {
-            if ((source[i] >= 0x30 && source[i] <= 0x39)
-                || (source[i] >= 0x41 && source[i] <= 0x5A)
-                || (source[i] >= 0x61 && source[i] <= 0x7A)
-                || source[i] == 0x2D
-                || source[i] == 0x2E
-                || source[i] == 0x5F
-                || source[i] == 0x7E) {
+            if (unreserved(source[i])) {
                 auxiliary[j++] = source[i];
                 continue;
             }
@@ -237,13 +243,7 @@ public final class Percent {
 
         int j = 0;
         for (int i = 0; i < source.length; i++) {
-            if ((source[i] >= 0x30 && source[i] <= 0x39)
-                || (source[i] >= 0x41 && source[i] <= 0x5A)
-                || (source[i] >= 0x61 && source[i] <= 0x7A)
-                || source[i] == 0x2D
-                || source[i] == 0x2E
-                || source[i] == 0x5F
-                || source[i] == 0x7E) {
+            if (unreserved(source[i])) {
                 auxiliary[j++] = source[i];
                 continue;
             }

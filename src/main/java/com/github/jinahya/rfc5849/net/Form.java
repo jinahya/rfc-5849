@@ -71,48 +71,6 @@ public class Form {
     }
 
 
-    public String encode() throws UnsupportedEncodingException {
-
-        //final StringBuffer buffer = new StringBuffer();
-        final StringBuilder builder = new StringBuilder();
-
-        for (final Entry<String, List<String>> e : params.map().entrySet()) {
-            final String keys = e.getKey();
-            final List<String> values = e.getValue();
-            for (final String value : values) {
-                if (builder.length() > 0) {
-                    builder.append("&");
-                }
-                builder
-                    .append(URLEncoder.encode(keys, "UTF-8"))
-                    .append("=")
-                    .append(URLEncoder.encode(value, "UTF-8"));
-            }
-        }
-
-        return builder.toString();
-    }
-
-
-//    public StringBuffer encode(final StringBuffer buffer)
-//        throws UnsupportedEncodingException {
-//
-//        for (final Entry<String, List<String>> e : params.map().entrySet()) {
-//            final String keys = e.getKey();
-//            final List<String> values = e.getValue();
-//            for (final String value : values) {
-//                if (buffer.length() > 0) {
-//                    buffer.append("&");
-//                }
-//                buffer
-//                    .append(URLEncoder.encode(keys, "UTF-8"))
-//                    .append("=")
-//                    .append(URLEncoder.encode(value, "UTF-8"));
-//            }
-//        }
-//
-//        return buffer;
-//    }
     public StringBuilder encode(final StringBuilder builder)
         throws UnsupportedEncodingException {
 
@@ -135,6 +93,33 @@ public class Form {
         }
 
         return builder;
+    }
+
+
+    public String encode() throws UnsupportedEncodingException {
+
+        if (true) {
+            return encode(new StringBuilder()).toString();
+        }
+
+        //final StringBuffer buffer = new StringBuffer();
+        final StringBuilder builder = new StringBuilder();
+
+        for (final Entry<String, List<String>> e : params.map().entrySet()) {
+            final String keys = e.getKey();
+            final List<String> values = e.getValue();
+            for (final String value : values) {
+                if (builder.length() > 0) {
+                    builder.append("&");
+                }
+                builder
+                    .append(URLEncoder.encode(keys, "UTF-8"))
+                    .append("=")
+                    .append(URLEncoder.encode(value, "UTF-8"));
+            }
+        }
+
+        return builder.toString();
     }
 
 
