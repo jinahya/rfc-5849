@@ -24,7 +24,7 @@ import com.github.jinahya.rfc5849.Constants;
 import com.github.jinahya.rfc5849.NonceBuilder;
 import com.github.jinahya.rfc5849.SignatureBuilderHmacSha1Bc;
 import com.github.jinahya.rfc5849.TimestampBuilder;
-import com.github.jinahya.rfc5849.net.Form;
+import com.github.jinahya.rfc5849.util.Form;
 import static java.lang.invoke.MethodHandles.lookup;
 import java.net.HttpURLConnection;
 import java.net.URL;

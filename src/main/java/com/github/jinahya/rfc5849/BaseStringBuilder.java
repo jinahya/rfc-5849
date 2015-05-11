@@ -19,7 +19,7 @@ package com.github.jinahya.rfc5849;
 
 
 import com.github.jinahya.rfc5849.util.Percent;
-import com.github.jinahya.rfc5849.net.Form;
+import com.github.jinahya.rfc5849.util.Form;
 import com.github.jinahya.rfc5849.util.Params;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -312,12 +312,6 @@ public class BaseStringBuilder extends Params implements Builder<String> {
 
         return protocolParameter(Constants.OAUTH_SIGNATURE_METHOD,
                                  oauthSignatureMethod);
-    }
-
-
-    public String getOauthTimestamp() {
-
-        return protocolParameter(Constants.OAUTH_TIMESTAMP);
     }
 
 

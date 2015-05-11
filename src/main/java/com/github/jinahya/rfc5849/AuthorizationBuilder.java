@@ -54,15 +54,33 @@ public class AuthorizationBuilder implements Builder<String> {
     }
 
 
+    /**
+     *
+     * @return @deprecated
+     */
+    @Deprecated
     public SignatureBuilder getSignatureBuilder() {
 
         return signatureBuilder;
     }
 
 
+    /**
+     *
+     * @param signatureBuilder
+     *
+     * @deprecated
+     */
+    @Deprecated
     public void setSignatureBuidler(final SignatureBuilder signatureBuilder) {
 
         this.signatureBuilder = signatureBuilder;
+    }
+
+
+    public SignatureBuilder signatureBuilder() {
+
+        return signatureBuilder;
     }
 
 
@@ -87,7 +105,7 @@ public class AuthorizationBuilder implements Builder<String> {
 
         final String oauthSignature = signatureBuilder.build();
         headerParameters.put(Constants.OAUTH_SIGNATURE, oauthSignature);
-        signatureBuilder.getBaseStringBuilder()
+        signatureBuilder.baseStringBuilder()
             .copyProtocolParameters(headerParameters);
 
         final StringBuilder builder = new StringBuilder("OAuth");

@@ -15,10 +15,9 @@
  */
 
 
-package com.github.jinahya.rfc5849.net;
+package com.github.jinahya.rfc5849.util;
 
 
-import com.github.jinahya.rfc5849.util.Params;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;

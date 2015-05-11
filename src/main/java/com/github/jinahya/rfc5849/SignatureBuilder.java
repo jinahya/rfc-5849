@@ -48,12 +48,24 @@ public abstract class SignatureBuilder implements Builder<String> {
     }
 
 
+    /**
+     *
+     * @return @deprecated
+     */
+    @Deprecated
     public BaseStringBuilder getBaseStringBuilder() {
 
         return baseStringBuilder;
     }
 
 
+    /**
+     *
+     * @param baseStringBuilder
+     *
+     * @deprecated
+     */
+    @Deprecated
     public void setBaseStringBuilder(
         final BaseStringBuilder baseStringBuilder) {
 
