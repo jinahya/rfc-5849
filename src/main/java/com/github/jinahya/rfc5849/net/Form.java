@@ -18,7 +18,6 @@
 package com.github.jinahya.rfc5849.net;
 
 
-import com.github.jinahya.rfc5849.util.Multivalued;
 import com.github.jinahya.rfc5849.util.Params;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -35,61 +34,29 @@ import java.util.StringTokenizer;
 public class Form extends Params {
 
 
-    public Form() {
-
-        super();
-
-        params = new Multivalued<String, String>();
-    }
-
-
-    public Multivalued<String, String> params() {
-
-        return params;
-    }
-
-
-    /**
-     *
-     * @param name the name of the parameter.
-     * @param value the value of the parameter.
-     *
-     * @return this instance.
-     */
-    public Form param(final String name, final String value) {
-
-        if (name == null) {
-            throw new NullPointerException("null name");
-        }
-
-        if (value == null) {
-            throw new NullPointerException("null value");
-        }
-
-        params.add(name, value);
-
-        return this;
-    }
-
-
-    public StringBuilder encode(final StringBuilder builder)
-        throws UnsupportedEncodingException {
+    public StringBuilder encode(final StringBuilder builder) {
 
         if (builder == null) {
             throw new NullPointerException("null builder");
         }
 
-        for (final Entry<String, List<String>> e : params.map().entrySet()) {
+        for (final Entry<String, List<String>> e
+             : map(false, false).entrySet()) {
             final String keys = e.getKey();
             final List<String> values = e.getValue();
             for (final String value : values) {
                 if (builder.length() > 0) {
                     builder.append("&");
                 }
-                builder
-                    .append(URLEncoder.encode(keys, "UTF-8"))
-                    .append("=")
-                    .append(URLEncoder.encode(value, "UTF-8"));
+                try {
+                    builder
+                        .append(URLEncoder.encode(keys, "UTF-8"))
+                        .append("=")
+                        .append(URLEncoder.encode(value, "UTF-8"));
+                } catch (final UnsupportedEncodingException uee) {
+                    uee.printStackTrace(System.err);
+                    throw new RuntimeException(uee.getMessage());
+                }
             }
         }
 
@@ -97,35 +64,13 @@ public class Form extends Params {
     }
 
 
-    public String encode() throws UnsupportedEncodingException {
+    public String encode() {
 
-        if (true) {
-            return encode(new StringBuilder()).toString();
-        }
-
-        //final StringBuffer buffer = new StringBuffer();
-        final StringBuilder builder = new StringBuilder();
-
-        for (final Entry<String, List<String>> e : params.map().entrySet()) {
-            final String keys = e.getKey();
-            final List<String> values = e.getValue();
-            for (final String value : values) {
-                if (builder.length() > 0) {
-                    builder.append("&");
-                }
-                builder
-                    .append(URLEncoder.encode(keys, "UTF-8"))
-                    .append("=")
-                    .append(URLEncoder.encode(value, "UTF-8"));
-            }
-        }
-
-        return builder.toString();
+        return encode(new StringBuilder()).toString();
     }
 
 
-    public Form decode(final String encoded)
-        throws UnsupportedEncodingException {
+    public Form decode(final String encoded) {
 
         if (encoded == null) {
             throw new NullPointerException("null encoded");
@@ -135,19 +80,23 @@ public class Form extends Params {
              t.hasMoreTokens();) {
             final String token = t.nextToken();
             final int i = token.indexOf('=');
-            if (i == -1) {
-                param(URLDecoder.decode(token, "UTF-8"), null);
-                continue;
+            String key = token;
+            String value = "";
+            if (i != -1) {
+                key = token.substring(0, i);
+                value = token.substring(i + 1);
             }
-            param(URLDecoder.decode(token.substring(0, i), "UTF-8"),
-                  URLDecoder.decode(token.substring(i + 1), "UTF-8"));
+            try {
+                add(URLDecoder.decode(key, "UTF-8"),
+                    URLDecoder.decode(value, "UTF-8"));
+            } catch (final UnsupportedEncodingException uee) {
+                uee.printStackTrace(System.err);
+                throw new RuntimeException(uee.getMessage());
+            }
         }
 
         return this;
     }
-
-
-    private final Multivalued<String, String> params;
 
 
 }

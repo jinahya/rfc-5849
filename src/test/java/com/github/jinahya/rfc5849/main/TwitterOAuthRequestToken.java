@@ -80,7 +80,7 @@ public class TwitterOAuthRequestToken {
                     .oauthCallback(Constants.OAUTH_CALLBACK_OUT_OF_BAND)
                     .oauthConsumerKey(consumerKey)
                     .oauthVersion("1.0")
-                    .nonceBuilder(NonceBuilder.newInstance())
+                    .nonceBuilder(new NonceBuilder())
                     .timestampBuilder(new TimestampBuilder())
                     .printer(System.out)
                 )
@@ -98,9 +98,9 @@ public class TwitterOAuthRequestToken {
         logger.debug("encoded: {}", encoded);
         connection.disconnect();
         final Form form = new Form().decode(encoded);
-        final String oauthToken = form.params().getFirst(Constants.OAUTH_TOKEN);
-        final String oauthTokenSecret = form.params().getFirst(Constants.OAUTH_TOKEN_SECRET);
-        final String oauthCallbackConfirmed = form.params().getFirst(Constants.OAUTH_CALLBACK_CONFIRMED);
+//        final String oauthToken = form.params().getFirst(Constants.OAUTH_TOKEN);
+//        final String oauthTokenSecret = form.params().getFirst(Constants.OAUTH_TOKEN_SECRET);
+//        final String oauthCallbackConfirmed = form.params().getFirst(Constants.OAUTH_CALLBACK_CONFIRMED);
     }
 
 

@@ -20,7 +20,7 @@ package com.github.jinahya.rfc5849;
 
 import com.github.jinahya.rfc5849.util.Percent;
 import com.github.jinahya.rfc5849.net.Form;
-import com.github.jinahya.rfc5849.util.Multivalued;
+import com.github.jinahya.rfc5849.util.Params;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +33,7 @@ import java.util.TreeMap;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class BaseStringBuilder implements Builder<String> {
+public class BaseStringBuilder extends Params implements Builder<String> {
 
 
     private static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
@@ -64,14 +64,6 @@ public class BaseStringBuilder implements Builder<String> {
     }
 
 
-    public BaseStringBuilder() {
-
-        super();
-
-        requestParameters = new Multivalued<String, String>();
-    }
-
-
     @Override
     public String build() throws Exception {
 
@@ -83,25 +75,30 @@ public class BaseStringBuilder implements Builder<String> {
             throw new IllegalStateException("no baseUri set");
         }
 
-        if (!requestParameters.map().containsKey(Constants.OAUTH_NONCE)) {
-            if (nonceBuilder == null) {
-                nonceBuilder = NonceBuilder.newInstance();
+        final Map<String, List<String>> map = map(false, false);
+
+        if (!map.containsKey(Constants.OAUTH_NONCE)) {
+//            if (nonceBuilder == null) {
+//                nonceBuilder = NonceBuilder.newInstance();
+//            }
+            if (nonceBuilder != null) {
+                oauthNonce(nonceBuilder.build());
             }
-            oauthNonce(nonceBuilder.build());
         }
 
-        if (!requestParameters.map().containsKey(Constants.OAUTH_TIMESTAMP)) {
-            if (timestampBuilder == null) {
-                timestampBuilder = new TimestampBuilder();
+        if (!map.containsKey(Constants.OAUTH_TIMESTAMP)) {
+//            if (timestampBuilder == null) {
+//                timestampBuilder = new TimestampBuilder();
+//            }
+            if (nonceBuilder != null) {
+                oauthTimestamp(timestampBuilder.build());
             }
-            oauthTimestamp(timestampBuilder.build());
         }
 
         final Map<String, List<String>> encodedParameters
             = new TreeMap<String, List<String>>();
 
-        for (final Entry<String, List<String>> e
-             : requestParameters.map().entrySet()) {
+        for (final Entry<String, List<String>> e : map.entrySet()) {
             final String decodedKey = e.getKey();
             final List<String> decodedValues = e.getValue();
             final String encodedKey = Percent.encode(decodedKey);
@@ -122,11 +119,11 @@ public class BaseStringBuilder implements Builder<String> {
                 final String key = e.getKey();
                 final List<String> values = e.getValue();
                 for (final String value : values) {
-                    buffer.append("&").append(key).append("=").append(value);
+                    if (buffer.length() > 0) {
+                        buffer.append("&");
+                    }
+                    buffer.append(key).append("=").append(value);
                 }
-            }
-            if (buffer.length() > 0) {
-                buffer.deleteCharAt(0);
             }
         }
 
@@ -194,11 +191,11 @@ public class BaseStringBuilder implements Builder<String> {
         }
 
         if (key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
-            requestParameters.putSingle(key, value);
+            putSingle(key, value);
             return this;
         }
 
-        requestParameters.add(key, value);
+        add(key, value);
 
         return this;
     }
@@ -223,7 +220,7 @@ public class BaseStringBuilder implements Builder<String> {
                 + PROTOCOL_PARAMETER_PREFIX);
         }
 
-        return requestParameters.getFirst(key);
+        return getFirst(key);
     }
 
 
@@ -241,7 +238,7 @@ public class BaseStringBuilder implements Builder<String> {
         }
 
         for (final Entry<String, List<String>> e
-             : requestParameters.map().entrySet()) {
+             : map(true, false).entrySet()) {
             final String key = e.getKey();
             if (key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
                 map.put(key, e.getValue().get(0));
@@ -389,7 +386,7 @@ public class BaseStringBuilder implements Builder<String> {
         }
 
         for (final Entry<String, List<String>> e
-             : entity.params().map().entrySet()) {
+             : entity.map(false, false).entrySet()) {
             final String key = e.getKey();
             for (String value : e.getValue()) {
                 if (value == null) {
@@ -417,16 +414,13 @@ public class BaseStringBuilder implements Builder<String> {
     private String baseUri;
 
 
-    private final Multivalued<String, String> requestParameters;
-
-
     private NonceBuilder nonceBuilder;
 
 
     private TimestampBuilder timestampBuilder;
 
 
-    private java.io.PrintStream printer;
+    private transient java.io.PrintStream printer;
 
 
 }
