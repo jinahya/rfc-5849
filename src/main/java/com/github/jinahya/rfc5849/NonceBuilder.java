@@ -39,7 +39,13 @@ public class NonceBuilder implements Builder<String> {
 
     protected String token() {
 
-        return new BigInteger(130, random()).toString(32);
+        if (false) {
+            return Long.toString(System.currentTimeMillis() << 20
+                                 | random().nextInt(1048576));
+        }
+
+        //return new BigInteger(130, random()).toString(32);
+        return new BigInteger(130, new SecureRandom()).toString(32);
     }
 
 
