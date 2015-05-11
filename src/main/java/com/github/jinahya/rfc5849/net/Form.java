@@ -19,6 +19,7 @@ package com.github.jinahya.rfc5849.net;
 
 
 import com.github.jinahya.rfc5849.util.Multivalued;
+import com.github.jinahya.rfc5849.util.Params;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -31,7 +32,7 @@ import java.util.StringTokenizer;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class Form {
+public class Form extends Params {
 
 
     public Form() {

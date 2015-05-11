@@ -101,7 +101,7 @@ public class BaseStringBuilder implements Builder<String> {
             = new TreeMap<String, List<String>>();
 
         for (final Entry<String, List<String>> e
-             : requestParameters.entrySet()) {
+             : requestParameters.map().entrySet()) {
             final String decodedKey = e.getKey();
             final List<String> decodedValues = e.getValue();
             final String encodedKey = Percent.encode(decodedKey);

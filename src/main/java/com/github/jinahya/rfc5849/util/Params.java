@@ -23,27 +23,27 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 
 /**
  * A multivalued map.
  *
  * @author Jin Kwon &lt;onacit at gmail.com&gt;
- * @param <K> key type parameter
- * @param <V> value type parameter
  */
-public class Multivalued<K, V> {
+public class Params {
 
 
-    public Multivalued() {
+    public Params() {
 
         super();
 
-        map = new HashMap<K, List<V>>();
+        map = new HashMap<String, List<String>>();
     }
 
 
-    public Multivalued<K, V> add(final K key, final V value) {
+    public Params add(final String key, final String value) {
 
         if (key == null) {
             throw new NullPointerException("null key");
@@ -53,9 +53,9 @@ public class Multivalued<K, V> {
             throw new NullPointerException("null value");
         }
 
-        List<V> values = map.get(key);
+        List<String> values = map.get(key);
         if (values == null) {
-            values = new ArrayList<V>();
+            values = new ArrayList<String>();
             map.put(key, values);
         }
 
@@ -65,7 +65,7 @@ public class Multivalued<K, V> {
     }
 
 
-    public Multivalued<K, V> putSingle(final K key, final V value) {
+    public Params putSingle(final String key, final String value) {
 
         if (key == null) {
             throw new NullPointerException("null key");
@@ -77,13 +77,13 @@ public class Multivalued<K, V> {
     }
 
 
-    public V getFirst(final K key) {
+    public String getFirst(final String key) {
 
         if (key == null) {
             throw new NullPointerException("null key");
         }
 
-        final List<V> values = map.get(key);
+        final List<String> values = map.get(key);
 
         if (values == null) {
             return null;
@@ -93,13 +93,29 @@ public class Multivalued<K, V> {
     }
 
 
-    public Map<K, List<V>> map() {
+    public Map<String, List<String>> map(final boolean sortedKey,
+                                         final boolean sortedValues) {
 
-        return Collections.unmodifiableMap(map);
+        Map<String, List<String>> m
+            = new HashMap<String, List<String>>(map.size());
+        for (final Entry<String, List<String>> entry : map.entrySet()) {
+            final String k = entry.getKey();
+            final List<String> v = new ArrayList<String>(entry.getValue());
+            if (sortedValues) {
+                Collections.sort(v);
+            }
+            m.put(k, Collections.unmodifiableList(v));
+        }
+
+        if (sortedKey) {
+            m = new TreeMap<String, List<String>>(m);
+        }
+
+        return Collections.unmodifiableMap(m);
     }
 
 
-    private final Map<K, List<V>> map;
+    private final Map<String, List<String>> map;
 
 
 }

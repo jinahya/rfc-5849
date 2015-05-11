@@ -25,7 +25,7 @@ package com.github.jinahya.rfc5849.main;
 public final class TwitterConstants {
 
 
-    public static final String URL_REQUEST_TOKEN
+    public static final String URL_OAUTH_REQUEST_TOKEN
         = "https://api.twitter.com/oauth/request_token";
 
 

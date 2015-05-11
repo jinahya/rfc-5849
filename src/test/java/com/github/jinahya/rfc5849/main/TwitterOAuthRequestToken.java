@@ -30,12 +30,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import static java.util.Optional.ofNullable;
 import java.util.function.Supplier;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -45,7 +39,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class TwitterPinBasedOAuth {
+public class TwitterOAuthRequestToken {
 
 
     private static String systemProperty(final String key,
@@ -74,10 +68,6 @@ public class TwitterPinBasedOAuth {
         final String consumerKey = systemProperty("consumer_key");
         final String consumerSecret = systemProperty("consumer_secret");
 
-        final Form entity = new Form();
-        entity.param(Constants.OAUTH_CALLBACK,
-                     Constants.OAUTH_CALLBACK_OUT_OF_BAND);
-
         final AuthorizationBuilder builder = new AuthorizationBuilder()
             .signatureBuilder(
                 new SignatureBuilderHmacSha1Bc()
@@ -87,22 +77,16 @@ public class TwitterPinBasedOAuth {
                     new BaseStringBuilder()
                     .httpMethod("POST")
                     .baseUri(TwitterConstants.URL_OAUTH_REQUEST_TOKEN)
-                    //.oauthCallback(Constants.OAUTH_CALLBACK_OUT_OF_BAND)
+                    .oauthCallback(Constants.OAUTH_CALLBACK_OUT_OF_BAND)
                     .oauthConsumerKey(consumerKey)
                     .oauthVersion("1.0")
                     .nonceBuilder(NonceBuilder.newInstance())
                     .timestampBuilder(new TimestampBuilder())
-                    .entity(entity)
                     .printer(System.out)
                 )
             );
         final String authorization = builder.build();
         logger.debug("authorization: {}", authorization);
-        final Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(TwitterConstants.URL_OAUTH_REQUEST_TOKEN);
-        final Invocation.Builder invocationBuilder = target.request();
-        final Response response = invocationBuilder.post(Entity.text(entity.encode()));
-
         final HttpURLConnection connection
             = (HttpURLConnection) new URL(TwitterConstants.URL_OAUTH_REQUEST_TOKEN)
             .openConnection();
