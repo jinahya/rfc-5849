@@ -18,32 +18,29 @@
 package com.github.jinahya.rfc5849.main;
 
 
-import com.github.jinahya.rfc5849.AuthorizationBuilder;
-import com.github.jinahya.rfc5849.BaseStringBuilder;
 import com.github.jinahya.rfc5849.Constants;
-import com.github.jinahya.rfc5849.NonceBuilder;
-import com.github.jinahya.rfc5849.SignatureBuilderHmacSha1Bc;
-import com.github.jinahya.rfc5849.TimestampBuilder;
-import com.github.jinahya.rfc5849.util.Form;
+import java.awt.Desktop;
+import java.io.Console;
 import static java.lang.invoke.MethodHandles.lookup;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 import static java.util.Optional.ofNullable;
 import java.util.function.Supplier;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Response;
-import org.apache.commons.io.IOUtils;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
 
 /**
  *
+ * {@code mvn -Dexec.classpathScope=test \
+ * -Dexec.mainClass=com.github.jinahya.rfc5849.main.TwitterPinBasedOAuth \
+ * -Dtwitter.consumerKey=<consumerKey> \
+ * -Dtwitter.consumerSecret=<consumerSecret> test-compile exec:java}
+ *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://dev.twitter.com/oauth/pin-based">PIN-based
+ * authorization</a>
  */
 public class TwitterPinBasedOAuth {
 
@@ -60,10 +57,6 @@ public class TwitterPinBasedOAuth {
         return systemProperty(key, () -> {
             throw new RuntimeException("missing property: " + key);
         });
-
-//        return ofNullable(System.getProperty(key)).orElseThrow(() -> {
-//            return new RuntimeException("missing property: " + key);
-//        });
     }
 
 
@@ -71,52 +64,60 @@ public class TwitterPinBasedOAuth {
 
         final Logger logger = getLogger(lookup().lookupClass());
 
-        final String consumerKey = systemProperty("consumer_key");
-        final String consumerSecret = systemProperty("consumer_secret");
+        final String consumerKey = systemProperty("twitter.consumerKey");
+        final String consumerSecret = systemProperty("twitter.consumerSecret");
 
-        final Form entity = new Form();
-        entity.putSingle(Constants.OAUTH_CALLBACK,
-                         Constants.OAUTH_CALLBACK_OUT_OF_BAND);
+        final Console console = System.console();
+        if (console == null) {
+            System.err.printf("No console found.\n");
+            System.exit(1);
+        }
 
-        final AuthorizationBuilder builder = new AuthorizationBuilder()
-            .signatureBuilder(
-                new SignatureBuilderHmacSha1Bc()
-                .consumerSecret(consumerSecret)
-                .tokenSecret("")
-                .baseStringBuilder(
-                    new BaseStringBuilder()
-                    .httpMethod("POST")
-                    .baseUri(TwitterConstants.URL_OAUTH_REQUEST_TOKEN)
-                    //.oauthCallback(Constants.OAUTH_CALLBACK_OUT_OF_BAND)
-                    .oauthConsumerKey(consumerKey)
-                    .oauthVersion("1.0")
-                    .nonceBuilder(new NonceBuilder())
-                    .timestampBuilder(new TimestampBuilder())
-                    .entity(entity)
-                    .printer(System.out)
-                )
-            );
-        final String authorization = builder.build();
-        logger.debug("authorization: {}", authorization);
-        final Client client = ClientBuilder.newClient();
-        WebTarget target = client.target(TwitterConstants.URL_OAUTH_REQUEST_TOKEN);
-        final Invocation.Builder invocationBuilder = target.request();
-        final Response response = invocationBuilder.post(Entity.text(entity.encode()));
+        final TwitterClient client = new TwitterClient();
 
-        final HttpURLConnection connection
-            = (HttpURLConnection) new URL(TwitterConstants.URL_OAUTH_REQUEST_TOKEN)
-            .openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Authorization", authorization);
-        connection.connect();
-        final String encoded = IOUtils.toString(
-            connection.getInputStream(), "ISO-8859-1");
-        logger.debug("encoded: {}", encoded);
-        connection.disconnect();
-        final Form form = new Form().decode(encoded);
-//        final String oauthToken = form.params().getFirst(Constants.OAUTH_TOKEN);
-//        final String oauthTokenSecret = form.params().getFirst(Constants.OAUTH_TOKEN_SECRET);
-//        final String oauthCallbackConfirmed = form.params().getFirst(Constants.OAUTH_CALLBACK_CONFIRMED);
+        final MultivaluedMap<String, String> requestToken
+            = client.oAuthRequestToken(consumerKey, consumerSecret,
+                                       Constants.OAUTH_CALLBACK_OUT_OF_BAND);
+        console.printf("Request token has been retrived.\n");
+        String oauthToken = requestToken.getFirst(Constants.OAUTH_TOKEN);
+        console.printf("\toauthToken: %1$s\n", oauthToken);
+        String oauthTokenSecret
+            = requestToken.getFirst(Constants.OAUTH_TOKEN_SECRET);
+        console.printf("\t%1$s\n", oauthTokenSecret);
+        final String oauthCallbackConfirmed
+            = requestToken.getFirst(Constants.OAUTH_CALLBACK_CONFIRMED);
+        console.printf("%1$s\n", oauthCallbackConfirmed);
+
+        final URI authorizationUri
+            = UriBuilder.fromUri(TwitterConstants.URL_OAUTH_AUTHORIZE)
+            .queryParam(Constants.OAUTH_TOKEN, oauthToken).build();
+        console.printf("authorizationUri: %1$s\n", authorizationUri);
+        try {
+            final Desktop desktop = Desktop.getDesktop();
+            console.printf(
+                "Now, I'm going to open a browser for your autohrization. [Enter to continue...]");
+            console.readLine();
+            desktop.browse(authorizationUri);
+        } catch (final Exception e) {
+            console.printf("Can't open a browser.\n");
+            console.printf(
+                "Please go to " + authorizationUri + " and pass me the PIN.\n");
+        }
+        final String pin = console.readLine("PIN: ").trim();
+        if (pin.isEmpty()) {
+            console.printf("An empty PIN entered. Exiting...");
+            System.exit(0);
+        }
+
+        final MultivaluedMap<String, String> oauthAccessToken
+            = client.oAuthAccessToken(
+                consumerKey, consumerSecret, oauthToken, oauthTokenSecret, null,
+                null, null, pin);
+        console.printf("Access token retrived.\n");
+        oauthToken = oauthAccessToken.getFirst(Constants.OAUTH_TOKEN);
+        console.printf("\toauthToken: %1$s\n", oauthToken);
+        oauthTokenSecret = oauthAccessToken.getFirst(Constants.OAUTH_TOKEN_SECRET);
+        console.printf("\toauthTokenSecret: %1$s\n", oauthTokenSecret);
     }
 
 

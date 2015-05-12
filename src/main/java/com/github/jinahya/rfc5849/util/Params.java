@@ -18,13 +18,14 @@
 package com.github.jinahya.rfc5849.util;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.TreeMap;
+import java.util.StringTokenizer;
 
 
 /**
@@ -32,18 +33,10 @@ import java.util.TreeMap;
  *
  * @author Jin Kwon &lt;onacit at gmail.com&gt;
  */
-public class Params {
+public class Params extends HashMap<String, List<String>> {
 
 
-    public Params() {
-
-        super();
-
-        map = new HashMap<String, List<String>>();
-    }
-
-
-    public Params add(final String key, final String value) {
+    public void add(final String key, final String value) {
 
         if (key == null) {
             throw new NullPointerException("null key");
@@ -53,27 +46,25 @@ public class Params {
             throw new NullPointerException("null value");
         }
 
-        List<String> values = map.get(key);
+        List<String> values = get(key);
         if (values == null) {
             values = new ArrayList<String>();
-            map.put(key, values);
+            put(key, values);
         }
 
         values.add(value);
-
-        return this;
     }
 
 
-    public Params putSingle(final String key, final String value) {
+    public void putSingle(final String key, final String value) {
 
         if (key == null) {
             throw new NullPointerException("null key");
         }
 
-        map.remove(key);
+        remove(key);
 
-        return add(key, value);
+        add(key, value);
     }
 
 
@@ -83,9 +74,9 @@ public class Params {
             throw new NullPointerException("null key");
         }
 
-        final List<String> values = map.get(key);
+        final List<String> values = get(key);
 
-        if (values == null) {
+        if (values == null || values.isEmpty()) {
             return null;
         }
 
@@ -93,29 +84,67 @@ public class Params {
     }
 
 
-    public Map<String, List<String>> map(final boolean sortedKey,
-                                         final boolean sortedValues) {
+    public StringBuilder printFormUrlencoded(final StringBuilder builder) {
 
-        Map<String, List<String>> m
-            = new HashMap<String, List<String>>(map.size());
-        for (final Entry<String, List<String>> entry : map.entrySet()) {
-            final String k = entry.getKey();
-            final List<String> v = new ArrayList<String>(entry.getValue());
-            if (sortedValues) {
-                Collections.sort(v);
+        if (builder == null) {
+            throw new NullPointerException("null builder");
+        }
+
+        for (final Entry<String, List<String>> entry : entrySet()) {
+            final String keys = entry.getKey();
+            for (final String value : entry.getValue()) {
+                if (builder.length() > 0) {
+                    builder.append("&");
+                }
+                try {
+                    builder
+                        .append(URLEncoder.encode(keys, "UTF-8"))
+                        .append("=")
+                        .append(URLEncoder.encode(value, "UTF-8"));
+                } catch (final UnsupportedEncodingException uee) {
+                    uee.printStackTrace(System.err);
+                    throw new RuntimeException(uee.getMessage());
+                }
             }
-            m.put(k, Collections.unmodifiableList(v));
         }
 
-        if (sortedKey) {
-            m = new TreeMap<String, List<String>>(m);
-        }
-
-        return Collections.unmodifiableMap(m);
+        return builder;
     }
 
 
-    private final Map<String, List<String>> map;
+    public String printFormUrlencoded() {
+
+        return printFormUrlencoded(new StringBuilder()).toString();
+    }
+
+
+    public Params parseFormUrlencoded(final String formUrlencoded) {
+
+        if (formUrlencoded == null) {
+            throw new NullPointerException("null formUrlencoded");
+        }
+
+        for (final StringTokenizer t = new StringTokenizer(formUrlencoded, "&");
+             t.hasMoreTokens();) {
+            final String token = t.nextToken();
+            String key = token;
+            String value = "";
+            final int i = token.indexOf('=');
+            if (i != -1) {
+                key = token.substring(0, i);
+                value = token.substring(i + 1);
+            }
+            try {
+                add(URLDecoder.decode(key, "UTF-8"),
+                    URLDecoder.decode(value, "UTF-8"));
+            } catch (final UnsupportedEncodingException uee) {
+                uee.printStackTrace(System.err);
+                throw new RuntimeException(uee.getMessage());
+            }
+        }
+
+        return this;
+    }
 
 
 }
