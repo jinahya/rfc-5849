@@ -36,15 +36,17 @@ public class AuthorizationBuilder implements Builder<String> {
     public static final String REALM = "realm";
 
 
-    public String getRealm() {
+    String prebuilt() {
 
-        return realm;
+        return prebuilt;
     }
 
 
-    public void setRealm(final String realm) {
+    AuthorizationBuilder prebuilt(final String prebuilt) {
 
-        this.realm = realm;
+        this.prebuilt = prebuilt;
+
+        return this;
     }
 
 
@@ -53,30 +55,6 @@ public class AuthorizationBuilder implements Builder<String> {
         this.realm = realm;
 
         return this;
-    }
-
-
-    /**
-     *
-     * @return @deprecated
-     */
-    @Deprecated
-    public SignatureBuilder getSignatureBuilder() {
-
-        return signatureBuilder;
-    }
-
-
-    /**
-     *
-     * @param signatureBuilder
-     *
-     * @deprecated
-     */
-    @Deprecated
-    public void setSignatureBuidler(final SignatureBuilder signatureBuilder) {
-
-        this.signatureBuilder = signatureBuilder;
     }
 
 
@@ -97,6 +75,10 @@ public class AuthorizationBuilder implements Builder<String> {
 
     @Override
     public String build() throws Exception {
+
+        if (prebuilt != null) {
+            return prebuilt;
+        }
 
         if (signatureBuilder == null) {
             throw new IllegalStateException("no signatureBuilder set");
@@ -153,6 +135,9 @@ public class AuthorizationBuilder implements Builder<String> {
 
         return builder.toString();
     }
+
+
+    private String prebuilt;
 
 
     private String realm;

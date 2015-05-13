@@ -20,18 +20,15 @@ package com.github.jinahya.rfc5849.main;
 
 import com.github.jinahya.rfc5849.AuthorizationBuilder;
 import com.github.jinahya.rfc5849.BaseStringBuilder;
-import com.github.jinahya.rfc5849.Constants;
 import com.github.jinahya.rfc5849.NonceBuilder;
 import com.github.jinahya.rfc5849.SignatureBuilderHmacSha1Bc;
 import com.github.jinahya.rfc5849.TimestampBuilder;
 import com.github.jinahya.rfc5849.util.Params;
 import static java.lang.invoke.MethodHandles.lookup;
+import java.util.List;
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
@@ -150,7 +147,7 @@ public class TwitterClient {
             .target(baseUri)
             .request()
             .header("Authorization", authorization)
-            .post(Entity.entity(entityParameters.printFormUrlencoded(),
+            .post(Entity.entity(entityParameters.printFormurlEncoded(),
                                 MediaType.APPLICATION_FORM_URLENCODED_TYPE));
         final Response.StatusType status = response.getStatusInfo();
         if (Family.familyOf(response.getStatus()) != Family.SUCCESSFUL) {

@@ -38,33 +38,12 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
 
 
-    /**
-     * Returns an instance whose {@link #build()} always returns given value.
-     *
-     * @param prebuilt the value.
-     *
-     * @return an instance.
-     */
-    public static BaseStringBuilder ofPrebuilt(final String prebuilt) {
-
-        if (prebuilt == null) {
-            throw new NullPointerException("null prebuilt");
-        }
-
-        return new BaseStringBuilder() {
-
-            @Override
-            public String build() throws Exception {
-
-                return prebuilt;
-            }
-
-        };
-    }
-
-
     @Override
     public String build() throws Exception {
+
+        if (prebuilt != null) {
+            return prebuilt;
+        }
 
         if (httpMethod == null) {
             throw new IllegalStateException("no httpMethod set");
@@ -123,6 +102,20 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         }
 
         return built;
+    }
+
+
+    String prebuilt() {
+
+        return prebuilt;
+    }
+
+
+    BaseStringBuilder prebuilt(final String prebuilt) {
+
+        this.prebuilt = prebuilt;
+
+        return this;
     }
 
 
@@ -355,15 +348,15 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
 
-    public BaseStringBuilder entityParameters(final Params entityParameters) {
+    public BaseStringBuilder entityParameters(final Params params) {
 
-        if (entityParameters == null) {
-            throw new NullPointerException("null entityParameters");
+        if (params == null) {
+            throw new NullPointerException("null params");
         }
 
-        for (final Entry<String, List<String>> e : entityParameters.entrySet()) {
-            final String key = e.getKey();
-            for (String value : e.getValue()) {
+        for (final Entry<String, List<String>> entry : params.entrySet()) {
+            final String key = entry.getKey();
+            for (String value : entry.getValue()) {
                 entityParameter(key, value);
             }
         }
@@ -378,6 +371,9 @@ public class BaseStringBuilder extends Params implements Builder<String> {
 
         return this;
     }
+
+
+    private String prebuilt;
 
 
     private String httpMethod;

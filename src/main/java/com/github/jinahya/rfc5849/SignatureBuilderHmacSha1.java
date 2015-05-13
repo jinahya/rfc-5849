@@ -41,6 +41,10 @@ public abstract class SignatureBuilderHmacSha1
     @Override
     public String build() throws Exception {
 
+        if (prebuilt != null) {
+            return prebuilt;
+        }
+
         if (baseStringBuilder() == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }

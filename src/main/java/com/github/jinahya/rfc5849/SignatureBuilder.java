@@ -37,6 +37,20 @@ public abstract class SignatureBuilder implements Builder<String> {
     }
 
 
+    String prebuilt() {
+
+        return prebuilt;
+    }
+
+
+    SignatureBuilder prebuilt(final String prebuilt) {
+
+        this.prebuilt = prebuilt;
+
+        return this;
+    }
+
+
     /**
      * Returns signature method.
      *
@@ -45,31 +59,6 @@ public abstract class SignatureBuilder implements Builder<String> {
     public String getSignatureMethod() {
 
         return signatureMethod;
-    }
-
-
-    /**
-     *
-     * @return @deprecated
-     */
-    @Deprecated
-    public BaseStringBuilder getBaseStringBuilder() {
-
-        return baseStringBuilder;
-    }
-
-
-    /**
-     *
-     * @param baseStringBuilder
-     *
-     * @deprecated
-     */
-    @Deprecated
-    public void setBaseStringBuilder(
-        final BaseStringBuilder baseStringBuilder) {
-
-        this.baseStringBuilder = baseStringBuilder;
     }
 
 
@@ -90,6 +79,9 @@ public abstract class SignatureBuilder implements Builder<String> {
 
         return this;
     }
+
+
+    protected String prebuilt;
 
 
     protected final String signatureMethod;
