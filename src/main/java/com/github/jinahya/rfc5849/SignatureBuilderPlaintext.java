@@ -71,6 +71,10 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
     @Override
     public String build() throws Exception {
 
+        if (prebuilt != null) {
+            return prebuilt;
+        }
+
         if (consumerSecret == null) {
             throw new IllegalStateException("no consumerSecret set");
         }
@@ -79,7 +83,8 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
             throw new IllegalStateException("no tokenSecret set");
         }
 
-        return Percent.encode(consumerSecret) + "&"
+        return Percent.encode(consumerSecret)
+               + "&"
                + Percent.encode(tokenSecret);
     }
 

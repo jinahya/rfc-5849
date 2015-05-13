@@ -21,7 +21,6 @@ package com.github.jinahya.rfc5849;
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @author Jin Kwon &lt;onacit at gmail.com&gt;
  * @param <T>
  */
 public interface Builder<T> {

@@ -64,7 +64,7 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
         builder
             .consumerSecret(consumerSecret)
             .tokenSecret(tokenSecret)
-            .baseStringBuilder(BaseStringBuilder.ofPrebuilt(baseString));
+            .baseStringBuilder(new BaseStringBuilder().prebuilt(baseString));
 
         final String expected = "tnnArxj06cWHq44gCs1OSKk/jLY=";
         final String actual = builder.build();
@@ -95,7 +95,7 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
         builder
             .consumerSecret(consumerSecret)
             .tokenSecret(tokenSecret)
-            .baseStringBuilder(BaseStringBuilder.ofPrebuilt(baseString));
+            .baseStringBuilder(new BaseStringBuilder().prebuilt(baseString));
 
         final String expected = "tR3+Ty81lMeYAr/Fid0kMTYa/WM=";
         final String actual = builder.build();

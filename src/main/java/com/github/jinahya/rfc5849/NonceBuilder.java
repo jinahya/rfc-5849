@@ -18,6 +18,7 @@
 package com.github.jinahya.rfc5849;
 
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -29,33 +30,42 @@ import java.util.Random;
 public class NonceBuilder implements Builder<String> {
 
 
-    public static NonceBuilder newInstance() {
-
-        return new NonceBuilder(new SecureRandom());
-    }
-
-
-    public NonceBuilder(final Random random) {
-
-        super();
-
-        if (random == null) {
-            throw new NullPointerException("null random");
-        }
-
-        this.random = random;
-    }
-
-
     @Override
     public String build() throws Exception {
 
-        return Long.toString((System.currentTimeMillis() << 20)
-                             | random.nextInt(1048576));
+        return token();
     }
 
 
-    protected final Random random;
+    protected String token() {
+
+        if (false) {
+            return Long.toString(System.currentTimeMillis() << 20
+                                 | random().nextInt(1048576));
+        }
+
+        //return new BigInteger(130, random()).toString(32);
+        return new BigInteger(130, new SecureRandom()).toString(32);
+    }
+
+
+    protected Random random() {
+
+        if (random == null) {
+            long millis = System.currentTimeMillis();
+            final byte[] seed = new byte[8];
+            for (int i = seed.length - 1; i >= 0; i--) {
+                seed[i] = (byte) (millis & 0xFF);
+                millis >>= 8;
+            }
+            random = new SecureRandom(seed);
+        }
+
+        return random;
+    }
+
+
+    private transient Random random;
 
 
 }

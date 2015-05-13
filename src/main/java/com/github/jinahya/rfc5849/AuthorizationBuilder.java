@@ -20,7 +20,9 @@ package com.github.jinahya.rfc5849;
 
 import com.github.jinahya.rfc5849.util.Percent;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 
@@ -34,15 +36,17 @@ public class AuthorizationBuilder implements Builder<String> {
     public static final String REALM = "realm";
 
 
-    public String getRealm() {
+    String prebuilt() {
 
-        return realm;
+        return prebuilt;
     }
 
 
-    public void setRealm(final String realm) {
+    AuthorizationBuilder prebuilt(final String prebuilt) {
 
-        this.realm = realm;
+        this.prebuilt = prebuilt;
+
+        return this;
     }
 
 
@@ -54,15 +58,9 @@ public class AuthorizationBuilder implements Builder<String> {
     }
 
 
-    public SignatureBuilder getSignatureBuilder() {
+    public SignatureBuilder signatureBuilder() {
 
         return signatureBuilder;
-    }
-
-
-    public void setSignatureBuidler(final SignatureBuilder signatureBuilder) {
-
-        this.signatureBuilder = signatureBuilder;
     }
 
 
@@ -78,17 +76,27 @@ public class AuthorizationBuilder implements Builder<String> {
     @Override
     public String build() throws Exception {
 
+        if (prebuilt != null) {
+            return prebuilt;
+        }
+
         if (signatureBuilder == null) {
             throw new IllegalStateException("no signatureBuilder set");
         }
 
-        final Map<String, String> headerParameters
-            = new TreeMap<String, String>();
+        final Map<String, String> params = new TreeMap<String, String>();
 
         final String oauthSignature = signatureBuilder.build();
-        headerParameters.put(Constants.OAUTH_SIGNATURE, oauthSignature);
-        signatureBuilder.getBaseStringBuilder()
-            .copyProtocolParameters(headerParameters);
+        params.put(Constants.OAUTH_SIGNATURE, oauthSignature);
+
+        for (final Entry<String, List<String>> entry
+             : signatureBuilder.baseStringBuilder().entrySet()) {
+            final String key = entry.getKey();
+            if (!key.startsWith(BaseStringBuilder.PROTOCOL_PARAMETER_PREFIX)) {
+                continue;
+            }
+            params.put(key, entry.getValue().get(0));
+        }
 
         final StringBuilder builder = new StringBuilder("OAuth");
         {
@@ -96,40 +104,40 @@ public class AuthorizationBuilder implements Builder<String> {
                 builder
                     .append(" ")
                     .append(REALM)
-                    .append("=")
-                    .append("\"")
+                    .append("=\"")
                     .append(realm)
                     .append("\"");
             }
-            final Iterator i = headerParameters.entrySet().iterator();
+            final Iterator<Entry<String, String>> i
+                = params.entrySet().iterator();
             if (i.hasNext()) {
-                final Map.Entry entry = (Map.Entry) i.next();
                 if (realm != null) {
                     builder.append(",");
                 }
+                final Entry<String, String> entry = i.next();
                 builder
                     .append(" ")
-                    .append(Percent.encode((String) entry.getKey()))
-                    .append("=")
-                    .append("\"")
-                    .append(Percent.encode((String) entry.getValue()))
+                    .append(Percent.encode(entry.getKey()))
+                    .append("=\"")
+                    .append(Percent.encode(entry.getValue()))
                     .append("\"");
             }
             while (i.hasNext()) {
-                final Map.Entry entry = (Map.Entry) i.next();
+                final Entry<String, String> entry = i.next();
                 builder
-                    .append(",")
-                    .append(" ")
-                    .append(Percent.encode((String) entry.getKey()))
-                    .append("=")
-                    .append("\"")
-                    .append(Percent.encode((String) entry.getValue()))
+                    .append(", ")
+                    .append(Percent.encode(entry.getKey()))
+                    .append("=\"")
+                    .append(Percent.encode(entry.getValue()))
                     .append("\"");
             }
         }
 
         return builder.toString();
     }
+
+
+    private String prebuilt;
 
 
     private String realm;

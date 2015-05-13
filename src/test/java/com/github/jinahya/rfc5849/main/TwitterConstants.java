@@ -25,8 +25,25 @@ package com.github.jinahya.rfc5849.main;
 public final class TwitterConstants {
 
 
-    public static final String URL_REQUEST_TOKEN
+    public static final String URL_OAUTH_REQUEST_TOKEN
         = "https://api.twitter.com/oauth/request_token";
+
+
+    public static final String URL_OAUTH_AUTHORIZE
+        = "https://api.twitter.com/oauth/authorize";
+
+
+    public static final String URL_OAUTH_ACCESS_TOKEN
+        = "https://api.twitter.com/oauth/access_token";
+
+
+    public static final String KEY_X_AUTH_PASSWORD = "x_auth_password";
+
+
+    public static final String KEY_X_AUTH_USERNAME = "x_auth_username";
+
+
+    public static final String KEY_X_AUTH_MODE = "x_auth_mode";
 
 
     private TwitterConstants() {

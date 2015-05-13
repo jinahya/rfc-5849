@@ -45,9 +45,9 @@ public class BaseStringBuilderTest {
 
         builder.httpMethod("POST");
         builder.baseUri("https://api.twitter.com/1/statuses/update.json");
-        builder.requestParameter(
+        builder.entityParameter(
             "status", "Hello Ladies + Gentlemen, a signed OAuth request!");
-        builder.requestParameter("include_entities", "true");
+        builder.entityParameter("include_entities", "true");
         builder.protocolParameter(
             "oauth_consumer_key", "xvz1evFS4wEEPTGEFPHBog");
         builder.protocolParameter(
@@ -99,8 +99,8 @@ public class BaseStringBuilderTest {
         builder.protocolParameter("oauth_timestamp", "1191242096");
         builder.protocolParameter("oauth_signature_method", "HMAC-SHA1");
         builder.protocolParameter("oauth_version", "1.0");
-        builder.requestParameter("size", "original");
-        builder.requestParameter("file", "vacation.jpg");
+        builder.queryParameter("size", "original");
+        builder.queryParameter("file", "vacation.jpg");
 
         final String expected
             = "GET"
@@ -150,17 +150,17 @@ public class BaseStringBuilderTest {
         final BaseStringBuilder builder = new BaseStringBuilder()
             .httpMethod("POST")
             .baseUri("http://example.com/request")
-            .requestParameter("b5", "=%3D")
-            .requestParameter("a3", "a")
-            .requestParameter("c@", "")
-            .requestParameter("a2", "r b")
-            .requestParameter("oauth_consumer_key", "9djdj82h48djs9d2")
-            .requestParameter("oauth_token", "kkk9d7dh3k39sjv7")
-            .requestParameter("oauth_signature_method", "HMAC-SHA1")
-            .requestParameter("oauth_timestamp", "137131201")
-            .requestParameter("oauth_nonce", "7d8f3e4a")
-            .requestParameter("c2", "")
-            .requestParameter("a3", "2 q");
+            .queryParameter("b5", "=%3D")
+            .queryParameter("a3", "a")
+            .queryParameter("c@", "")
+            .queryParameter("a2", "r b")
+            .protocolParameter("oauth_consumer_key", "9djdj82h48djs9d2")
+            .protocolParameter("oauth_token", "kkk9d7dh3k39sjv7")
+            .protocolParameter("oauth_signature_method", "HMAC-SHA1")
+            .protocolParameter("oauth_timestamp", "137131201")
+            .protocolParameter("oauth_nonce", "7d8f3e4a")
+            .entityParameter("c2", "")
+            .entityParameter("a3", "2 q");
 
         final String actual = builder.build();
 

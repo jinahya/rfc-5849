@@ -22,7 +22,7 @@ package com.github.jinahya.rfc5849.util;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class Hex {
+class Hex {
 
 
     private static int encodeHalf(final int decoded) {

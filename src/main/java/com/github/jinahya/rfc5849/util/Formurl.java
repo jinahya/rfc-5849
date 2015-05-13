@@ -19,6 +19,8 @@ package com.github.jinahya.rfc5849.util;
 
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,65 +29,19 @@ import java.util.List;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public final class Percent {
+public final class Formurl {
 
 
-    private static boolean unreserved(final int b) {
+    public static String encode(final String decoded) {
 
-        return (b >= 0x30 && b <= 0x39) // digits
-               || (b >= 0x41 && b <= 0x5A) // uppercase letters
-               || (b >= 0x61 && b <= 0x7A) // lowercase letters
-               || b == 0x2D // '-'
-               || b == 0x2E // '.'
-               || b == 0x5F // '_'
-               || b == 0x7E; // '~'
-    }
-
-
-    public static String encode(final String s, final String enc)
-        throws UnsupportedEncodingException {
-
-        if (s == null) {
+        if (decoded == null) {
             throw new NullPointerException("null decoded");
         }
 
-        if (enc == null) {
-            throw new NullPointerException("null enc");
-        }
-
-        final byte[] source = s.getBytes(enc);
-        final byte[] auxiliary = new byte[source.length * 3];
-
-        int j = 0;
-        for (int i = 0; i < source.length; i++) {
-            if (unreserved(source[i])) {
-                auxiliary[j++] = source[i];
-                continue;
-            }
-            auxiliary[j++] = 0x25;
-            Hex.encodeSingle(source[i], auxiliary, j);
-            j += 2;
-        }
-
-        final byte[] target = new byte[j];
-        System.arraycopy(auxiliary, 0, target, 0, j);
-
-        return new String(target, "US-ASCII");
-    }
-
-
-    /**
-     * Percent-encodes given string.
-     *
-     * @param s the string to encode
-     *
-     * @return encoding result.
-     */
-    public static String encode(final String s) {
-
         try {
-            return encode(s, "UTF-8");
+            return URLEncoder.encode(decoded, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
+            uee.printStackTrace(System.err);
             throw new RuntimeException(uee.getMessage());
         }
     }
@@ -108,6 +64,8 @@ public final class Percent {
 //
 //        return encodedList;
 //    }
+//
+//
 //    public static List<String> encode(final List<String> encodedList) {
 //
 //        if (encodedList == null) {
@@ -116,50 +74,16 @@ public final class Percent {
 //
 //        return encode(encodedList, new ArrayList<String>(encodedList.size()));
 //    }
-    public static String decode(final String s, final String enc)
-        throws UnsupportedEncodingException {
+    public static String decode(final String encoded) {
 
-        if (s == null) {
-            throw new NullPointerException("null s");
+        if (encoded == null) {
+            throw new NullPointerException("null encoded");
         }
-
-        if (enc == null) {
-            throw new NullPointerException("null enc");
-        }
-
-        final byte[] source = s.getBytes("US-ASCII");
-        final byte[] auxiliary = new byte[source.length];
-
-        int j = 0;
-        for (int i = 0; i < source.length; i++) {
-            if (unreserved(source[i])) {
-                auxiliary[j++] = source[i];
-                continue;
-            }
-            i++; // 0x25
-            auxiliary[j++] = (byte) Hex.decodeSingle(source, i);
-            i++;
-        }
-
-        final byte[] target = new byte[j];
-        System.arraycopy(auxiliary, 0, target, 0, j);
-
-        return new String(target, enc);
-    }
-
-
-    /**
-     * Percent-decodes given string.
-     *
-     * @param s the string to decode
-     *
-     * @return decoding result.
-     */
-    public static String decode(final String s) {
 
         try {
-            return decode(s, "UTF-8");
+            return URLDecoder.decode(encoded, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
+            uee.printStackTrace(System.err);
             throw new RuntimeException(uee.getMessage());
         }
     }
@@ -182,18 +106,17 @@ public final class Percent {
 //
 //        return decodedList;
 //    }
+//
+//
 //    public static List<String> decode(final List<String> encodedList) {
 //
 //        if (encodedList == null) {
 //            throw new NullPointerException("null encodedList");
 //        }
 //
-//        final List<String> decodedList
-//            = decode(encodedList, new ArrayList<String>(encodedList.size()));
-//
-//        return decodedList;
+//        return decode(encodedList, new ArrayList<String>(encodedList.size()));
 //    }
-    private Percent() {
+    private Formurl() {
 
         super();
     }

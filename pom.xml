@@ -6,7 +6,7 @@
   <!-- The Basics -->
   <groupId>com.github.jinahya</groupId>
   <artifactId>rfc-5849</artifactId>
-  <version>0.6</version>
+  <version>0.7</version>
   <packaging>jar</packaging>
   <dependencyManagement />
   <dependencies>
@@ -34,6 +34,12 @@
       <version>130</version>
       <scope>compile</scope>
       <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>2.17</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>
@@ -379,7 +385,7 @@
     <connection>scm:git:git@github.com:jinahya/rfc-5849.git</connection>
     <developerConnection>scm:git:git@github.com:jinahya/rfc-5849.git</developerConnection>
     <url>https://github.com/jinahya/rfc-5849</url>
-    <tag>0.6</tag>
+    <tag>0.7</tag>
   </scm>
   <prerequisites />
   <repositories />
@@ -464,7 +470,7 @@
             <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>false</autoReleaseAfterClose>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
           </plugin>
         </plugins>
