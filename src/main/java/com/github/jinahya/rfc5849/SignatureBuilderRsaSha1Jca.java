@@ -18,32 +18,38 @@
 package com.github.jinahya.rfc5849;
 
 
-import org.bouncycastle.crypto.Mac;
-import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.crypto.macs.HMac;
-import org.bouncycastle.crypto.params.KeyParameter;
+import com.github.jinahya.rfc5849.util.Base64;
+import java.security.PrivateKey;
+import java.security.Signature;
 
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderHmacSha1Bc extends SignatureBuilderHmacSha1 {
+public class SignatureBuilderRsaSha1Jca
+    extends SignatureBuilderRsaSha1<PrivateKey> {
+
+
+    protected static final String ALGORITHM = "SHA1withRSA";
 
 
     @Override
-    protected byte[] build(final byte[] keyBytes, final byte[] baseBytes)
+    protected byte[] build(final PrivateKey privateKey, final byte[] baseBytes)
         throws Exception {
 
-        final Mac mac = new HMac(new SHA1Digest());
-        mac.init(new KeyParameter(keyBytes));
+        final Signature signature = Signature.getInstance(ALGORITHM);
+        signature.initSign(privateKey);
+        signature.update(baseBytes);
 
-        mac.update(baseBytes, 0, baseBytes.length);
+        return signature.sign();
+    }
 
-        final byte[] output = new byte[mac.getMacSize()];
-        mac.doFinal(output, 0);
 
-        return output;
+    @Override
+    public SignatureBuilderRsaSha1Jca privateKey(final PrivateKey privateKey) {
+
+        return (SignatureBuilderRsaSha1Jca) super.privateKey(privateKey);
     }
 
 

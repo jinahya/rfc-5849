@@ -29,9 +29,15 @@ public abstract class SignatureBuilderHmacSha1
     extends SignatureBuilderPlaintext {
 
 
-    private static final String SIGNATURE_METHOD = "HMAC-SHA1";
+    /**
+     * The signature method value.
+     */
+    public static final String SIGNATURE_METHOD = "HMAC-SHA1";
 
 
+    /**
+     * Creates a new instance.
+     */
     public SignatureBuilderHmacSha1() {
 
         super(SIGNATURE_METHOD);
@@ -41,18 +47,19 @@ public abstract class SignatureBuilderHmacSha1
     @Override
     public String build() throws Exception {
 
+        final String prebuilt = getPrebuilt();
         if (prebuilt != null) {
             return prebuilt;
         }
 
-        if (baseStringBuilder() == null) {
+        if (getBaseStringBuilder() == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
 
         final String keyString = super.build();
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
 
-        final String baseString = baseStringBuilder().build();
+        final String baseString = getBaseStringBuilder().build();
         final byte[] baseStringBytes = baseString.getBytes("ISO-8859-1");
 
         final byte[] signature = build(keyBytes, baseStringBytes);
@@ -61,7 +68,17 @@ public abstract class SignatureBuilderHmacSha1
     }
 
 
-    protected abstract byte[] build(byte[] keyBytes, byte[] baseStringBytes)
+    /**
+     * Generates signature.
+     *
+     * @param keyBytes key bytes.
+     * @param baseBytes base string bytes.
+     *
+     * @return signature value.
+     *
+     * @throws Exception if an error occurs.
+     */
+    protected abstract byte[] build(byte[] keyBytes, byte[] baseBytes)
         throws Exception;
 
 
