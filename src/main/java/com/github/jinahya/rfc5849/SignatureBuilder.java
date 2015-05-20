@@ -37,15 +37,21 @@ public abstract class SignatureBuilder implements Builder<String> {
     }
 
 
-    String prebuilt() {
+    protected String getPrebuilt() {
 
         return prebuilt;
     }
 
 
-    SignatureBuilder prebuilt(final String prebuilt) {
+    protected void setPrebuilt(final String prebuilt) {
 
         this.prebuilt = prebuilt;
+    }
+
+
+    public SignatureBuilder prebuilt(final String prebuilt) {
+
+        setPrebuilt(prebuilt);
 
         return this;
     }
@@ -62,13 +68,13 @@ public abstract class SignatureBuilder implements Builder<String> {
     }
 
 
-    public BaseStringBuilder baseStringBuilder() {
+    public BaseStringBuilder getBaseStringBuilder() {
 
         return baseStringBuilder;
     }
 
 
-    public SignatureBuilder baseStringBuilder(
+    public void setBaseStringBuilder(
         final BaseStringBuilder baseStringBuilder) {
 
         this.baseStringBuilder = baseStringBuilder;
@@ -76,12 +82,19 @@ public abstract class SignatureBuilder implements Builder<String> {
         if (this.baseStringBuilder != null) {
             this.baseStringBuilder.oauthSignatureMethod(signatureMethod);
         }
+    }
+
+
+    public SignatureBuilder baseStringBuilder(
+        final BaseStringBuilder baseStringBuilder) {
+
+        setBaseStringBuilder(baseStringBuilder);
 
         return this;
     }
 
 
-    protected String prebuilt;
+    private String prebuilt;
 
 
     protected final String signatureMethod;

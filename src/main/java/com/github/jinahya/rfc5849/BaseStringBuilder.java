@@ -105,17 +105,35 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
 
-    String prebuilt() {
+    protected String getPrebuilt() {
 
         return prebuilt;
     }
 
 
-    BaseStringBuilder prebuilt(final String prebuilt) {
+    protected void setPrebuilt(final String prebuilt) {
 
         this.prebuilt = prebuilt;
+    }
+
+
+    public BaseStringBuilder prebuilt(final String prebuilt) {
+
+        setPrebuilt(prebuilt);
 
         return this;
+    }
+
+
+    public String getHttpMethod() {
+
+        return httpMethod;
+    }
+
+
+    public void setHttpMethod(final String httpMethod) {
+
+        this.httpMethod = httpMethod;
     }
 
 
@@ -129,9 +147,22 @@ public class BaseStringBuilder extends Params implements Builder<String> {
      */
     public BaseStringBuilder httpMethod(final String httpMethod) {
 
-        this.httpMethod = httpMethod;
+        //this.httpMethod = httpMethod;
+        setHttpMethod(httpMethod);
 
         return this;
+    }
+
+
+    public String getBaseUri() {
+
+        return baseUri;
+    }
+
+
+    public void setBaseUri(final String baseUri) {
+
+        this.baseUri = baseUri;
     }
 
 
@@ -144,7 +175,8 @@ public class BaseStringBuilder extends Params implements Builder<String> {
      */
     public BaseStringBuilder baseUri(final String baseUri) {
 
-        this.baseUri = baseUri;
+        //this.baseUri = baseUri;
+        setBaseUri(baseUri);
 
         return this;
     }
@@ -184,19 +216,21 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     public BaseStringBuilder queryParameter(final String key,
                                             final String value) {
 
+        if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+            throw new IllegalArgumentException(
+                "query parameter key(" + key + ") starts with "
+                + PROTOCOL_PARAMETER_PREFIX);
+        }
+
         return requestParameter(key, value);
     }
 
 
     public String protocolParameter(final String key) {
 
-        if (key == null) {
-            throw new NullPointerException("null key");
-        }
-
-        if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+        if (key != null && !key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
-                "key(" + key + ") doesn start with "
+                "protocol parameter key(" + key + ") doesn't start with "
                 + PROTOCOL_PARAMETER_PREFIX);
         }
 
@@ -341,7 +375,8 @@ public class BaseStringBuilder extends Params implements Builder<String> {
 
         if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
-                "key(" + key + ") starts with " + PROTOCOL_PARAMETER_PREFIX);
+                "entity parameter key(" + key + ") starts with "
+                + PROTOCOL_PARAMETER_PREFIX);
         }
 
         return requestParameter(key, value);

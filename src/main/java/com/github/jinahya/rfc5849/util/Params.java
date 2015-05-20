@@ -18,13 +18,10 @@
 package com.github.jinahya.rfc5849.util;
 
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
@@ -37,6 +34,12 @@ import java.util.StringTokenizer;
 public class Params extends HashMap<String, List<String>> {
 
 
+    /**
+     * Adds an entry.
+     *
+     * @param key the key.
+     * @param value the value.
+     */
     public void add(final String key, final String value) {
 
         if (key == null) {
@@ -57,6 +60,13 @@ public class Params extends HashMap<String, List<String>> {
     }
 
 
+    /**
+     * Adds an singleton entry. All previous values mapped to {@code key} are
+     * removed.
+     *
+     * @param key the key.
+     * @param value the value.
+     */
     public void putSingle(final String key, final String value) {
 
         if (key == null) {
@@ -85,65 +95,6 @@ public class Params extends HashMap<String, List<String>> {
     }
 
 
-//    public StringBuilder printFormUrlencoded(final StringBuilder builder) {
-//
-//        if (builder == null) {
-//            throw new NullPointerException("null builder");
-//        }
-//
-//        for (final Entry<String, List<String>> entry : entrySet()) {
-//            final String keys = entry.getKey();
-//            for (final String value : entry.getValue()) {
-//                if (builder.length() > 0) {
-//                    builder.append("&");
-//                }
-//                try {
-//                    builder
-//                        .append(URLEncoder.encode(keys, "UTF-8"))
-//                        .append("=")
-//                        .append(URLEncoder.encode(value, "UTF-8"));
-//                } catch (final UnsupportedEncodingException uee) {
-//                    uee.printStackTrace(System.err);
-//                    throw new RuntimeException(uee.getMessage());
-//                }
-//            }
-//        }
-//
-//        return builder;
-//    }
-//    public String printFormUrlencoded() {
-//
-//        return printFormUrlencoded(new StringBuilder()).toString();
-//    }
-//
-//
-//    public Params parseFormUrlencoded(final String formUrlencoded) {
-//
-//        if (formUrlencoded == null) {
-//            throw new NullPointerException("null formUrlencoded");
-//        }
-//
-//        for (final StringTokenizer t = new StringTokenizer(formUrlencoded, "&");
-//             t.hasMoreTokens();) {
-//            final String token = t.nextToken();
-//            String key = token;
-//            String value = "";
-//            final int i = token.indexOf('=');
-//            if (i != -1) {
-//                key = token.substring(0, i);
-//                value = token.substring(i + 1);
-//            }
-//            try {
-//                add(URLDecoder.decode(key, "UTF-8"),
-//                    URLDecoder.decode(value, "UTF-8"));
-//            } catch (final UnsupportedEncodingException uee) {
-//                uee.printStackTrace(System.err);
-//                throw new RuntimeException(uee.getMessage());
-//            }
-//        }
-//
-//        return this;
-//    }
     private List<String> s(final String concatenated) {
 
         final List<String> split = new ArrayList<String>();
@@ -212,6 +163,13 @@ public class Params extends HashMap<String, List<String>> {
     }
 
 
+    /**
+     * Prints entries in a form-urlencoded and appends to given builder.
+     *
+     * @param builder the builder to append.
+     *
+     * @return given {@code builder}.
+     */
     public StringBuilder printFormurlEncoded(final StringBuilder builder) {
 
         if (builder == null) {
@@ -238,12 +196,24 @@ public class Params extends HashMap<String, List<String>> {
     }
 
 
+    /**
+     * Prints entries to a for-urlencoded string.
+     *
+     * @return a url-encoded string.
+     */
     public String printFormurlEncoded() {
 
         return printFormurlEncoded(new StringBuilder()).toString();
     }
 
 
+    /**
+     * Parse entries from a form-urlencoded string.
+     *
+     * @param printed the string to parse.
+     *
+     * @return this instance.
+     */
     public Params parseFormurlDecoded(final String printed) {
 
         if (printed == null) {
@@ -257,63 +227,6 @@ public class Params extends HashMap<String, List<String>> {
         return this;
     }
 
-//
-//    public Map<String, List<String>> urlEncoded() {
-//
-//        final Map<String, List<String>> map
-//            = new HashMap<String, List<String>>(size());
-//
-//        for (final Entry<String, List<String>> entry : entrySet()) {
-//            map.put(Formurl.encode(entry.getKey()), Formurl.encode(entry.getValue()));
-//        }
-//
-//        return map;
-//    }
-//
-//
-//    public Params urlEncoded(final Map<String, List<String>> map) {
-//
-//        if (map == null) {
-//            throw new NullPointerException("null map");
-//        }
-//
-//        for (final Entry<String, List<String>> entry : map.entrySet()) {
-//            put(Formurl.decode(entry.getKey()), Formurl.decode(entry.getValue()));
-//        }
-//
-//        return this;
-//    }
-//
-//
-//    public Map<String, List<String>> percentEncoded() {
-//
-//        final Map<String, List<String>> map
-//            = new HashMap<String, List<String>>(size());
-//
-//        for (final Entry<String, List<String>> entry : entrySet()) {
-//            map.put(Percent.encode(entry.getKey()),
-//                    Percent.encode(entry.getValue()));
-//        }
-//
-//        return map;
-//    }
-//
-//
-//    public Params percentEncoded(final Map<String, List<String>> map) {
-//
-//        if (map == null) {
-//            throw new NullPointerException("null map");
-//        }
-//
-//        for (final Entry<String, List<String>> entry : map.entrySet()) {
-//            final String key = Percent.decode(entry.getKey());
-//            for (final String value : Percent.decode(entry.getValue())) {
-//                add(key, value);
-//            }
-//        }
-//
-//        return this;
-//    }
 
 }
 

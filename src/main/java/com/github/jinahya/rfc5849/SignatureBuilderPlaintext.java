@@ -29,7 +29,7 @@ import com.github.jinahya.rfc5849.util.Percent;
 public class SignatureBuilderPlaintext extends SignatureBuilder {
 
 
-    private static final String SIGNATURE_METHOD = "PLAINTEXT";
+    public static final String SIGNATURE_METHOD = "PLAINTEXT";
 
 
     protected SignatureBuilderPlaintext(final String signatureMethod) {
@@ -71,6 +71,7 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
     @Override
     public String build() throws Exception {
 
+        final String prebuilt = getPrebuilt();
         if (prebuilt != null) {
             return prebuilt;
         }

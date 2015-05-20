@@ -33,11 +33,11 @@ public class SignatureBuilderHmacSha1Jca extends SignatureBuilderHmacSha1 {
     /**
      * Standard algorithm name for HMAC-SHA1.
      */
-    private static final String ALGORITHM = "HmacSHA1";
+    public static final String ALGORITHM = "HmacSHA1";
 
 
     @Override
-    protected byte[] build(final byte[] keyBytes, final byte[] baseStringBytes)
+    protected byte[] build(final byte[] keyBytes, final byte[] baseBytes)
         throws Exception {
 
         final Key key = new SecretKeySpec(keyBytes, ALGORITHM);
@@ -45,7 +45,7 @@ public class SignatureBuilderHmacSha1Jca extends SignatureBuilderHmacSha1 {
         final Mac mac = Mac.getInstance(ALGORITHM);
         mac.init(key);
 
-        final byte[] output = mac.doFinal(baseStringBytes);
+        final byte[] output = mac.doFinal(baseBytes);
 
         return output;
     }

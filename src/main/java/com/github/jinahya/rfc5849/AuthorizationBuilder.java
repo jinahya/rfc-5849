@@ -36,38 +36,62 @@ public class AuthorizationBuilder implements Builder<String> {
     public static final String REALM = "realm";
 
 
-    String prebuilt() {
+    protected String getPrebuilt() {
 
         return prebuilt;
     }
 
 
-    AuthorizationBuilder prebuilt(final String prebuilt) {
+    protected void setPrebuilt(final String prebuilt) {
 
         this.prebuilt = prebuilt;
+    }
+
+
+    public AuthorizationBuilder prebuilt(final String prebuilt) {
+
+        setPrebuilt(prebuilt);
 
         return this;
+    }
+
+
+    public String getRealm() {
+
+        return realm;
+    }
+
+
+    public void setRealm(final String realm) {
+
+        this.realm = realm;
     }
 
 
     public AuthorizationBuilder realm(final String realm) {
 
-        this.realm = realm;
+        setRealm(realm);
 
         return this;
     }
 
 
-    public SignatureBuilder signatureBuilder() {
+    public SignatureBuilder getSignatureBuilder() {
 
         return signatureBuilder;
+    }
+
+
+    public void setSignatureBuilder(final SignatureBuilder signatureBuilder) {
+
+        this.signatureBuilder = signatureBuilder;
     }
 
 
     public AuthorizationBuilder signatureBuilder(
         final SignatureBuilder signatureBuilder) {
 
-        this.signatureBuilder = signatureBuilder;
+        setSignatureBuilder(signatureBuilder);
 
         return this;
     }
@@ -90,7 +114,7 @@ public class AuthorizationBuilder implements Builder<String> {
         params.put(Constants.OAUTH_SIGNATURE, oauthSignature);
 
         for (final Entry<String, List<String>> entry
-             : signatureBuilder.baseStringBuilder().entrySet()) {
+             : signatureBuilder.getBaseStringBuilder().entrySet()) {
             final String key = entry.getKey();
             if (!key.startsWith(BaseStringBuilder.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;

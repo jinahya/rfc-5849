@@ -6,7 +6,7 @@
   <!-- The Basics -->
   <groupId>com.github.jinahya</groupId>
   <artifactId>rfc-5849</artifactId>
-  <version>0.7</version>
+  <version>0.8</version>
   <packaging>jar</packaging>
   <dependencyManagement />
   <dependencies>
@@ -30,8 +30,8 @@
     </dependency>
     <dependency>
       <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk12</artifactId>
-      <version>130</version>
+      <artifactId>bcprov-jdk16</artifactId>
+      <version>1.46</version>
       <scope>compile</scope>
       <optional>true</optional>
     </dependency>
@@ -385,7 +385,7 @@
     <connection>scm:git:git@github.com:jinahya/rfc-5849.git</connection>
     <developerConnection>scm:git:git@github.com:jinahya/rfc-5849.git</developerConnection>
     <url>https://github.com/jinahya/rfc-5849</url>
-    <tag>0.7</tag>
+    <tag>0.8</tag>
   </scm>
   <prerequisites />
   <repositories />
