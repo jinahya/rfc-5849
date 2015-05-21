@@ -16,7 +16,7 @@ baseStringBuilder.entityParameter(key, value);
 There are two implementations. One for Java Cryptograph Architexture/Extention and one for Bouncy Castle.
 ````java
 new SignatureBuilderHmacSha1Bc();
-new SignatureBuilderHmacSha1Jc();
+new SignatureBuilderHmacSha1Jca();
 ````
 When you create a builder you can use following methods to set values.
 ````java
@@ -27,7 +27,7 @@ signatureBuilder.baseStringBuilder(baseStringBuilder);
 ### RSA-SHA1
 ````java
 new SignatureBuilderRsaSha1Bc();
-new SignatureBuilderRsaSha1Jc();
+new SignatureBuilderRsaSha1Jca();
 ```
 You can use following methods to set values.
 ````java
