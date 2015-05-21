@@ -18,7 +18,6 @@
 package com.github.jinahya.rfc5849;
 
 
-import com.github.jinahya.rfc5849.util.Base64;
 import java.security.PrivateKey;
 import java.security.Signature;
 

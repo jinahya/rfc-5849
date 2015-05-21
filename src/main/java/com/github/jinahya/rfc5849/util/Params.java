@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 
@@ -34,6 +36,12 @@ import java.util.StringTokenizer;
 public class Params extends HashMap<String, List<String>> {
 
 
+//    public Params() {
+//
+//        super();
+//
+//        map = new HashMap<String, List<String>>();
+//    }
     /**
      * Adds an entry.
      *
@@ -228,5 +236,12 @@ public class Params extends HashMap<String, List<String>> {
     }
 
 
+//    public Map<String, List<String>> map() {
+//
+//        return new HashMap<String, List<String>>(map);
+//    }
+//
+//
+//    private final Map<String, List<String>> map;
 }
 

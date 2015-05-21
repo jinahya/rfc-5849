@@ -61,19 +61,17 @@ public class TwitterClient {
         final String baseUri = TwitterConstants.URL_OAUTH_REQUEST_TOKEN;
 
         final AuthorizationBuilder builder = new AuthorizationBuilder()
-            .signatureBuilder(
-                new SignatureBuilderHmacSha1Bc()
+            .signatureBuilder(new SignatureBuilderHmacSha1Bc()
                 .consumerSecret(consumerSecret)
                 .tokenSecret("")
-                .baseStringBuilder(
-                    new BaseStringBuilder()
+                .baseStringBuilder(new BaseStringBuilder()
                     .httpMethod(httpMethod)
                     .baseUri(baseUri)
                     .oauthCallback(oauthCallback)
                     .oauthConsumerKey(consumerKey)
                     .oauthVersion("1.0")
                     .oauthNonce(new NonceBuilder())
-                    .oauthTimestamp(new TimestampBuilder())
+                    .oauthTimestampBuilder(new TimestampBuilder())
                 )
             );
         final String authorization = builder.build();
@@ -122,18 +120,16 @@ public class TwitterClient {
         }
 
         final AuthorizationBuilder builder = new AuthorizationBuilder()
-            .signatureBuilder(
-                new SignatureBuilderHmacSha1Bc()
+            .signatureBuilder(new SignatureBuilderHmacSha1Bc()
                 .consumerSecret(consumerSecret)
                 .tokenSecret(oauthTokenSecret)
-                .baseStringBuilder(
-                    new BaseStringBuilder()
+                .baseStringBuilder(new BaseStringBuilder()
                     .httpMethod(httpMethod)
                     .baseUri(baseUri)
                     .oauthConsumerKey(consumerKey)
                     .oauthToken(oauthToken)
                     .oauthNonce(new NonceBuilder())
-                    .oauthTimestamp(new TimestampBuilder())
+                    .oauthTimestampBuilder(new TimestampBuilder())
                     .oauthVerifier(oauthVerifier)
                     .oauthVersion("1.0")
                     .entityParameters(entityParameters)
