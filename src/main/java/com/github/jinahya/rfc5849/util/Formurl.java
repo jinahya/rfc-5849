@@ -21,8 +21,6 @@ package com.github.jinahya.rfc5849.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**

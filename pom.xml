@@ -6,7 +6,7 @@
   <!-- The Basics -->
   <groupId>com.github.jinahya</groupId>
   <artifactId>rfc-5849</artifactId>
-  <version>0.8</version>
+  <version>0.9</version>
   <packaging>jar</packaging>
   <dependencyManagement />
   <dependencies>
@@ -44,15 +44,15 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>6.8.21</version>
+      <version>6.9.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven.compiler.source>1.5</maven.compiler.source>
-    <maven.compiler.target>1.5</maven.compiler.target>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
     <maven.compiler.testSource>1.8</maven.compiler.testSource>
     <maven.compiler.testTarget>1.8</maven.compiler.testTarget>
     <project.build.outputDirectory.retrotranslated13>${project.build.directory}/classes-retrotranslated13</project.build.outputDirectory.retrotranslated13>
@@ -385,7 +385,7 @@
     <connection>scm:git:git@github.com:jinahya/rfc-5849.git</connection>
     <developerConnection>scm:git:git@github.com:jinahya/rfc-5849.git</developerConnection>
     <url>https://github.com/jinahya/rfc-5849</url>
-    <tag>0.8</tag>
+    <tag>0.9</tag>
   </scm>
   <prerequisites />
   <repositories />

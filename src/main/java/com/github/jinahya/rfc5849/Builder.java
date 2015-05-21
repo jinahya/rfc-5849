@@ -21,9 +21,9 @@ package com.github.jinahya.rfc5849;
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @param <T>
+ * @param <T> output type parameter
  */
-public interface Builder<T> {
+interface Builder<T> {
 
 
     /**

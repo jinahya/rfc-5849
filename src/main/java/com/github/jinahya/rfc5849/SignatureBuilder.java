@@ -80,7 +80,7 @@ public abstract class SignatureBuilder implements Builder<String> {
         this.baseStringBuilder = baseStringBuilder;
 
         if (this.baseStringBuilder != null) {
-            this.baseStringBuilder.oauthSignatureMethod(signatureMethod);
+            this.baseStringBuilder.setOauthSignatureMethod(signatureMethod);
         }
     }
 

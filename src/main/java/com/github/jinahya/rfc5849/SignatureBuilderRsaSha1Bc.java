@@ -18,7 +18,6 @@
 package com.github.jinahya.rfc5849;
 
 
-import com.github.jinahya.rfc5849.util.Base64;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.Signer;
 import org.bouncycastle.crypto.digests.SHA1Digest;

@@ -19,8 +19,6 @@ package com.github.jinahya.rfc5849;
 
 
 import static java.lang.invoke.MethodHandles.lookup;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.assertNotEquals;
@@ -46,8 +44,6 @@ public class NonceBuilderTest {
 
         final String built1 = new NonceBuilder().build();
         final String built2 = new NonceBuilder().build();
-        logger.debug("built1: {}", built1);
-        logger.debug("built2: {}", built2);
         assertNotEquals(built1, built2);
     }
 

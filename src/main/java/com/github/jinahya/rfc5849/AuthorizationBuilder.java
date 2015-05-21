@@ -108,13 +108,20 @@ public class AuthorizationBuilder implements Builder<String> {
             throw new IllegalStateException("no signatureBuilder set");
         }
 
+        final BaseStringBuilder baseStringBuilder
+            = signatureBuilder.getBaseStringBuilder();
+        if (baseStringBuilder == null) {
+            throw new IllegalStateException(
+                "no baseStringBuilder set on signatgureBuilder");
+        }
+
         final Map<String, String> params = new TreeMap<String, String>();
 
         final String oauthSignature = signatureBuilder.build();
         params.put(Constants.OAUTH_SIGNATURE, oauthSignature);
 
         for (final Entry<String, List<String>> entry
-             : signatureBuilder.getBaseStringBuilder().entrySet()) {
+             : baseStringBuilder.entrySet()) {
             final String key = entry.getKey();
             if (!key.startsWith(BaseStringBuilder.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;

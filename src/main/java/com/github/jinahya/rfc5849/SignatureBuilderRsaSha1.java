@@ -79,7 +79,6 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
      */
     public SignatureBuilderRsaSha1<T> privateKey(final T privateKey) {
 
-        //this.privateKey = privateKey;
         setPrivateKey(privateKey);
 
         return this;

@@ -53,21 +53,22 @@ public class BaseStringBuilder extends Params implements Builder<String> {
             throw new IllegalStateException("no baseUri set");
         }
 
-        if (!containsKey(Constants.OAUTH_NONCE) && nonceBuilder != null) {
+        if (getFirst(Constants.OAUTH_NONCE) == null && nonceBuilder != null) {
             oauthNonce(nonceBuilder.build());
         }
 
-        if (!containsKey(Constants.OAUTH_TIMESTAMP) && nonceBuilder != null) {
+        if (getFirst(Constants.OAUTH_TIMESTAMP) == null
+            && timestampBuilder != null) {
             oauthTimestamp(timestampBuilder.build());
         }
 
         final Map<String, List<String>> map
             = new TreeMap<String, List<String>>();
 
-        for (final Entry<String, List<String>> e : entrySet()) {
-            final String decodedKey = e.getKey();
+        for (final Entry<String, List<String>> entry : entrySet()) {
+            final String decodedKey = entry.getKey();
             final String encodedKey = Percent.encode(decodedKey);
-            final List<String> decodedValues = e.getValue();
+            final List<String> decodedValues = entry.getValue();
             final List<String> encodedValues
                 = new ArrayList<String>(decodedValues.size());
             for (final String decodedValue : decodedValues) {
@@ -98,7 +99,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
                              + "&" + Percent.encode(builder.toString());
 
         if (printer != null) {
-            printer.println("base: " + built);
+            printer.println("baseString: " + built);
         }
 
         return built;
@@ -111,13 +112,13 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
 
-    protected void setPrebuilt(final String prebuilt) {
+    public void setPrebuilt(final String prebuilt) {
 
         this.prebuilt = prebuilt;
     }
 
 
-    public BaseStringBuilder prebuilt(final String prebuilt) {
+    protected BaseStringBuilder prebuilt(final String prebuilt) {
 
         setPrebuilt(prebuilt);
 
@@ -147,7 +148,6 @@ public class BaseStringBuilder extends Params implements Builder<String> {
      */
     public BaseStringBuilder httpMethod(final String httpMethod) {
 
-        //this.httpMethod = httpMethod;
         setHttpMethod(httpMethod);
 
         return this;
@@ -175,62 +175,42 @@ public class BaseStringBuilder extends Params implements Builder<String> {
      */
     public BaseStringBuilder baseUri(final String baseUri) {
 
-        //this.baseUri = baseUri;
         setBaseUri(baseUri);
 
         return this;
     }
 
 
-    /**
-     * Puts a request parameter entry and returns this instance.
-     *
-     * @param key parameter key
-     * @param value parameter value.
-     *
-     * @return this instance.
-     *
-     */
-    public BaseStringBuilder requestParameter(final String key,
-                                              final String value) {
+    public void addQueryParameter(final String key, final String value) {
 
-        if (key == null) {
-            throw new NullPointerException("null key");
-        }
-
-        if (value == null) {
-            throw new NullPointerException("null value");
-        }
-
-        if (key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
-            putSingle(key, value);
-            return this;
+        if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+            throw new IllegalArgumentException(
+                "query parameter's key(" + key + ") starts with "
+                + PROTOCOL_PARAMETER_PREFIX);
         }
 
         add(key, value);
-
-        return this;
     }
 
 
     public BaseStringBuilder queryParameter(final String key,
                                             final String value) {
 
-        if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
-            throw new IllegalArgumentException(
-                "query parameter key(" + key + ") starts with "
-                + PROTOCOL_PARAMETER_PREFIX);
-        }
+        addQueryParameter(key, value);
 
-        return requestParameter(key, value);
+        return this;
     }
 
 
-    public String protocolParameter(final String key) {
+    public String getProtocolParameter(final String key) {
 
-        if (key != null && !key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
+
+        if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
-                "protocol parameter key(" + key + ") doesn't start with "
+                "key(" + key + ") doesn start with "
                 + PROTOCOL_PARAMETER_PREFIX);
         }
 
@@ -238,8 +218,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
 
-    public BaseStringBuilder protocolParameter(final String key,
-                                               final String value) {
+    public void setProtocolParameter(final String key, final String value) {
 
         if (key != null && !key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
@@ -247,25 +226,48 @@ public class BaseStringBuilder extends Params implements Builder<String> {
                 + PROTOCOL_PARAMETER_PREFIX);
         }
 
-        return requestParameter(key, value);
+        putSingle(key, value);
     }
 
 
-    public String oauthCallback() {
+    public BaseStringBuilder protocolParameter(final String key,
+                                               final String value) {
 
-        return protocolParameter(Constants.OAUTH_CALLBACK);
+        setProtocolParameter(key, value);
+
+        return this;
+    }
+
+
+    public String getOauthCallback() {
+
+        return getProtocolParameter(Constants.OAUTH_CALLBACK);
+    }
+
+
+    public void setOauthCallback(final String oauthCallback) {
+
+        setProtocolParameter(Constants.OAUTH_CALLBACK, oauthCallback);
     }
 
 
     public BaseStringBuilder oauthCallback(final String oauthCallback) {
 
-        return protocolParameter(Constants.OAUTH_CALLBACK, oauthCallback);
+        setOauthCallback(oauthCallback);
+
+        return this;
     }
 
 
-    public String oauthConsumerKey() {
+    public String getOauthConsumerKey() {
 
-        return protocolParameter(Constants.OAUTH_CONSUMER_KEY);
+        return getProtocolParameter(Constants.OAUTH_CONSUMER_KEY);
+    }
+
+
+    public void setOauthConsumerKey(final String oauthConsumerKey) {
+
+        setProtocolParameter(Constants.OAUTH_CONSUMER_KEY, oauthConsumerKey);
     }
 
 
@@ -280,20 +282,41 @@ public class BaseStringBuilder extends Params implements Builder<String> {
      */
     public BaseStringBuilder oauthConsumerKey(final String oauthConsumerKey) {
 
-        return protocolParameter(
-            Constants.OAUTH_CONSUMER_KEY, oauthConsumerKey);
+        setOauthConsumerKey(oauthConsumerKey);
+
+        return this;
     }
 
 
-    public String oauthNonce() {
+    public String getOauthNonce() {
 
-        return protocolParameter(Constants.OAUTH_NONCE);
+        return getProtocolParameter(Constants.OAUTH_NONCE);
+    }
+
+
+    public void setOauthNonce(final String oauthNonce) {
+
+        setProtocolParameter(Constants.OAUTH_NONCE, oauthNonce);
     }
 
 
     public BaseStringBuilder oauthNonce(final String oauthNonce) {
 
-        return protocolParameter(Constants.OAUTH_NONCE, oauthNonce);
+        setOauthNonce(oauthNonce);
+
+        return this;
+    }
+
+
+    public NonceBuilder getOauthNonceBuilder() {
+
+        return nonceBuilder;
+    }
+
+
+    public void setOauthNonceBuilder(final NonceBuilder oauthNonceBuilder) {
+
+        this.nonceBuilder = oauthNonceBuilder;
     }
 
 
@@ -305,81 +328,147 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
 
-    public String oauthSignatureMethod() {
+    public String getOauthSignatureMethod() {
 
-        return protocolParameter(Constants.OAUTH_SIGNATURE_METHOD);
+        return getProtocolParameter(Constants.OAUTH_SIGNATURE_METHOD);
+    }
+
+
+    public void setOauthSignatureMethod(final String oauthSignatureMethod) {
+
+        setProtocolParameter(Constants.OAUTH_SIGNATURE_METHOD,
+                             oauthSignatureMethod);
     }
 
 
     public BaseStringBuilder oauthSignatureMethod(
         final String oauthSignatureMethod) {
 
-        return protocolParameter(Constants.OAUTH_SIGNATURE_METHOD,
-                                 oauthSignatureMethod);
-    }
-
-
-    public BaseStringBuilder oauthTimestamp(final String oauthTimestamp) {
-
-        return protocolParameter(Constants.OAUTH_TIMESTAMP, oauthTimestamp);
-    }
-
-
-    public BaseStringBuilder oauthTimestamp(
-        final TimestampBuilder timestampBuilder) {
-
-        this.timestampBuilder = timestampBuilder;
+        setOauthSignatureMethod(oauthSignatureMethod);
 
         return this;
     }
 
 
-    public String oauthToken() {
+    public String getOauthTimestamp() {
 
-        return protocolParameter(Constants.OAUTH_TOKEN);
+        return getProtocolParameter(Constants.OAUTH_TIMESTAMP);
+    }
+
+
+    public void setOauthTimestamp(final String oauthTimestamp) {
+
+        setProtocolParameter(Constants.OAUTH_TIMESTAMP, oauthTimestamp);
+    }
+
+
+    public BaseStringBuilder oauthTimestamp(final String oauthTimestamp) {
+
+        setOauthTimestamp(oauthTimestamp);
+
+        return this;
+    }
+
+
+    public TimestampBuilder getOauthTimestampBuilder() {
+
+        return timestampBuilder;
+    }
+
+
+    public void setOauthTimestampBuilder(
+        final TimestampBuilder timestampBuilder) {
+
+        this.timestampBuilder = timestampBuilder;
+    }
+
+
+    public BaseStringBuilder oauthTimestampBuilder(
+        final TimestampBuilder timestampBuilder) {
+
+        setOauthTimestampBuilder(timestampBuilder);
+
+        return this;
+    }
+
+
+    public String getOauthToken() {
+
+        return getProtocolParameter(Constants.OAUTH_TOKEN);
+    }
+
+
+    public void setOauthToken(final String oauthToken) {
+
+        setProtocolParameter(Constants.OAUTH_TOKEN, oauthToken);
     }
 
 
     public BaseStringBuilder oauthToken(final String oauthToken) {
 
-        return protocolParameter(Constants.OAUTH_TOKEN, oauthToken);
+        setOauthToken(oauthToken);
+
+        return this;
     }
 
 
-    public String oauthVersion() {
+    public String getOauthVersion() {
 
-        return protocolParameter(Constants.OAUTH_VERSION);
+        return getProtocolParameter(Constants.OAUTH_VERSION);
+    }
+
+
+    public void setOauthVersion(final String oauthVersion) {
+
+        setProtocolParameter(Constants.OAUTH_VERSION, oauthVersion);
     }
 
 
     public BaseStringBuilder oauthVersion(final String oauthVersion) {
 
-        return protocolParameter(Constants.OAUTH_VERSION, oauthVersion);
+        setOauthVersion(oauthVersion);
+
+        return this;
     }
 
 
-    public String oauthVerifier() {
+    public String getOauthVerifier() {
 
-        return protocolParameter(Constants.OAUTH_VERIFIER);
+        return getProtocolParameter(Constants.OAUTH_VERIFIER);
+    }
+
+
+    public void setOauthVerifier(final String oauthVerifier) {
+
+        setProtocolParameter(Constants.OAUTH_VERIFIER, oauthVerifier);
     }
 
 
     public BaseStringBuilder oauthVerifier(final String oauthVerifier) {
 
-        return protocolParameter(Constants.OAUTH_VERIFIER, oauthVerifier);
+        setOauthVerifier(oauthVerifier);
+
+        return this;
+    }
+
+
+    public void addEntityParameter(final String key, final String value) {
+
+        if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+            throw new IllegalArgumentException(
+                "key(" + key + ") starts with " + PROTOCOL_PARAMETER_PREFIX);
+        }
+
+        add(key, value);
     }
 
 
     public BaseStringBuilder entityParameter(final String key,
                                              final String value) {
 
-        if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
-            throw new IllegalArgumentException(
-                "entity parameter key(" + key + ") starts with "
-                + PROTOCOL_PARAMETER_PREFIX);
-        }
+        addEntityParameter(key, value);
 
-        return requestParameter(key, value);
+        return this;
     }
 
 
