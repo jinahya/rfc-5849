@@ -337,8 +337,6 @@ public class AuthorizationBuilderTest {
 
         final String actual = builder.build();
 
-        logger.debug("actual: {}", actual);
-
         assertEquals(actual, expected);
     }
 
