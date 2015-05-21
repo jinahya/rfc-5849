@@ -44,8 +44,6 @@ public class NonceBuilderTest {
 
         final String built1 = new NonceBuilder().build();
         final String built2 = new NonceBuilder().build();
-        logger.debug("built1: {}", built1);
-        logger.debug("built2: {}", built2);
         assertNotEquals(built1, built2);
     }
 
