@@ -5,13 +5,20 @@ final BaseStringBuilder builder = new BaseStringBuilder();
 ````
 You can use following methods to set values.
 ````java
-baseStringBuilder.httpMethod(httpMethod);
-baseStringBuilder.baseUri(baseUri);
-baseStringBuilder.queryParameter(key, value);
-baseStringBuilder.protocolParameter(key, value); // key must start with 'oauth_'
-baseStringBuilder.entityParameter(key, value);
+builder.httpMethod(httpMethod);
+builder.baseUri(baseUri);
+builder.queryParameter(key, value);
+builder.protocolParameter(key, value); // key must start with 'oauth_'
+builder.entityParameter(key, value);
 ````
 ## SignatureBuilder
+|class                        |method   |platform|
+|-----------------------------|---------|--------|
+|`SignatureBuilderHmacSha1Bc` |HMAC-SHA1|BC      |
+|`SignatureBuilderHmacSha1Jca`|HMAC-SHA1|JCA     |
+|`SignatureBuilderRsaSha1Bc`  |RSA-SHA1 |BC      |
+|`SignatureBuilderRsaSha1Jca` |RSA-SHA1 |JCA     |
+|`SignatureBuilderPlaintext`  |PLAINTEXT|        |
 ### HMAC-SHA1
 There are two implementations. One for Java Cryptograph Architexture/Extention and one for Bouncy Castle.
 ````java
