@@ -18,7 +18,7 @@
 package com.github.jinahya.rfc5849.main;
 
 
-import com.github.jinahya.rfc5849.Constants;
+import com.github.jinahya.rfc5849.Rfc5849Constants;
 import java.awt.Desktop;
 import java.io.Console;
 import static java.lang.invoke.MethodHandles.lookup;
@@ -77,20 +77,20 @@ public class TwitterPinBasedOAuth {
 
         final MultivaluedMap<String, String> requestToken
             = client.oAuthRequestToken(consumerKey, consumerSecret,
-                                       Constants.OAUTH_CALLBACK_OUT_OF_BAND);
+                                       Rfc5849Constants.OAUTH_CALLBACK_OUT_OF_BAND);
         console.printf("Request token has been retrived.\n");
-        String oauthToken = requestToken.getFirst(Constants.OAUTH_TOKEN);
+        String oauthToken = requestToken.getFirst(Rfc5849Constants.OAUTH_TOKEN);
         console.printf("\toauthToken: %1$s\n", oauthToken);
         String oauthTokenSecret
-            = requestToken.getFirst(Constants.OAUTH_TOKEN_SECRET);
+            = requestToken.getFirst(Rfc5849Constants.OAUTH_TOKEN_SECRET);
         console.printf("\t%1$s\n", oauthTokenSecret);
         final String oauthCallbackConfirmed
-            = requestToken.getFirst(Constants.OAUTH_CALLBACK_CONFIRMED);
+            = requestToken.getFirst(Rfc5849Constants.OAUTH_CALLBACK_CONFIRMED);
         console.printf("%1$s\n", oauthCallbackConfirmed);
 
         final URI authorizationUri
             = UriBuilder.fromUri(TwitterConstants.URL_OAUTH_AUTHORIZE)
-            .queryParam(Constants.OAUTH_TOKEN, oauthToken).build();
+            .queryParam(Rfc5849Constants.OAUTH_TOKEN, oauthToken).build();
         console.printf("authorizationUri: %1$s\n", authorizationUri);
         try {
             final Desktop desktop = Desktop.getDesktop();
@@ -114,9 +114,9 @@ public class TwitterPinBasedOAuth {
                 consumerKey, consumerSecret, oauthToken, oauthTokenSecret, null,
                 null, null, pin);
         console.printf("Access token retrived.\n");
-        oauthToken = oauthAccessToken.getFirst(Constants.OAUTH_TOKEN);
+        oauthToken = oauthAccessToken.getFirst(Rfc5849Constants.OAUTH_TOKEN);
         console.printf("\toauthToken: %1$s\n", oauthToken);
-        oauthTokenSecret = oauthAccessToken.getFirst(Constants.OAUTH_TOKEN_SECRET);
+        oauthTokenSecret = oauthAccessToken.getFirst(Rfc5849Constants.OAUTH_TOKEN_SECRET);
         console.printf("\toauthTokenSecret: %1$s\n", oauthTokenSecret);
     }
 

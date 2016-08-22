@@ -43,10 +43,10 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         if (baseUri == null) {
             throw new IllegalStateException("no baseUri set");
         }
-        if (getFirst(Constants.OAUTH_NONCE) == null && nonceBuilder != null) {
+        if (getFirst(Rfc5849Constants.OAUTH_NONCE) == null && nonceBuilder != null) {
             oauthNonce(nonceBuilder.build());
         }
-        if (getFirst(Constants.OAUTH_TIMESTAMP) == null
+        if (getFirst(Rfc5849Constants.OAUTH_TIMESTAMP) == null
             && timestampBuilder != null) {
             oauthTimestamp(timestampBuilder.build());
         }
@@ -185,11 +185,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     public String getOauthCallback() {
-        return getProtocolParameter(Constants.OAUTH_CALLBACK);
+        return getProtocolParameter(Rfc5849Constants.OAUTH_CALLBACK);
     }
 
     public void setOauthCallback(final String oauthCallback) {
-        setProtocolParameter(Constants.OAUTH_CALLBACK, oauthCallback);
+        setProtocolParameter(Rfc5849Constants.OAUTH_CALLBACK, oauthCallback);
     }
 
     public BaseStringBuilder oauthCallback(final String oauthCallback) {
@@ -198,19 +198,19 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     public String getOauthConsumerKey() {
-        return getProtocolParameter(Constants.OAUTH_CONSUMER_KEY);
+        return getProtocolParameter(Rfc5849Constants.OAUTH_CONSUMER_KEY);
     }
 
     public void setOauthConsumerKey(final String oauthConsumerKey) {
-        setProtocolParameter(Constants.OAUTH_CONSUMER_KEY, oauthConsumerKey);
+        setProtocolParameter(Rfc5849Constants.OAUTH_CONSUMER_KEY, oauthConsumerKey);
     }
 
     /**
      * Sets a protocol parameter value for
-     * {@value Constants#OAUTH_CONSUMER_KEY}.
+     * {@value Rfc5849Constants#OAUTH_CONSUMER_KEY}.
      *
      * @param oauthConsumerKey the value of
-     * {@value Constants#OAUTH_CONSUMER_KEY}.
+     * {@value Rfc5849Constants#OAUTH_CONSUMER_KEY}.
      *
      * @return this instance.
      */
@@ -220,11 +220,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     public String getOauthNonce() {
-        return getProtocolParameter(Constants.OAUTH_NONCE);
+        return getProtocolParameter(Rfc5849Constants.OAUTH_NONCE);
     }
 
     public void setOauthNonce(final String oauthNonce) {
-        setProtocolParameter(Constants.OAUTH_NONCE, oauthNonce);
+        setProtocolParameter(Rfc5849Constants.OAUTH_NONCE, oauthNonce);
     }
 
     public BaseStringBuilder oauthNonce(final String oauthNonce) {
@@ -246,11 +246,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     public String getOauthSignatureMethod() {
-        return getProtocolParameter(Constants.OAUTH_SIGNATURE_METHOD);
+        return getProtocolParameter(Rfc5849Constants.OAUTH_SIGNATURE_METHOD);
     }
 
     public void setOauthSignatureMethod(final String oauthSignatureMethod) {
-        setProtocolParameter(Constants.OAUTH_SIGNATURE_METHOD,
+        setProtocolParameter(Rfc5849Constants.OAUTH_SIGNATURE_METHOD,
                              oauthSignatureMethod);
     }
 
@@ -261,11 +261,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     public String getOauthTimestamp() {
-        return getProtocolParameter(Constants.OAUTH_TIMESTAMP);
+        return getProtocolParameter(Rfc5849Constants.OAUTH_TIMESTAMP);
     }
 
     public void setOauthTimestamp(final String oauthTimestamp) {
-        setProtocolParameter(Constants.OAUTH_TIMESTAMP, oauthTimestamp);
+        setProtocolParameter(Rfc5849Constants.OAUTH_TIMESTAMP, oauthTimestamp);
     }
 
     public BaseStringBuilder oauthTimestamp(final String oauthTimestamp) {
@@ -289,11 +289,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     public String getOauthToken() {
-        return getProtocolParameter(Constants.OAUTH_TOKEN);
+        return getProtocolParameter(Rfc5849Constants.OAUTH_TOKEN);
     }
 
     public void setOauthToken(final String oauthToken) {
-        setProtocolParameter(Constants.OAUTH_TOKEN, oauthToken);
+        setProtocolParameter(Rfc5849Constants.OAUTH_TOKEN, oauthToken);
     }
 
     public BaseStringBuilder oauthToken(final String oauthToken) {
@@ -302,11 +302,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     public String getOauthVersion() {
-        return getProtocolParameter(Constants.OAUTH_VERSION);
+        return getProtocolParameter(Rfc5849Constants.OAUTH_VERSION);
     }
 
     public void setOauthVersion(final String oauthVersion) {
-        setProtocolParameter(Constants.OAUTH_VERSION, oauthVersion);
+        setProtocolParameter(Rfc5849Constants.OAUTH_VERSION, oauthVersion);
     }
 
     public BaseStringBuilder oauthVersion(final String oauthVersion) {
@@ -315,11 +315,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     public String getOauthVerifier() {
-        return getProtocolParameter(Constants.OAUTH_VERIFIER);
+        return getProtocolParameter(Rfc5849Constants.OAUTH_VERIFIER);
     }
 
     public void setOauthVerifier(final String oauthVerifier) {
-        setProtocolParameter(Constants.OAUTH_VERIFIER, oauthVerifier);
+        setProtocolParameter(Rfc5849Constants.OAUTH_VERIFIER, oauthVerifier);
     }
 
     public BaseStringBuilder oauthVerifier(final String oauthVerifier) {

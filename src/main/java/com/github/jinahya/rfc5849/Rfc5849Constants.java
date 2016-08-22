@@ -19,7 +19,7 @@ package com.github.jinahya.rfc5849;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public final class Constants {
+public final class Rfc5849Constants {
 
     public static final String OAUTH_CALLBACK = "oauth_callback";
 
@@ -47,7 +47,7 @@ public final class Constants {
 
     public static final String OAUTH_VERSION = "oauth_version";
 
-    public Constants() {
+    public Rfc5849Constants() {
         super();
     }
 }

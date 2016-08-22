@@ -87,7 +87,7 @@ public class AuthorizationBuilder implements Builder<String> {
         final Map<String, String> params = new TreeMap<String, String>();
 
         final String oauthSignature = signatureBuilder.build();
-        params.put(Constants.OAUTH_SIGNATURE, oauthSignature);
+        params.put(Rfc5849Constants.OAUTH_SIGNATURE, oauthSignature);
 
         for (final Entry<String, List<String>> entry
                 : baseStringBuilder.entrySet()) {
