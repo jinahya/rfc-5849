@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 /**
  *
@@ -24,7 +21,6 @@ package com.github.jinahya.rfc5849;
  * @param <T> output type parameter
  */
 interface Builder<T> {
-
 
     /**
      * Builds output.
@@ -34,7 +30,4 @@ interface Builder<T> {
      * @throws Exception if failed to build.
      */
     T build() throws Exception;
-
-
 }
-

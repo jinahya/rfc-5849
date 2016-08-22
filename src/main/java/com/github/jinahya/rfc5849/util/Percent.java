@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849.util;
 
-
 import java.io.UnsupportedEncodingException;
-
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public final class Percent {
-
 
     private static boolean unreserved(final int b) {
 
@@ -39,21 +34,16 @@ public final class Percent {
                || b == 0x7E; // '~'
     }
 
-
     public static String encode(final String s, final String enc)
-        throws UnsupportedEncodingException {
-
+            throws UnsupportedEncodingException {
         if (s == null) {
             throw new NullPointerException("null decoded");
         }
-
         if (enc == null) {
             throw new NullPointerException("null enc");
         }
-
         final byte[] source = s.getBytes(enc);
         final byte[] auxiliary = new byte[source.length * 3];
-
         int j = 0;
         for (int i = 0; i < source.length; i++) {
             if (unreserved(source[i])) {
@@ -64,13 +54,10 @@ public final class Percent {
             Hex.encodeSingle(source[i], auxiliary, j);
             j += 2;
         }
-
         final byte[] target = new byte[j];
         System.arraycopy(auxiliary, 0, target, 0, j);
-
         return new String(target, "US-ASCII");
     }
-
 
     /**
      * Percent-encodes given string.
@@ -80,14 +67,12 @@ public final class Percent {
      * @return encoding result.
      */
     public static String encode(final String s) {
-
         try {
             return encode(s, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
             throw new RuntimeException(uee.getMessage());
         }
     }
-
 
 //    public static List<String> encode(final List<String> decodedList,
 //                                      final List<String> encodedList) {
@@ -115,19 +100,15 @@ public final class Percent {
 //        return encode(encodedList, new ArrayList<String>(encodedList.size()));
 //    }
     public static String decode(final String s, final String enc)
-        throws UnsupportedEncodingException {
-
+            throws UnsupportedEncodingException {
         if (s == null) {
             throw new NullPointerException("null s");
         }
-
         if (enc == null) {
             throw new NullPointerException("null enc");
         }
-
         final byte[] source = s.getBytes("US-ASCII");
         final byte[] auxiliary = new byte[source.length];
-
         int j = 0;
         for (int i = 0; i < source.length; i++) {
             if (unreserved(source[i])) {
@@ -138,13 +119,10 @@ public final class Percent {
             auxiliary[j++] = (byte) Hex.decodeSingle(source, i);
             i++;
         }
-
         final byte[] target = new byte[j];
         System.arraycopy(auxiliary, 0, target, 0, j);
-
         return new String(target, enc);
     }
-
 
     /**
      * Percent-decodes given string.
@@ -154,14 +132,12 @@ public final class Percent {
      * @return decoding result.
      */
     public static String decode(final String s) {
-
         try {
             return decode(s, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
             throw new RuntimeException(uee.getMessage());
         }
     }
-
 
 //    public static List<String> decode(final List<String> encodedList,
 //                                      final List<String> decodedList) {
@@ -192,10 +168,6 @@ public final class Percent {
 //        return decodedList;
 //    }
     private Percent() {
-
         super();
     }
-
-
 }
-

@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849.util;
-
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-
 
 /**
  *
@@ -29,13 +25,10 @@ import java.net.URLEncoder;
  */
 public final class Formurl {
 
-
     public static String encode(final String decoded) {
-
         if (decoded == null) {
             throw new NullPointerException("null decoded");
         }
-
         try {
             return URLEncoder.encode(decoded, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
@@ -43,7 +36,6 @@ public final class Formurl {
             throw new RuntimeException(uee.getMessage());
         }
     }
-
 
 //    public static List<String> encode(final List<String> decodedList,
 //                                      final List<String> encodedList) {
@@ -73,11 +65,9 @@ public final class Formurl {
 //        return encode(encodedList, new ArrayList<String>(encodedList.size()));
 //    }
     public static String decode(final String encoded) {
-
         if (encoded == null) {
             throw new NullPointerException("null encoded");
         }
-
         try {
             return URLDecoder.decode(encoded, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
@@ -85,7 +75,6 @@ public final class Formurl {
             throw new RuntimeException(uee.getMessage());
         }
     }
-
 
 //    public static List<String> decode(final List<String> encodedList,
 //                                      final List<String> decodedList) {
@@ -115,10 +104,6 @@ public final class Formurl {
 //        return decode(encodedList, new ArrayList<String>(encodedList.size()));
 //    }
     private Formurl() {
-
         super();
     }
-
-
 }
-

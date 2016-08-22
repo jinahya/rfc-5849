@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849.util;
-
 
 /**
  * A utility class for encoding/decoding hex.
@@ -25,9 +22,7 @@ package com.github.jinahya.rfc5849.util;
  */
 class Hex {
 
-
     private static int encodeHalf(final int decoded) {
-
         switch (decoded) {
             case 0x00:
             case 0x01:
@@ -49,21 +44,17 @@ class Hex {
                 return decoded + 0x37; // 0x41('A') ~ 0x46('F')
             default:
                 throw new IllegalArgumentException(
-                    "illegal nibble: " + decoded);
+                        "illegal nibble: " + decoded);
         }
     }
 
-
     static void encodeSingle(final int input, final byte[] output,
                              final int outoff) {
-
         output[outoff] = (byte) encodeHalf((input >> 4) & 0x0F);
         output[outoff + 1] = (byte) encodeHalf(input & 0x0F);
     }
 
-
     private static int decodeHalf(final int input) {
-
         switch (input) {
             case 0x30: // '0'
             case 0x31: // '1'
@@ -95,19 +86,12 @@ class Hex {
         }
     }
 
-
     static int decodeSingle(final byte[] input, final int inoff) {
-
         return (decodeHalf(input[inoff] & 0xFF) << 4)
                | decodeHalf(input[inoff + 1] & 0xFF);
     }
 
-
     private Hex() {
-
         super();
     }
-
-
 }
-

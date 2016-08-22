@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 /**
  *
@@ -24,38 +21,26 @@ package com.github.jinahya.rfc5849;
  */
 public abstract class SignatureBuilder implements Builder<String> {
 
-
     public SignatureBuilder(final String signatureMethod) {
-
         super();
-
         if (signatureMethod == null) {
             throw new NullPointerException("null signatureMethod");
         }
-
         this.signatureMethod = signatureMethod;
     }
 
-
     protected String getPrebuilt() {
-
         return prebuilt;
     }
 
-
     protected void setPrebuilt(final String prebuilt) {
-
         this.prebuilt = prebuilt;
     }
 
-
     public SignatureBuilder prebuilt(final String prebuilt) {
-
         setPrebuilt(prebuilt);
-
         return this;
     }
-
 
     /**
      * Returns signature method.
@@ -63,45 +48,30 @@ public abstract class SignatureBuilder implements Builder<String> {
      * @return signature method.
      */
     public String getSignatureMethod() {
-
         return signatureMethod;
     }
 
-
     public BaseStringBuilder getBaseStringBuilder() {
-
         return baseStringBuilder;
     }
 
-
     public void setBaseStringBuilder(
-        final BaseStringBuilder baseStringBuilder) {
-
+            final BaseStringBuilder baseStringBuilder) {
         this.baseStringBuilder = baseStringBuilder;
-
         if (this.baseStringBuilder != null) {
             this.baseStringBuilder.setOauthSignatureMethod(signatureMethod);
         }
     }
 
-
     public SignatureBuilder baseStringBuilder(
-        final BaseStringBuilder baseStringBuilder) {
-
+            final BaseStringBuilder baseStringBuilder) {
         setBaseStringBuilder(baseStringBuilder);
-
         return this;
     }
 
-
     private String prebuilt;
-
 
     protected final String signatureMethod;
 
-
     private BaseStringBuilder baseStringBuilder;
-
-
 }
-

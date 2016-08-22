@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.Signer;
 import org.bouncycastle.crypto.digests.SHA1Digest;
 import org.bouncycastle.crypto.signers.RSADigestSigner;
-
 
 /**
  * A signature builder using Bouncy Castle.
@@ -30,14 +26,12 @@ import org.bouncycastle.crypto.signers.RSADigestSigner;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class SignatureBuilderRsaSha1Bc
-    extends SignatureBuilderRsaSha1<CipherParameters> {
-
+        extends SignatureBuilderRsaSha1<CipherParameters> {
 
     @Override
     protected byte[] build(final CipherParameters privateKey,
                            final byte[] baseBytes)
-        throws Exception {
-
+            throws Exception {
         final Signer signer = new RSADigestSigner(new SHA1Digest());
         signer.init(true, privateKey);
         signer.update(baseBytes, 0, baseBytes.length);
@@ -45,14 +39,10 @@ public class SignatureBuilderRsaSha1Bc
         return signer.generateSignature();
     }
 
-
     @Override
     public SignatureBuilderRsaSha1Bc privateKey(
-        final CipherParameters privateKey) {
-
+            final CipherParameters privateKey) {
         return (SignatureBuilderRsaSha1Bc) super.privateKey(privateKey);
     }
 
-
 }
-

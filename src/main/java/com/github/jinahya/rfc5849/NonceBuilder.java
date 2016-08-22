@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
-
 
 /**
  *
@@ -29,25 +25,16 @@ import java.util.Random;
  */
 public class NonceBuilder implements Builder<String> {
 
-
     @Override
     public String build() throws Exception {
-
         return token();
     }
 
-
     protected String token() {
-
         return new BigInteger(130, random()).toString(32);
     }
 
-
     protected Random random() {
-
         return new SecureRandom();
     }
-
-
 }
-

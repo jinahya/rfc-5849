@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 /**
  *
@@ -24,13 +21,8 @@ package com.github.jinahya.rfc5849;
  */
 public class TimestampBuilder implements Builder<String> {
 
-
     @Override
     public String build() throws Exception {
-
         return Long.toString(System.currentTimeMillis() / 1000L);
     }
-
-
 }
-

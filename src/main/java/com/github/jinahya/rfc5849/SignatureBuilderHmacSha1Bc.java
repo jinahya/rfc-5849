@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 import org.bouncycastle.crypto.Mac;
 import org.bouncycastle.crypto.digests.SHA1Digest;
 import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.params.KeyParameter;
-
 
 /**
  *
@@ -30,22 +26,14 @@ import org.bouncycastle.crypto.params.KeyParameter;
  */
 public class SignatureBuilderHmacSha1Bc extends SignatureBuilderHmacSha1 {
 
-
     @Override
     protected byte[] build(final byte[] keyBytes, final byte[] baseBytes)
-        throws Exception {
-
+            throws Exception {
         final Mac mac = new HMac(new SHA1Digest());
         mac.init(new KeyParameter(keyBytes));
-
         mac.update(baseBytes, 0, baseBytes.length);
-
         final byte[] output = new byte[mac.getMacSize()];
         mac.doFinal(output, 0);
-
         return output;
     }
-
-
 }
-
