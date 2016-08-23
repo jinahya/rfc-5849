@@ -54,12 +54,12 @@ public class BaseStringBuilder extends Params implements Builder<String> {
                 = new TreeMap<String, List<String>>();
         for (final Entry<String, List<String>> entry : entrySet()) {
             final String decodedKey = entry.getKey();
-            final String encodedKey = Percent.encode(decodedKey);
+            final String encodedKey = Percent.encodePercent(decodedKey);
             final List<String> decodedValues = entry.getValue();
             final List<String> encodedValues
                     = new ArrayList<String>(decodedValues.size());
             for (final String decodedValue : decodedValues) {
-                encodedValues.add(Percent.encode(decodedValue));
+                encodedValues.add(Percent.encodePercent(decodedValue));
             }
             Collections.sort(encodedValues);
             map.put(encodedKey, encodedValues);
@@ -80,8 +80,8 @@ public class BaseStringBuilder extends Params implements Builder<String> {
             }
         }
         final String built = httpMethod.toUpperCase()
-                             + "&" + Percent.encode(baseUri)
-                             + "&" + Percent.encode(builder.toString());
+                             + "&" + Percent.encodePercent(baseUri)
+                             + "&" + Percent.encodePercent(builder.toString());
         if (printer != null) {
             printer.println("baseString: " + built);
         }

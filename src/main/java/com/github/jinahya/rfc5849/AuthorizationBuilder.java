@@ -117,18 +117,18 @@ public class AuthorizationBuilder implements Builder<String> {
                 final Entry<String, String> entry = i.next();
                 builder
                         .append(" ")
-                        .append(Percent.encode(entry.getKey()))
+                        .append(Percent.encodePercent(entry.getKey()))
                         .append("=\"")
-                        .append(Percent.encode(entry.getValue()))
+                        .append(Percent.encodePercent(entry.getValue()))
                         .append("\"");
             }
             while (i.hasNext()) {
                 final Entry<String, String> entry = i.next();
                 builder
                         .append(", ")
-                        .append(Percent.encode(entry.getKey()))
+                        .append(Percent.encodePercent(entry.getKey()))
                         .append("=\"")
-                        .append(Percent.encode(entry.getValue()))
+                        .append(Percent.encodePercent(entry.getValue()))
                         .append("\"");
             }
         }

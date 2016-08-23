@@ -13,21 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
-
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class BaseStringBuilderTest {
-
 
     /**
      * Tests against twitter example.
@@ -46,36 +41,35 @@ public class BaseStringBuilderTest {
         builder.httpMethod("POST");
         builder.baseUri("https://api.twitter.com/1/statuses/update.json");
         builder.entityParameter(
-            "status", "Hello Ladies + Gentlemen, a signed OAuth request!");
+                "status", "Hello Ladies + Gentlemen, a signed OAuth request!");
         builder.entityParameter("include_entities", "true");
         builder.protocolParameter(
-            "oauth_consumer_key", "xvz1evFS4wEEPTGEFPHBog");
+                "oauth_consumer_key", "xvz1evFS4wEEPTGEFPHBog");
         builder.protocolParameter(
-            "oauth_nonce", "kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg");
+                "oauth_nonce", "kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg");
         builder.protocolParameter("oauth_signature_method", "HMAC-SHA1");
         builder.protocolParameter("oauth_timestamp", "1318622958");
         builder.protocolParameter(
-            "oauth_token",
-            "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb");
+                "oauth_token",
+                "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb");
         builder.protocolParameter("oauth_version", "1.0");
 
         final String expected
-            = "POST"
-              + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
-              + "&include_entities%3Dtrue"
-              + "%26oauth_consumer_key%3Dxvz1evFS4wEEPTGEFPHBog"
-              + "%26oauth_nonce%3DkYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg"
-              + "%26oauth_signature_method%3DHMAC-SHA1"
-              + "%26oauth_timestamp%3D1318622958"
-              + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
-              + "%26oauth_version%3D1.0"
-              + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521";
+                = "POST"
+                  + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
+                  + "&include_entities%3Dtrue"
+                  + "%26oauth_consumer_key%3Dxvz1evFS4wEEPTGEFPHBog"
+                  + "%26oauth_nonce%3DkYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg"
+                  + "%26oauth_signature_method%3DHMAC-SHA1"
+                  + "%26oauth_timestamp%3D1318622958"
+                  + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
+                  + "%26oauth_version%3D1.0"
+                  + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521";
 
         final String actual = builder.build();
 
         assertEquals(actual, expected);
     }
-
 
     /**
      * Tests against nouncer example.
@@ -103,22 +97,21 @@ public class BaseStringBuilderTest {
         builder.queryParameter("file", "vacation.jpg");
 
         final String expected
-            = "GET"
-              + "&http%3A%2F%2Fphotos.example.net%2Fphotos"
-              + "&file%3Dvacation.jpg"
-              + "%26oauth_consumer_key%3Ddpf43f3p2l4k3l03"
-              + "%26oauth_nonce%3Dkllo9940pd9333jh"
-              + "%26oauth_signature_method%3DHMAC-SHA1"
-              + "%26oauth_timestamp%3D1191242096"
-              + "%26oauth_token%3Dnnch734d00sl2jdk"
-              + "%26oauth_version%3D1.0"
-              + "%26size%3Doriginal";
+                = "GET"
+                  + "&http%3A%2F%2Fphotos.example.net%2Fphotos"
+                  + "&file%3Dvacation.jpg"
+                  + "%26oauth_consumer_key%3Ddpf43f3p2l4k3l03"
+                  + "%26oauth_nonce%3Dkllo9940pd9333jh"
+                  + "%26oauth_signature_method%3DHMAC-SHA1"
+                  + "%26oauth_timestamp%3D1191242096"
+                  + "%26oauth_token%3Dnnch734d00sl2jdk"
+                  + "%26oauth_version%3D1.0"
+                  + "%26size%3Doriginal";
 
         final String actual = builder.build();
 
         assertEquals(actual, expected);
     }
-
 
     /**
      * Test against the example from {@code 3.4.1.1.  String Construction}.
@@ -131,42 +124,40 @@ public class BaseStringBuilderTest {
     public void rfc5849_3_4_1_1() throws Exception {
 
         final String documented
-            = "POST"
-              + "&http%3A%2F%2Fexample.com%2Frequest"
-              + "&a2%3Dr%2520b"
-              + "%26a3%3D2%2520q"
-              + "%26a3%3Da"
-              + "%26b5%3D%253D%25253D"
-              + "%26c%2540%3D"
-              + "%26c2%3D"
-              + "%26oauth_consumer_key%3D9djdj82h48djs9d2"
-              + "%26oauth_nonce%3D7d8f3e4a"
-              + "%26oauth_signature_method%3DHMAC-SHA1"
-              + "%26oauth_timestamp%3D137131201"
-              + "%26oauth_token%3Dkkk9d7dh3k39sjv7";
+                = "POST"
+                  + "&http%3A%2F%2Fexample.com%2Frequest"
+                  + "&a2%3Dr%2520b"
+                  + "%26a3%3D2%2520q"
+                  + "%26a3%3Da"
+                  + "%26b5%3D%253D%25253D"
+                  + "%26c%2540%3D"
+                  + "%26c2%3D"
+                  + "%26oauth_consumer_key%3D9djdj82h48djs9d2"
+                  + "%26oauth_nonce%3D7d8f3e4a"
+                  + "%26oauth_signature_method%3DHMAC-SHA1"
+                  + "%26oauth_timestamp%3D137131201"
+                  + "%26oauth_token%3Dkkk9d7dh3k39sjv7";
 
         final String expected = documented;
 
         final BaseStringBuilder builder = new BaseStringBuilder()
-            .httpMethod("POST")
-            .baseUri("http://example.com/request")
-            .queryParameter("b5", "=%3D")
-            .queryParameter("a3", "a")
-            .queryParameter("c@", "")
-            .queryParameter("a2", "r b")
-            .protocolParameter("oauth_consumer_key", "9djdj82h48djs9d2")
-            .protocolParameter("oauth_token", "kkk9d7dh3k39sjv7")
-            .protocolParameter("oauth_signature_method", "HMAC-SHA1")
-            .protocolParameter("oauth_timestamp", "137131201")
-            .protocolParameter("oauth_nonce", "7d8f3e4a")
-            .entityParameter("c2", "")
-            .entityParameter("a3", "2 q");
+                .httpMethod("POST")
+                .baseUri("http://example.com/request")
+                .queryParameter("b5", "=%3D")
+                .queryParameter("a3", "a")
+                .queryParameter("c@", "")
+                .queryParameter("a2", "r b")
+                .protocolParameter("oauth_consumer_key", "9djdj82h48djs9d2")
+                .protocolParameter("oauth_token", "kkk9d7dh3k39sjv7")
+                .protocolParameter("oauth_signature_method", "HMAC-SHA1")
+                .protocolParameter("oauth_timestamp", "137131201")
+                .protocolParameter("oauth_nonce", "7d8f3e4a")
+                .entityParameter("c2", "")
+                .entityParameter("a3", "2 q");
 
         final String actual = builder.build();
 
         assertEquals(actual, expected);
     }
 
-
 }
-

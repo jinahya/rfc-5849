@@ -15,7 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import com.github.jinahya.rfc5849.util.Percent;
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 
 /**
  * A signature builder for {@code PLAINTEXT}.
@@ -64,9 +64,7 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
         if (tokenSecret == null) {
             throw new IllegalStateException("no tokenSecret set");
         }
-        return Percent.encode(consumerSecret)
-               + "&"
-               + Percent.encode(tokenSecret);
+        return encodePercent(consumerSecret) + "&" + encodePercent(tokenSecret);
     }
 
     private String consumerSecret;

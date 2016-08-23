@@ -48,8 +48,8 @@ class Hex {
         }
     }
 
-    static void encodeSingle(final int input, final byte[] output,
-                             final int outoff) {
+    static void encodeHexSingle(final int input, final byte[] output,
+                                final int outoff) {
         output[outoff] = (byte) encodeHalf((input >> 4) & 0x0F);
         output[outoff + 1] = (byte) encodeHalf(input & 0x0F);
     }
@@ -86,7 +86,7 @@ class Hex {
         }
     }
 
-    static int decodeSingle(final byte[] input, final int inoff) {
+    static int decodeHexSingle(final byte[] input, final int inoff) {
         return (decodeHalf(input[inoff] & 0xFF) << 4)
                | decodeHalf(input[inoff + 1] & 0xFF);
     }

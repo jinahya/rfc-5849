@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 import static java.lang.invoke.MethodHandles.lookup;
 import org.slf4j.Logger;
@@ -24,20 +21,17 @@ import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.assertNotEquals;
 import org.testng.annotations.Test;
 
-
 /**
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
 public class NonceBuilderTest {
 
-
     @Test
     public void build() throws Exception {
 
         final String built = new NonceBuilder().build();
     }
-
 
     @Test
     public void test() throws Exception {
@@ -47,9 +41,5 @@ public class NonceBuilderTest {
         assertNotEquals(built1, built2);
     }
 
-
     private transient final Logger logger = getLogger(lookup().lookupClass());
-
-
 }
-

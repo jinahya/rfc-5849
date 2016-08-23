@@ -13,16 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 import static java.lang.invoke.MethodHandles.lookup;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.testng.annotations.Test;
-
 
 /**
  *
@@ -30,16 +26,10 @@ import org.testng.annotations.Test;
  */
 public class TimestampBuilderTest {
 
-
     @Test
     public void build() throws Exception {
-
         final String built = new TimestampBuilder().build();
     }
 
-
     private transient final Logger logger = getLogger(lookup().lookupClass());
-
-
 }
-

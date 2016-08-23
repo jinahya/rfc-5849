@@ -86,7 +86,7 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
         final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
         final byte[] built = build(privateKey, baseBytes);
-        return Base64.encodeToString(built);
+        return Base64.encodeBase64ToString(built);
     }
 
     protected abstract byte[] build(final T privateKey, final byte[] baseBytes)

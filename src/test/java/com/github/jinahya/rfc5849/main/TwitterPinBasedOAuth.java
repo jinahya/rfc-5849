@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849.main;
-
 
 import com.github.jinahya.rfc5849.Rfc5849Constants;
 import java.awt.Desktop;
@@ -29,7 +26,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
-
 
 /**
  *
@@ -44,21 +40,16 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class TwitterPinBasedOAuth {
 
-
     private static String systemProperty(final String key,
                                          final Supplier<String> def) {
-
         return ofNullable(System.getProperty(key)).orElseGet(def);
     }
 
-
     private static String systemProperty(final String key) {
-
         return systemProperty(key, () -> {
-            throw new RuntimeException("missing property: " + key);
-        });
+                          throw new RuntimeException("missing property: " + key);
+                      });
     }
-
 
     public static void main(final String[] args) throws Exception {
 
@@ -76,32 +67,32 @@ public class TwitterPinBasedOAuth {
         final TwitterClient client = new TwitterClient();
 
         final MultivaluedMap<String, String> requestToken
-            = client.oAuthRequestToken(consumerKey, consumerSecret,
-                                       Rfc5849Constants.OAUTH_CALLBACK_OUT_OF_BAND);
+                = client.oAuthRequestToken(consumerKey, consumerSecret,
+                                           Rfc5849Constants.OAUTH_CALLBACK_OUT_OF_BAND);
         console.printf("Request token has been retrived.\n");
         String oauthToken = requestToken.getFirst(Rfc5849Constants.OAUTH_TOKEN);
         console.printf("\toauthToken: %1$s\n", oauthToken);
         String oauthTokenSecret
-            = requestToken.getFirst(Rfc5849Constants.OAUTH_TOKEN_SECRET);
+                = requestToken.getFirst(Rfc5849Constants.OAUTH_TOKEN_SECRET);
         console.printf("\t%1$s\n", oauthTokenSecret);
         final String oauthCallbackConfirmed
-            = requestToken.getFirst(Rfc5849Constants.OAUTH_CALLBACK_CONFIRMED);
+                = requestToken.getFirst(Rfc5849Constants.OAUTH_CALLBACK_CONFIRMED);
         console.printf("%1$s\n", oauthCallbackConfirmed);
 
         final URI authorizationUri
-            = UriBuilder.fromUri(TwitterConstants.URL_OAUTH_AUTHORIZE)
-            .queryParam(Rfc5849Constants.OAUTH_TOKEN, oauthToken).build();
+                = UriBuilder.fromUri(TwitterConstants.URL_OAUTH_AUTHORIZE)
+                .queryParam(Rfc5849Constants.OAUTH_TOKEN, oauthToken).build();
         console.printf("authorizationUri: %1$s\n", authorizationUri);
         try {
             final Desktop desktop = Desktop.getDesktop();
             console.printf(
-                "Now, I'm going to open a browser for your autohrization. [Enter to continue...]");
+                    "Now, I'm going to open a browser for your autohrization. [Enter to continue...]");
             console.readLine();
             desktop.browse(authorizationUri);
         } catch (final Exception e) {
             console.printf("Can't open a browser.\n");
             console.printf(
-                "Please go to " + authorizationUri + " and pass me the PIN.\n");
+                    "Please go to " + authorizationUri + " and pass me the PIN.\n");
         }
         final String pin = console.readLine("PIN: ").trim();
         if (pin.isEmpty()) {
@@ -110,9 +101,9 @@ public class TwitterPinBasedOAuth {
         }
 
         final MultivaluedMap<String, String> oauthAccessToken
-            = client.oAuthAccessToken(
-                consumerKey, consumerSecret, oauthToken, oauthTokenSecret, null,
-                null, null, pin);
+                = client.oAuthAccessToken(
+                        consumerKey, consumerSecret, oauthToken, oauthTokenSecret, null,
+                        null, null, pin);
         console.printf("Access token retrived.\n");
         oauthToken = oauthAccessToken.getFirst(Rfc5849Constants.OAUTH_TOKEN);
         console.printf("\toauthToken: %1$s\n", oauthToken);
@@ -120,6 +111,4 @@ public class TwitterPinBasedOAuth {
         console.printf("\toauthTokenSecret: %1$s\n", oauthTokenSecret);
     }
 
-
 }
-

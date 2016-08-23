@@ -15,6 +15,10 @@
  */
 package com.github.jinahya.rfc5849.util;
 
+import static com.github.jinahya.rfc5849.util.Formurl.decodeFormurl;
+import static com.github.jinahya.rfc5849.util.Formurl.encodeFormurl;
+import static com.github.jinahya.rfc5849.util.Percent.decodePercent;
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -100,13 +104,13 @@ public class Params extends HashMap<String, List<String>> {
         }
         final int length = builder.length();
         for (final Entry<String, List<String>> entry : entrySet()) {
-            final String key = Percent.encode(entry.getKey());
+            final String key = encodePercent(entry.getKey());
             for (final String value : entry.getValue()) {
                 builder
                         .append("&")
                         .append(key)
                         .append("=")
-                        .append(Percent.encode(value));
+                        .append(encodePercent(value));
             }
         }
         if (builder.length() > length) {
@@ -124,7 +128,7 @@ public class Params extends HashMap<String, List<String>> {
             throw new NullPointerException("null printed");
         }
         for (final Iterator<String> i = s(printed).iterator(); i.hasNext();) {
-            add(Percent.decode(i.next()), Percent.decode(i.next()));
+            add(decodePercent(i.next()), decodePercent(i.next()));
         }
         return this;
     }
@@ -142,13 +146,13 @@ public class Params extends HashMap<String, List<String>> {
         }
         final int length = builder.length();
         for (final Entry<String, List<String>> entry : entrySet()) {
-            final String key = Formurl.encode(entry.getKey());
+            final String key = encodeFormurl(entry.getKey());
             for (final String value : entry.getValue()) {
                 builder
                         .append("&")
                         .append(key)
                         .append("=")
-                        .append(Formurl.encode(value));
+                        .append(encodeFormurl(value));
             }
         }
         if (builder.length() > length) {
@@ -178,7 +182,7 @@ public class Params extends HashMap<String, List<String>> {
             throw new NullPointerException("null printed");
         }
         for (final Iterator<String> i = s(printed).iterator(); i.hasNext();) {
-            add(Formurl.decode(i.next()), Formurl.decode(i.next()));
+            add(decodeFormurl(i.next()), decodeFormurl(i.next()));
         }
         return this;
     }

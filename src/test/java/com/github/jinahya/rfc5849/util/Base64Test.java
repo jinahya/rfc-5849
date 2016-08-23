@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849.util;
-
 
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.ThreadLocalRandom.current;
@@ -26,78 +23,53 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import org.testng.annotations.Test;
 
-
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class Base64Test {
 
-
     @Test(invocationCount = 128)
     public void encode() {
-
         final byte[] expected = new byte[current().nextInt(1024)];
         current().nextBytes(expected);
-
-        final byte[] encoded = Base64.encode(expected);
-
+        final byte[] encoded = Base64.encodeBase64(expected);
         final byte[] actual = java.util.Base64.getDecoder().decode(encoded);
-
         assertEquals(actual, expected);
     }
 
-
     @Test
     public void encodeEmptyBytes() {
-
-        final byte[] encoded = Base64.encode(new byte[0]);
-
+        final byte[] encoded = Base64.encodeBase64(new byte[0]);
         assertNotNull(encoded);
         assertEquals(encoded.length, 0);
     }
 
-
     @Test(expectedExceptions = {NullPointerException.class})
     public void encodeNullBytes() {
-
-        Base64.encode(null);
+        Base64.encodeBase64(null);
     }
-
 
     @Test(invocationCount = 128)
     public void decode() {
-
         final byte[] expected = new byte[current().nextInt(1024)];
         current().nextBytes(expected);
-
         final byte[] encoded = java.util.Base64.getEncoder().encode(expected);
-
-        final byte[] actual = Base64.decode(encoded);
-
+        final byte[] actual = Base64.decodeBase64(encoded);
         assertEquals(actual, expected);
     }
 
-
     @Test(expectedExceptions = {NullPointerException.class})
     public void decodeNullBytes() {
-
-        Base64.decode((byte[]) null);
+        Base64.decodeBase64((byte[]) null);
     }
-
 
     @Test
     public void decodeEmptyBytes() {
-
-        final byte[] decoded = Base64.decode(new byte[0]);
-
+        final byte[] decoded = Base64.decodeBase64(new byte[0]);
         assertNotNull(decoded);
         assertEquals(decoded.length, 0);
     }
 
-
     private transient final Logger logger = getLogger(lookup().lookupClass());
-
-
 }
-

@@ -24,7 +24,6 @@ import java.io.UnsupportedEncodingException;
 public final class Percent {
 
     private static boolean unreserved(final int b) {
-
         return (b >= 0x30 && b <= 0x39) // digits
                || (b >= 0x41 && b <= 0x5A) // uppercase letters
                || (b >= 0x61 && b <= 0x7A) // lowercase letters
@@ -34,7 +33,7 @@ public final class Percent {
                || b == 0x7E; // '~'
     }
 
-    public static String encode(final String s, final String enc)
+    public static String encodePercent(final String s, final String enc)
             throws UnsupportedEncodingException {
         if (s == null) {
             throw new NullPointerException("null decoded");
@@ -51,7 +50,7 @@ public final class Percent {
                 continue;
             }
             auxiliary[j++] = 0x25;
-            Hex.encodeSingle(source[i], auxiliary, j);
+            Hex.encodeHexSingle(source[i], auxiliary, j);
             j += 2;
         }
         final byte[] target = new byte[j];
@@ -66,40 +65,15 @@ public final class Percent {
      *
      * @return encoding result.
      */
-    public static String encode(final String s) {
+    public static String encodePercent(final String s) {
         try {
-            return encode(s, "UTF-8");
+            return encodePercent(s, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
             throw new RuntimeException(uee.getMessage());
         }
     }
 
-//    public static List<String> encode(final List<String> decodedList,
-//                                      final List<String> encodedList) {
-//
-//        if (decodedList == null) {
-//            throw new NullPointerException("null decodedList");
-//        }
-//
-//        if (encodedList == null) {
-//            throw new NullPointerException("null encodedList");
-//        }
-//
-//        for (final String decoded : decodedList) {
-//            encodedList.add(encode(decoded));
-//        }
-//
-//        return encodedList;
-//    }
-//    public static List<String> encode(final List<String> encodedList) {
-//
-//        if (encodedList == null) {
-//            throw new NullPointerException("null encodedList");
-//        }
-//
-//        return encode(encodedList, new ArrayList<String>(encodedList.size()));
-//    }
-    public static String decode(final String s, final String enc)
+    public static String decodePercent(final String s, final String enc)
             throws UnsupportedEncodingException {
         if (s == null) {
             throw new NullPointerException("null s");
@@ -116,7 +90,7 @@ public final class Percent {
                 continue;
             }
             i++; // 0x25
-            auxiliary[j++] = (byte) Hex.decodeSingle(source, i);
+            auxiliary[j++] = (byte) Hex.decodeHexSingle(source, i);
             i++;
         }
         final byte[] target = new byte[j];
@@ -131,42 +105,14 @@ public final class Percent {
      *
      * @return decoding result.
      */
-    public static String decode(final String s) {
+    public static String decodePercent(final String s) {
         try {
-            return decode(s, "UTF-8");
+            return decodePercent(s, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
             throw new RuntimeException(uee.getMessage());
         }
     }
 
-//    public static List<String> decode(final List<String> encodedList,
-//                                      final List<String> decodedList) {
-//
-//        if (encodedList == null) {
-//            throw new NullPointerException("null encodedList");
-//        }
-//
-//        if (decodedList == null) {
-//            throw new NullPointerException("null decodedList");
-//        }
-//
-//        for (final String encoded : encodedList) {
-//            decodedList.add(decode(encoded));
-//        }
-//
-//        return decodedList;
-//    }
-//    public static List<String> decode(final List<String> encodedList) {
-//
-//        if (encodedList == null) {
-//            throw new NullPointerException("null encodedList");
-//        }
-//
-//        final List<String> decodedList
-//            = decode(encodedList, new ArrayList<String>(encodedList.size()));
-//
-//        return decodedList;
-//    }
     private Percent() {
         super();
     }

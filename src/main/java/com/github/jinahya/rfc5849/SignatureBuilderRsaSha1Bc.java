@@ -35,7 +35,6 @@ public class SignatureBuilderRsaSha1Bc
         final Signer signer = new RSADigestSigner(new SHA1Digest());
         signer.init(true, privateKey);
         signer.update(baseBytes, 0, baseBytes.length);
-
         return signer.generateSignature();
     }
 
@@ -44,5 +43,4 @@ public class SignatureBuilderRsaSha1Bc
             final CipherParameters privateKey) {
         return (SignatureBuilderRsaSha1Bc) super.privateKey(privateKey);
     }
-
 }

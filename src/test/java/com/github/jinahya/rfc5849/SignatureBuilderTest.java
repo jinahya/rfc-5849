@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
 
-
-import java.util.Objects;
-
+import static java.util.Objects.requireNonNull;
 
 /**
  * An abstract class for testing {@link SignatureBuilder}.
@@ -29,15 +25,10 @@ import java.util.Objects;
  */
 public abstract class SignatureBuilderTest<T extends SignatureBuilder> {
 
-
     public SignatureBuilderTest(final Class<T> builderType) {
-
         super();
-
-        this.builderType
-            = Objects.requireNonNull(builderType, "null builderType");
+        this.builderType = requireNonNull(builderType, "null builderType");
     }
-
 
     /**
      * Creates a new instance of {@link #builderType}. The {@code newInstance()}
@@ -47,7 +38,6 @@ public abstract class SignatureBuilderTest<T extends SignatureBuilder> {
      * @return a new instance of {@link #builderType}.
      */
     protected T newInstance() {
-
         try {
             return builderType.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
@@ -55,9 +45,5 @@ public abstract class SignatureBuilderTest<T extends SignatureBuilder> {
         }
     }
 
-
     protected final Class<T> builderType;
-
-
 }
-

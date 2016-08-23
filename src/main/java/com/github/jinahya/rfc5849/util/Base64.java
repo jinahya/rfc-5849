@@ -53,7 +53,7 @@ public final class Base64 {
      *
      * @return encoding output.
      */
-    public static byte[] encode(final byte[] input) {
+    public static byte[] encodeBase64(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
@@ -91,12 +91,12 @@ public final class Base64 {
      *
      * @return a string
      */
-    public static String encodeToString(final byte[] input) {
+    public static String encodeBase64ToString(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
         try {
-            return new String(encode(input), "ISO-8859-1");
+            return new String(encodeBase64(input), "ISO-8859-1");
         } catch (final UnsupportedEncodingException uee) {
             //throw new RuntimeException(uee);
             uee.printStackTrace(System.err);
@@ -111,7 +111,7 @@ public final class Base64 {
      *
      * @return decoding output.
      */
-    public static byte[] decode(final byte[] input) {
+    public static byte[] decodeBase64(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
@@ -153,12 +153,12 @@ public final class Base64 {
      *
      * @return decoding output.
      */
-    public static byte[] decode(final String input) {
+    public static byte[] decodeBase64(final String input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
         try {
-            return decode(input.getBytes("ISO-8859-1"));
+            return decodeBase64(input.getBytes("ISO-8859-1"));
         } catch (final UnsupportedEncodingException uee) {
             //throw new RuntimeException(uee);
             uee.printStackTrace(System.err);
