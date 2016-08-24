@@ -15,6 +15,8 @@
  */
 package com.github.jinahya.rfc5849.util;
 
+import static com.github.jinahya.rfc5849.util.Hex.decodeHexSingle;
+import static com.github.jinahya.rfc5849.util.Hex.encodeHexSingle;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -50,7 +52,7 @@ public final class Percent {
                 continue;
             }
             auxiliary[j++] = 0x25;
-            Hex.encodeHexSingle(source[i], auxiliary, j);
+            encodeHexSingle(source[i], auxiliary, j);
             j += 2;
         }
         final byte[] target = new byte[j];
@@ -90,7 +92,7 @@ public final class Percent {
                 continue;
             }
             i++; // 0x25
-            auxiliary[j++] = (byte) Hex.decodeHexSingle(source, i);
+            auxiliary[j++] = (byte) decodeHexSingle(source, i);
             i++;
         }
         final byte[] target = new byte[j];

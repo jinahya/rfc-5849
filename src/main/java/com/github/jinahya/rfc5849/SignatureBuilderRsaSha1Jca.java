@@ -40,5 +40,4 @@ public class SignatureBuilderRsaSha1Jca
     public SignatureBuilderRsaSha1Jca privateKey(final PrivateKey privateKey) {
         return (SignatureBuilderRsaSha1Jca) super.privateKey(privateKey);
     }
-
 }

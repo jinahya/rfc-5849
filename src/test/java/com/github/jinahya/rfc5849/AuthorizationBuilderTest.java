@@ -387,7 +387,6 @@ public class AuthorizationBuilderTest {
      */
     @Test(enabled = true)
     public void rfc5849_3_1() throws Exception {
-
         final String documented
                 = "OAuth"
                   + " realm=\"Example\","
@@ -397,7 +396,6 @@ public class AuthorizationBuilderTest {
                   + " oauth_timestamp=\"137131201\","
                   + " oauth_nonce=\"7d8f3e4a\","
                   + " oauth_signature=\"bYT5CMsGcbgUdFHObYMEfcx6bsw%3D\"";
-
         // with errata
         final String expected
                 = "OAuth"
@@ -408,7 +406,6 @@ public class AuthorizationBuilderTest {
                   + " oauth_signature_method=\"HMAC-SHA1\","
                   + " oauth_timestamp=\"137131201\","
                   + " oauth_token=\"kkk9d7dh3k39sjv7\"";
-
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("Example")
                 .signatureBuilder(
@@ -431,9 +428,7 @@ public class AuthorizationBuilderTest {
                                 .entityParameter("a3", "2 q")
                         )
                 );
-
         final String actual = builder.build();
-
         assertEquals(actual, expected);
     }
 

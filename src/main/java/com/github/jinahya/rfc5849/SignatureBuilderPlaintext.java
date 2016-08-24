@@ -26,7 +26,7 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
 
     public static final String SIGNATURE_METHOD = "PLAINTEXT";
 
-    protected SignatureBuilderPlaintext(final String signatureMethod) {
+    SignatureBuilderPlaintext(final String signatureMethod) {
         super(signatureMethod);
     }
 
@@ -54,10 +54,6 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
 
     @Override
     public String build() throws Exception {
-        final String prebuilt = getPrebuilt();
-        if (prebuilt != null) {
-            return prebuilt;
-        }
         if (consumerSecret == null) {
             throw new IllegalStateException("no consumerSecret set");
         }

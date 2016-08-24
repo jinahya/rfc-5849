@@ -15,7 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import com.github.jinahya.rfc5849.util.Base64;
+import static com.github.jinahya.rfc5849.util.Base64.encodeBase64ToString;
 
 /**
  * An abstract class for signature builder implementation whose signature method
@@ -72,11 +72,11 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
 
     @Override
     public String build() throws Exception {
-        final String prebuilt = getPrebuilt();
-        if (prebuilt != null) {
-            return prebuilt;
-        }
-        final BaseStringBuilder baseStringBuilder = getBaseStringBuilder();
+//        final String prebuilt = getPrebuilt();
+//        if (prebuilt != null) {
+//            return prebuilt;
+//        }
+        final BaseStringBuilder baseStringBuilder = baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
@@ -86,7 +86,7 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
         final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
         final byte[] built = build(privateKey, baseBytes);
-        return Base64.encodeBase64ToString(built);
+        return encodeBase64ToString(built);
     }
 
     protected abstract byte[] build(final T privateKey, final byte[] baseBytes)
@@ -96,5 +96,4 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
      * The private key to use.
      */
     private T privateKey;
-
 }

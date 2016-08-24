@@ -50,23 +50,18 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
         final String consumerSecret
                 = "kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw";
         final String tokenSecret = "LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE";
-
         final T builder = newInstance();
-
         builder
                 .consumerSecret(consumerSecret)
                 .tokenSecret(tokenSecret)
-                .baseStringBuilder(new BaseStringBuilder().prebuilt(baseString));
-
+                .baseString(baseString);
         final String expected = "tnnArxj06cWHq44gCs1OSKk/jLY=";
         final String actual = builder.build();
-
         assertEquals(actual, expected);
     }
 
     @Test
     public void nouncerExample() throws Exception {
-
         final String baseString
                 = "GET"
                   + "&http%3A%2F%2Fphotos.example.net%2Fphotos"
@@ -80,18 +75,13 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
                   + "%26size%3Doriginal";
         final String consumerSecret = "kd94hf93k423kf44";
         final String tokenSecret = "pfkkdhi9sl3r4s00";
-
         final T builder = newInstance();
-
         builder
                 .consumerSecret(consumerSecret)
                 .tokenSecret(tokenSecret)
-                .baseStringBuilder(new BaseStringBuilder().prebuilt(baseString));
-
+                .baseString(baseString);
         final String expected = "tR3+Ty81lMeYAr/Fid0kMTYa/WM=";
         final String actual = builder.build();
-
         assertEquals(actual, expected);
     }
-
 }

@@ -16,7 +16,7 @@
 package com.github.jinahya.rfc5849;
 
 import com.github.jinahya.rfc5849.util.Params;
-import com.github.jinahya.rfc5849.util.Percent;
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,16 +34,14 @@ public class BaseStringBuilder extends Params implements Builder<String> {
 
     @Override
     public String build() throws Exception {
-        if (prebuilt != null) {
-            return prebuilt;
-        }
         if (httpMethod == null) {
-            throw new IllegalStateException("no httpMethod set");
+            throw new IllegalStateException("no httpMethod");
         }
         if (baseUri == null) {
-            throw new IllegalStateException("no baseUri set");
+            throw new IllegalStateException("no baseUri");
         }
-        if (getFirst(Rfc5849Constants.OAUTH_NONCE) == null && nonceBuilder != null) {
+        if (getFirst(Rfc5849Constants.OAUTH_NONCE) == null
+            && nonceBuilder != null) {
             oauthNonce(nonceBuilder.build());
         }
         if (getFirst(Rfc5849Constants.OAUTH_TIMESTAMP) == null
@@ -52,14 +50,14 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         }
         final Map<String, List<String>> map
                 = new TreeMap<String, List<String>>();
-        for (final Entry<String, List<String>> entry : entrySet()) {
+        for (final Entry<String, List<String>> entry : entries()) {
             final String decodedKey = entry.getKey();
-            final String encodedKey = Percent.encodePercent(decodedKey);
+            final String encodedKey = encodePercent(decodedKey);
             final List<String> decodedValues = entry.getValue();
             final List<String> encodedValues
                     = new ArrayList<String>(decodedValues.size());
             for (final String decodedValue : decodedValues) {
-                encodedValues.add(Percent.encodePercent(decodedValue));
+                encodedValues.add(encodePercent(decodedValue));
             }
             Collections.sort(encodedValues);
             map.put(encodedKey, encodedValues);
@@ -72,35 +70,20 @@ public class BaseStringBuilder extends Params implements Builder<String> {
                     if (builder.length() > 0) {
                         builder.append("&");
                     }
-                    builder
-                            .append(key)
-                            .append("=")
-                            .append(value);
+                    builder.append(key).append("=").append(value);
                 }
             }
         }
         final String built = httpMethod.toUpperCase()
-                             + "&" + Percent.encodePercent(baseUri)
-                             + "&" + Percent.encodePercent(builder.toString());
+                             + "&" + encodePercent(baseUri)
+                             + "&" + encodePercent(builder.toString());
         if (printer != null) {
             printer.println("baseString: " + built);
         }
         return built;
     }
 
-    protected String getPrebuilt() {
-        return prebuilt;
-    }
-
-    public void setPrebuilt(final String prebuilt) {
-        this.prebuilt = prebuilt;
-    }
-
-    protected BaseStringBuilder prebuilt(final String prebuilt) {
-        setPrebuilt(prebuilt);
-        return this;
-    }
-
+    // -------------------------------------------------------------- httpMethod
     public String getHttpMethod() {
         return httpMethod;
     }
@@ -110,10 +93,10 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     }
 
     /**
-     * Replaces the current value of HTTP method with given and returns this
-     * instance.
+     * Replaces the current value of {@code httpMethod}with given and returns
+     * this instance.
      *
-     * @param httpMethod new value of HTTP method.
+     * @param httpMethod new value of {@code httpMethod}.
      *
      * @return this instance.
      */
@@ -122,6 +105,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // ----------------------------------------------------------------- baseUri
     public String getBaseUri() {
         return baseUri;
     }
@@ -184,6 +168,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // ----------------------------------------------------------- oauthCallback
     public String getOauthCallback() {
         return getProtocolParameter(Rfc5849Constants.OAUTH_CALLBACK);
     }
@@ -197,12 +182,14 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // -------------------------------------------------------- oauthConsumerKey
     public String getOauthConsumerKey() {
         return getProtocolParameter(Rfc5849Constants.OAUTH_CONSUMER_KEY);
     }
 
     public void setOauthConsumerKey(final String oauthConsumerKey) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_CONSUMER_KEY, oauthConsumerKey);
+        setProtocolParameter(Rfc5849Constants.OAUTH_CONSUMER_KEY,
+                             oauthConsumerKey);
     }
 
     /**
@@ -219,6 +206,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // -------------------------------------------------------------- oauthNonce
     public String getOauthNonce() {
         return getProtocolParameter(Rfc5849Constants.OAUTH_NONCE);
     }
@@ -232,6 +220,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // ------------------------------------------------------- oauthNonceBuilder
     public NonceBuilder getOauthNonceBuilder() {
         return nonceBuilder;
     }
@@ -245,6 +234,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // ---------------------------------------------------- oauthSignatureMethod
     public String getOauthSignatureMethod() {
         return getProtocolParameter(Rfc5849Constants.OAUTH_SIGNATURE_METHOD);
     }
@@ -260,6 +250,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // ---------------------------------------------------------- oauthTimestamp
     public String getOauthTimestamp() {
         return getProtocolParameter(Rfc5849Constants.OAUTH_TIMESTAMP);
     }
@@ -273,6 +264,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // --------------------------------------------------- oauthTimestampBuilder
     public TimestampBuilder getOauthTimestampBuilder() {
         return timestampBuilder;
     }
@@ -288,6 +280,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // -------------------------------------------------------------- oauthToken
     public String getOauthToken() {
         return getProtocolParameter(Rfc5849Constants.OAUTH_TOKEN);
     }
@@ -301,6 +294,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // ------------------------------------------------------------ oauthVersion
     public String getOauthVersion() {
         return getProtocolParameter(Rfc5849Constants.OAUTH_VERSION);
     }
@@ -314,6 +308,7 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // ----------------------------------------------------------- oauthVerifier
     public String getOauthVerifier() {
         return getProtocolParameter(Rfc5849Constants.OAUTH_VERIFIER);
     }
@@ -327,25 +322,48 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         return this;
     }
 
+    // -------------------------------------------------------- entityParameters
+    @Deprecated
     public void addEntityParameter(final String key, final String value) {
         if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
-                    "key(" + key + ") starts with " + PROTOCOL_PARAMETER_PREFIX);
+                    "key(" + key + ") starts with "
+                    + PROTOCOL_PARAMETER_PREFIX);
         }
         add(key, value);
     }
 
     public BaseStringBuilder entityParameter(final String key,
                                              final String value) {
-        addEntityParameter(key, value);
+        if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+            throw new IllegalArgumentException(
+                    "key(" + key + ") starts with "
+                    + PROTOCOL_PARAMETER_PREFIX);
+        }
+        add(key, value);
         return this;
     }
 
-    public BaseStringBuilder entityParameters(final Params params) {
-        if (params == null) {
-            throw new NullPointerException("null params");
+//    public BaseStringBuilder entityParameters(final Params params) {
+//        if (params == null) {
+//            throw new NullPointerException("null params");
+//        }
+//        for (final Entry<String, List<String>> entry : params.entries()) {
+//            final String key = entry.getKey();
+//            for (String value : entry.getValue()) {
+//                entityParameter(key, value);
+//            }
+//        }
+//        return this;
+//    }
+//
+    public BaseStringBuilder entityParameters(
+            final Map<String, List<String>> entityParameters) {
+        if (entityParameters == null) {
+            throw new NullPointerException("null entityParameters");
         }
-        for (final Entry<String, List<String>> entry : params.entrySet()) {
+        for (final Entry<String, List<String>> entry
+             : entityParameters.entrySet()) {
             final String key = entry.getKey();
             for (String value : entry.getValue()) {
                 entityParameter(key, value);
@@ -358,8 +376,6 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         this.printer = printer;
         return this;
     }
-
-    private String prebuilt;
 
     private String httpMethod;
 

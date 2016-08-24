@@ -21,57 +21,62 @@ package com.github.jinahya.rfc5849;
  */
 public abstract class SignatureBuilder implements Builder<String> {
 
-    public SignatureBuilder(final String signatureMethod) {
+    // ------------------------------------------------------------ constructors
+    SignatureBuilder(final String signatureMethod) {
         super();
-        if (signatureMethod == null) {
-            throw new NullPointerException("null signatureMethod");
-        }
         this.signatureMethod = signatureMethod;
     }
 
-    protected String getPrebuilt() {
-        return prebuilt;
+    SignatureBuilder() {
+        this(null);
     }
 
-    protected void setPrebuilt(final String prebuilt) {
-        this.prebuilt = prebuilt;
-    }
-
-    public SignatureBuilder prebuilt(final String prebuilt) {
-        setPrebuilt(prebuilt);
-        return this;
-    }
-
+    // --------------------------------------------------------- signatureMethod
     /**
      * Returns signature method.
      *
      * @return signature method.
      */
-    public String getSignatureMethod() {
+    String signatureMethod() {
         return signatureMethod;
     }
 
-    public BaseStringBuilder getBaseStringBuilder() {
-        return baseStringBuilder;
+    public SignatureBuilder signatureMethod(final String signatureMethod) {
+        this.signatureMethod = signatureMethod;
+        return this;
     }
 
-    public void setBaseStringBuilder(
-            final BaseStringBuilder baseStringBuilder) {
-        this.baseStringBuilder = baseStringBuilder;
-        if (this.baseStringBuilder != null) {
-            this.baseStringBuilder.setOauthSignatureMethod(signatureMethod);
-        }
+    // ------------------------------------------------------- baseStringBuilder
+    BaseStringBuilder baseStringBuilder() {
+        return baseStringBuilder;
     }
 
     public SignatureBuilder baseStringBuilder(
             final BaseStringBuilder baseStringBuilder) {
-        setBaseStringBuilder(baseStringBuilder);
+        if (baseStringBuilder == null) {
+            throw new NullPointerException("null baseStringBuilder");
+        }
+        this.baseStringBuilder = baseStringBuilder;
+        this.baseStringBuilder.setOauthSignatureMethod(signatureMethod);
         return this;
     }
 
-    private String prebuilt;
+    // -------------------------------------------------------------- baseString
+    public SignatureBuilder baseString(final String baseString) {
+        if (baseString == null) {
+            throw new NullPointerException("null baseString");
+        }
+        return baseStringBuilder(new BaseStringBuilder() {
+            @Override
+            public String build() {
+                return baseString;
+            }
+        });
+    }
 
-    protected final String signatureMethod;
+    // -------------------------------------------------------------------------
+//    private String prebuilt;
+    private String signatureMethod;
 
     private BaseStringBuilder baseStringBuilder;
 }

@@ -30,32 +30,33 @@ public class AuthorizationBuilder implements Builder<String> {
 
     public static final String REALM = "realm";
 
-    protected String getPrebuilt() {
-        return prebuilt;
-    }
-
-    protected void setPrebuilt(final String prebuilt) {
-        this.prebuilt = prebuilt;
-    }
-
-    public AuthorizationBuilder prebuilt(final String prebuilt) {
-        setPrebuilt(prebuilt);
-        return this;
-    }
-
-    public String getRealm() {
-        return realm;
-    }
-
-    public void setRealm(final String realm) {
-        this.realm = realm;
-    }
-
+//    // ---------------------------------------------------------------- prebuilt
+//    protected String getPrebuilt() {
+//        return prebuilt;
+//    }
+//
+//    protected void setPrebuilt(final String prebuilt) {
+//        this.prebuilt = prebuilt;
+//    }
+//
+//    public AuthorizationBuilder prebuilt(final String prebuilt) {
+//        setPrebuilt(prebuilt);
+//        return this;
+//    }
+    // ------------------------------------------------------------------- realm
+//    public String getRealm() {
+//        return realm;
+//    }
+//
+//    public void setRealm(final String realm) {
+//        this.realm = realm;
+//    }
     public AuthorizationBuilder realm(final String realm) {
-        setRealm(realm);
+        this.realm = realm;
         return this;
     }
 
+    // --------------------------------------------------------- sinatureBuilder
     public SignatureBuilder getSignatureBuilder() {
         return signatureBuilder;
     }
@@ -70,26 +71,32 @@ public class AuthorizationBuilder implements Builder<String> {
         return this;
     }
 
+    public AuthorizationBuilder signature(final String signature, final String method) {
+        return signatureBuilder(new SignatureBuilder() {
+            @Override
+            public String build() {
+                return signature;
+            }
+        });
+    }
+    // -------------------------------------------------------------------------
+
     @Override
     public String build() throws Exception {
-        if (prebuilt != null) {
-            return prebuilt;
-        }
         if (signatureBuilder == null) {
             throw new IllegalStateException("no signatureBuilder set");
         }
         final BaseStringBuilder baseStringBuilder
-                = signatureBuilder.getBaseStringBuilder();
+                = signatureBuilder.baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException(
-                    "no baseStringBuilder set on signatgureBuilder");
+                    "no baseStringBuilder set on the signatgureBuilder");
         }
         final Map<String, String> params = new TreeMap<String, String>();
         final String oauthSignature = signatureBuilder.build();
         params.put(Rfc5849Constants.OAUTH_SIGNATURE, oauthSignature);
-
         for (final Entry<String, List<String>> entry
-             : baseStringBuilder.entrySet()) {
+             : baseStringBuilder.entries()) {
             final String key = entry.getKey();
             if (!key.startsWith(BaseStringBuilder.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;
@@ -132,8 +139,6 @@ public class AuthorizationBuilder implements Builder<String> {
         }
         return builder.toString();
     }
-
-    private String prebuilt;
 
     private String realm;
 

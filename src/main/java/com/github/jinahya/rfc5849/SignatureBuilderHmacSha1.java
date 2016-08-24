@@ -38,19 +38,16 @@ public abstract class SignatureBuilderHmacSha1
 
     @Override
     public String build() throws Exception {
-        final String prebuilt = getPrebuilt();
-        if (prebuilt != null) {
-            return prebuilt;
-        }
-        if (getBaseStringBuilder() == null) {
+        final BaseStringBuilder baseStringBuilder = baseStringBuilder();
+        if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
         final String keyString = super.build();
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
-        final String baseString = getBaseStringBuilder().build();
+        final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
-        final byte[] signature = build(keyBytes, baseBytes);
-        return encodeBase64ToString(signature);
+        final byte[] built = build(keyBytes, baseBytes);
+        return encodeBase64ToString(built);
     }
 
     /**

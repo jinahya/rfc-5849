@@ -15,6 +15,7 @@
  */
 package com.github.jinahya.rfc5849.util;
 
+import static com.github.jinahya.rfc5849.util.Base64.encodeBase64;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.ThreadLocalRandom.current;
 import org.slf4j.Logger;
@@ -33,21 +34,21 @@ public class Base64Test {
     public void encode() {
         final byte[] expected = new byte[current().nextInt(1024)];
         current().nextBytes(expected);
-        final byte[] encoded = Base64.encodeBase64(expected);
+        final byte[] encoded = encodeBase64(expected);
         final byte[] actual = java.util.Base64.getDecoder().decode(encoded);
         assertEquals(actual, expected);
     }
 
     @Test
     public void encodeEmptyBytes() {
-        final byte[] encoded = Base64.encodeBase64(new byte[0]);
+        final byte[] encoded = encodeBase64(new byte[0]);
         assertNotNull(encoded);
         assertEquals(encoded.length, 0);
     }
 
     @Test(expectedExceptions = {NullPointerException.class})
     public void encodeNullBytes() {
-        Base64.encodeBase64(null);
+        encodeBase64(null);
     }
 
     @Test(invocationCount = 128)

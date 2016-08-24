@@ -15,6 +15,8 @@
  */
 package com.github.jinahya.rfc5849.util;
 
+import static com.github.jinahya.rfc5849.util.Percent.decodePercent;
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.ThreadLocalRandom.current;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -33,8 +35,8 @@ public class PercentTest {
     public void encodeDecode() {
         final String expected
                 = RandomStringUtils.random(current().nextInt(0, 1024));
-        final String encoded = Percent.encodePercent(expected);
-        final String actual = Percent.decodePercent(encoded);
+        final String encoded = encodePercent(expected);
+        final String actual = decodePercent(encoded);
         assertEquals(actual, expected);
     }
 

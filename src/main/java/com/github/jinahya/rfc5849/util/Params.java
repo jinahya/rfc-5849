@@ -23,7 +23,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -31,7 +33,7 @@ import java.util.StringTokenizer;
  *
  * @author Jin Kwon &lt;onacit at gmail.com&gt;
  */
-public class Params extends HashMap<String, List<String>> {
+public class Params {//extends HashMap<String, List<String>> {
 
     /**
      * Adds an entry.
@@ -39,17 +41,17 @@ public class Params extends HashMap<String, List<String>> {
      * @param key the key.
      * @param value the value.
      */
-    public void add(final String key, final String value) {
+    protected void add(final String key, final String value) {
         if (key == null) {
             throw new NullPointerException("null key");
         }
         if (value == null) {
             throw new NullPointerException("null value");
         }
-        List<String> values = get(key);
+        List<String> values = map.get(key);
         if (values == null) {
             values = new ArrayList<String>();
-            put(key, values);
+            map.put(key, values);
         }
         values.add(value);
     }
@@ -61,11 +63,11 @@ public class Params extends HashMap<String, List<String>> {
      * @param key the key.
      * @param value the value.
      */
-    public void putSingle(final String key, final String value) {
+    protected void putSingle(final String key, final String value) {
         if (key == null) {
             throw new NullPointerException("null key");
         }
-        remove(key);
+        map.remove(key);
         add(key, value);
     }
 
@@ -73,7 +75,7 @@ public class Params extends HashMap<String, List<String>> {
         if (key == null) {
             throw new NullPointerException("null key");
         }
-        final List<String> values = get(key);
+        final List<String> values = map.get(key);
         if (values == null || values.isEmpty()) {
             return null;
         }
@@ -98,12 +100,13 @@ public class Params extends HashMap<String, List<String>> {
         return split;
     }
 
+    // ---------------------------------------------------------- percentEncoded
     public StringBuilder printPercentEncoded(final StringBuilder builder) {
         if (builder == null) {
             throw new NullPointerException("null builder");
         }
         final int length = builder.length();
-        for (final Entry<String, List<String>> entry : entrySet()) {
+        for (final Entry<String, List<String>> entry : map.entrySet()) {
             final String key = encodePercent(entry.getKey());
             for (final String value : entry.getValue()) {
                 builder
@@ -133,6 +136,7 @@ public class Params extends HashMap<String, List<String>> {
         return this;
     }
 
+    // ---------------------------------------------------------- formurlEncoded
     /**
      * Prints entries in a form-urlencoded and appends to given builder.
      *
@@ -145,7 +149,7 @@ public class Params extends HashMap<String, List<String>> {
             throw new NullPointerException("null builder");
         }
         final int length = builder.length();
-        for (final Entry<String, List<String>> entry : entrySet()) {
+        for (final Entry<String, List<String>> entry : map.entrySet()) {
             final String key = encodeFormurl(entry.getKey());
             for (final String value : entry.getValue()) {
                 builder
@@ -186,4 +190,13 @@ public class Params extends HashMap<String, List<String>> {
         }
         return this;
     }
+
+    // ----------------------------------------------------------------- entries
+    public Set<Entry<String, List<String>>> entries() {
+        return new HashMap<String, List<String>>(map).entrySet();
+    }
+
+    // -------------------------------------------------------------------------
+    private final Map<String, List<String>> map
+            = new HashMap<String, List<String>>();
 }
