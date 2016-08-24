@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
 
-
-import com.github.jinahya.rfc5849.util.Percent;
-
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 
 /**
  * A signature builder for {@code PLAINTEXT}.
@@ -28,22 +24,30 @@ import com.github.jinahya.rfc5849.util.Percent;
  */
 public class SignatureBuilderPlaintext extends SignatureBuilder {
 
-
     public static final String SIGNATURE_METHOD = "PLAINTEXT";
 
-
-    protected SignatureBuilderPlaintext(final String signatureMethod) {
-
+    // -------------------------------------------------------------------------
+    SignatureBuilderPlaintext(final String signatureMethod) {
         super(signatureMethod);
     }
 
-
     public SignatureBuilderPlaintext() {
-
         this(SIGNATURE_METHOD);
     }
 
+    // -------------------------------------------------------------------------
+    @Override
+    public String build() throws Exception {
+        if (consumerSecret == null) {
+            throw new IllegalStateException("no consumerSecret set");
+        }
+        if (tokenSecret == null) {
+            throw new IllegalStateException("no tokenSecret set");
+        }
+        return encodePercent(consumerSecret) + "&" + encodePercent(tokenSecret);
+    }
 
+    // ---------------------------------------------------------- consumerSecret
     /**
      * Replaces the consumer secret with given and return self.
      *
@@ -52,49 +56,20 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
      * @return self.
      */
     public SignatureBuilderPlaintext consumerSecret(
-        final String consumerSecret) {
-
+            final String consumerSecret) {
         this.consumerSecret = consumerSecret;
-
         return this;
     }
 
-
+    // ------------------------------------------------------------- tokenSecret
     public SignatureBuilderPlaintext tokenSecret(final String tokenSecret) {
-
         this.tokenSecret = tokenSecret;
-
         return this;
     }
 
-
-    @Override
-    public String build() throws Exception {
-
-        final String prebuilt = getPrebuilt();
-        if (prebuilt != null) {
-            return prebuilt;
-        }
-
-        if (consumerSecret == null) {
-            throw new IllegalStateException("no consumerSecret set");
-        }
-
-        if (tokenSecret == null) {
-            throw new IllegalStateException("no tokenSecret set");
-        }
-
-        return Percent.encode(consumerSecret)
-               + "&"
-               + Percent.encode(tokenSecret);
-    }
-
-
+    // -------------------------------------------------------------------------
     private String consumerSecret;
-
 
     private String tokenSecret;
 
-
 }
-

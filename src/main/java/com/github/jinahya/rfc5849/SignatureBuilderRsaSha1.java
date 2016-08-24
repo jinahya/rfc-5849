@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
 
-
-import com.github.jinahya.rfc5849.util.Base64;
-
+import static com.github.jinahya.rfc5849.util.Base64.encodeBase64ToString;
 
 /**
  * An abstract class for signature builder implementation whose signature method
@@ -30,96 +26,53 @@ import com.github.jinahya.rfc5849.util.Base64;
  */
 public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
 
-
     /**
      * The signature method value which is {@value #SIGNATURE_METHOD}.
      */
     public static final String SIGNATURE_METHOD = "RSA-SHA1";
 
-
+    // -------------------------------------------------------------------------
     /**
      * Creates a new instance.
      */
     public SignatureBuilderRsaSha1() {
-
         super(SIGNATURE_METHOD);
     }
 
-
-    /**
-     * Returns current value of {@link #privateKey}.
-     *
-     * @return current value of {@link #privateKey}.
-     */
-    public T getPrivateKey() {
-
-        return privateKey;
-    }
-
-
-    /**
-     * Replaces current value of {@link #privateKey} with given.
-     *
-     * @param privateKey the new value for {@link #privateKey}.
-     */
-    public void setPrivateKey(final T privateKey) {
-
-        this.privateKey = privateKey;
-    }
-
-
-    /**
-     * Replaces current value of {@link #privateKey} with given.
-     *
-     * @param privateKey the new value for {@link #privateKey}.
-     *
-     * @return this instance.
-     *
-     * @see #setPrivateKey(java.lang.Object)
-     */
-    public SignatureBuilderRsaSha1<T> privateKey(final T privateKey) {
-
-        setPrivateKey(privateKey);
-
-        return this;
-    }
-
-
+    // -------------------------------------------------------------------------
     @Override
     public String build() throws Exception {
-
-        final String prebuilt = getPrebuilt();
-        if (prebuilt != null) {
-            return prebuilt;
-        }
-
-        final BaseStringBuilder baseStringBuilder = getBaseStringBuilder();
+        final BaseStringBuilder baseStringBuilder = baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
-
         if (privateKey == null) {
             throw new IllegalStateException("no privateKey set");
         }
-
         final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
-
         final byte[] built = build(privateKey, baseBytes);
-
-        return Base64.encodeToString(built);
+        return encodeBase64ToString(built);
     }
 
-
     protected abstract byte[] build(final T privateKey, final byte[] baseBytes)
-        throws Exception;
+            throws Exception;
 
+    // -------------------------------------------------------------------------
+    /**
+     * Sets a private key.
+     *
+     * @param privateKey the private key.
+     * @return this instance.
+     */
+    public SignatureBuilderRsaSha1<T> privateKey(final T privateKey) {
+        this.privateKey = privateKey;
+        return this;
+    }
 
+    // -------------------------------------------------------------------------
     /**
      * The private key to use.
      */
     private T privateKey;
-
-
 }
-

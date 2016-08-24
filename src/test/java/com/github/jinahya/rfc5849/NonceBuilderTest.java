@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
 
-
 import static java.lang.invoke.MethodHandles.lookup;
+import java.util.HashSet;
+import java.util.Set;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
-
 
 /**
  *
@@ -31,25 +30,21 @@ import org.testng.annotations.Test;
  */
 public class NonceBuilderTest {
 
+    private static final Logger logger = getLogger(lookup().lookupClass());
 
-    @Test
+    @Test//(invocationCount = 128)
     public void build() throws Exception {
-
-        final String built = new NonceBuilder().build();
+        final Set<String> set = new HashSet<>();
+        for (int i = 0; i < 1048576; i++) {
+            final String built = new NonceBuilder().build();
+            assertTrue(set.add(built));
+        }
     }
 
-
-    @Test
+//    @Test
     public void test() throws Exception {
-
         final String built1 = new NonceBuilder().build();
         final String built2 = new NonceBuilder().build();
         assertNotEquals(built1, built2);
     }
-
-
-    private transient final Logger logger = getLogger(lookup().lookupClass());
-
-
 }
-

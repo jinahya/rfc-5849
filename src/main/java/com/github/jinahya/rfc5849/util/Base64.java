@@ -13,20 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849.util;
 
-
 import java.io.UnsupportedEncodingException;
-
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public final class Base64 {
-
 
     private static final byte[] ENCODE = {
         0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48,
@@ -39,12 +34,9 @@ public final class Base64 {
         0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x2B, 0x2F
     };
 
-
     private static final byte[] DECODE = new byte[80];
 
-
     private static final byte DELTA = 0x2B; // 43
-
 
     static {
         for (byte i = 0; i < ENCODE.length; i++) {
@@ -52,9 +44,7 @@ public final class Base64 {
         }
     }
 
-
     private static final byte PAD = 0x3D;
-
 
     /**
      * Encodes given input.
@@ -63,19 +53,15 @@ public final class Base64 {
      *
      * @return encoding output.
      */
-    public static byte[] encode(final byte[] input) {
-
+    public static byte[] encodeBase64(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
-
         if (input.length == 0) {
             return new byte[0];
         }
-
-        final byte[] output
-            = new byte[(input.length / 3 + (input.length % 3 > 0 ? 1 : 0)) * 4];
-
+        final byte[] output = new byte[(input.length / 3
+                                        + (input.length % 3 > 0 ? 1 : 0)) * 4];
         int index = 0; // output index
         for (int i = 0; i < input.length; i += 3) {
             int word = 0;
@@ -95,10 +81,8 @@ public final class Base64 {
             }
             index += 4;
         }
-
         return output;
     }
-
 
     /**
      * Encodes given input and returns a string.
@@ -107,21 +91,18 @@ public final class Base64 {
      *
      * @return a string
      */
-    public static String encodeToString(final byte[] input) {
-
+    public static String encodeBase64ToString(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
-
         try {
-            return new String(encode(input), "ISO-8859-1");
+            return new String(encodeBase64(input), "ISO-8859-1");
         } catch (final UnsupportedEncodingException uee) {
             //throw new RuntimeException(uee);
             uee.printStackTrace(System.err);
             throw new RuntimeException(uee.getMessage());
         }
     }
-
 
     /**
      * Decodes given input.
@@ -130,21 +111,17 @@ public final class Base64 {
      *
      * @return decoding output.
      */
-    public static byte[] decode(final byte[] input) {
-
+    public static byte[] decodeBase64(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
-
         if (input.length == 0) {
             return new byte[0];
         }
-
         final byte[] output
-            = new byte[input.length / 4 * 3
-                       - (input[input.length - 2] == PAD
-                          ? 2 : input[input.length - 1] == PAD ? 1 : 0)];
-
+                = new byte[input.length / 4 * 3
+                           - (input[input.length - 2] == PAD
+                              ? 2 : input[input.length - 1] == PAD ? 1 : 0)];
         int index = 0; // output index
         for (int i = 0; i < input.length; i += 4) {
             int word = 0;
@@ -166,10 +143,8 @@ public final class Base64 {
             }
             index += 3;
         }
-
         return output;
     }
-
 
     /**
      * Decodes given string.
@@ -178,14 +153,12 @@ public final class Base64 {
      *
      * @return decoding output.
      */
-    public static byte[] decode(final String input) {
-
+    public static byte[] decodeBase64(final String input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
-
         try {
-            return decode(input.getBytes("ISO-8859-1"));
+            return decodeBase64(input.getBytes("ISO-8859-1"));
         } catch (final UnsupportedEncodingException uee) {
             //throw new RuntimeException(uee);
             uee.printStackTrace(System.err);
@@ -193,12 +166,7 @@ public final class Base64 {
         }
     }
 
-
     private Base64() {
-
         super();
     }
-
-
 }
-

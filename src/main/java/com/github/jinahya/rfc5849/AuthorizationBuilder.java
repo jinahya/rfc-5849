@@ -13,18 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
 
-
-import com.github.jinahya.rfc5849.util.Percent;
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-
 
 /**
  *
@@ -32,150 +28,122 @@ import java.util.TreeMap;
  */
 public class AuthorizationBuilder implements Builder<String> {
 
+    private static final String REALM = "realm";
 
-    public static final String REALM = "realm";
-
-
-    protected String getPrebuilt() {
-
-        return prebuilt;
-    }
-
-
-    protected void setPrebuilt(final String prebuilt) {
-
-        this.prebuilt = prebuilt;
-    }
-
-
-    public AuthorizationBuilder prebuilt(final String prebuilt) {
-
-        setPrebuilt(prebuilt);
-
-        return this;
-    }
-
-
-    public String getRealm() {
-
-        return realm;
-    }
-
-
-    public void setRealm(final String realm) {
-
-        this.realm = realm;
-    }
-
-
+//    // ---------------------------------------------------------------- prebuilt
+//    protected String getPrebuilt() {
+//        return prebuilt;
+//    }
+//
+//    protected void setPrebuilt(final String prebuilt) {
+//        this.prebuilt = prebuilt;
+//    }
+//
+//    public AuthorizationBuilder prebuilt(final String prebuilt) {
+//        setPrebuilt(prebuilt);
+//        return this;
+//    }
+    // ------------------------------------------------------------------- realm
+//    public String getRealm() {
+//        return realm;
+//    }
+//
+//    public void setRealm(final String realm) {
+//        this.realm = realm;
+//    }
     public AuthorizationBuilder realm(final String realm) {
-
-        setRealm(realm);
-
+        this.realm = realm;
         return this;
     }
 
-
-    public SignatureBuilder getSignatureBuilder() {
-
-        return signatureBuilder;
-    }
-
-
-    public void setSignatureBuilder(final SignatureBuilder signatureBuilder) {
-
-        this.signatureBuilder = signatureBuilder;
-    }
-
-
-    public AuthorizationBuilder signatureBuilder(
-        final SignatureBuilder signatureBuilder) {
-
-        setSignatureBuilder(signatureBuilder);
-
-        return this;
-    }
-
-
+    // -------------------------------------------------------------------------
     @Override
     public String build() throws Exception {
-
-        if (prebuilt != null) {
-            return prebuilt;
-        }
-
         if (signatureBuilder == null) {
             throw new IllegalStateException("no signatureBuilder set");
         }
-
         final BaseStringBuilder baseStringBuilder
-            = signatureBuilder.getBaseStringBuilder();
+                = signatureBuilder.baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException(
-                "no baseStringBuilder set on signatgureBuilder");
+                    "no baseStringBuilder set on the signatgureBuilder");
         }
-
         final Map<String, String> params = new TreeMap<String, String>();
-
         final String oauthSignature = signatureBuilder.build();
-        params.put(Constants.OAUTH_SIGNATURE, oauthSignature);
-
+        params.put(Rfc5849Constants.OAUTH_SIGNATURE, oauthSignature);
         for (final Entry<String, List<String>> entry
-             : baseStringBuilder.entrySet()) {
+             : baseStringBuilder.entries()) {
             final String key = entry.getKey();
             if (!key.startsWith(BaseStringBuilder.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;
             }
             params.put(key, entry.getValue().get(0));
         }
-
         final StringBuilder builder = new StringBuilder("OAuth");
         {
             if (realm != null) {
                 builder
-                    .append(" ")
-                    .append(REALM)
-                    .append("=\"")
-                    .append(realm)
-                    .append("\"");
+                        .append(" ")
+                        .append(REALM)
+                        .append("=\"")
+                        .append(realm)
+                        .append("\"");
             }
-            final Iterator<Entry<String, String>> i
-                = params.entrySet().iterator();
-            if (i.hasNext()) {
+            final Iterator<Entry<String, String>> entries
+                    = params.entrySet().iterator();
+            if (entries.hasNext()) {
                 if (realm != null) {
                     builder.append(",");
                 }
-                final Entry<String, String> entry = i.next();
+                final Entry<String, String> entry = entries.next();
                 builder
-                    .append(" ")
-                    .append(Percent.encode(entry.getKey()))
-                    .append("=\"")
-                    .append(Percent.encode(entry.getValue()))
-                    .append("\"");
+                        .append(" ")
+                        .append(encodePercent(entry.getKey()))
+                        .append("=\"")
+                        .append(encodePercent(entry.getValue()))
+                        .append("\"");
             }
-            while (i.hasNext()) {
-                final Entry<String, String> entry = i.next();
+            while (entries.hasNext()) {
+                final Entry<String, String> entry = entries.next();
                 builder
-                    .append(", ")
-                    .append(Percent.encode(entry.getKey()))
-                    .append("=\"")
-                    .append(Percent.encode(entry.getValue()))
-                    .append("\"");
+                        .append(", ")
+                        .append(encodePercent(entry.getKey()))
+                        .append("=\"")
+                        .append(encodePercent(entry.getValue()))
+                        .append("\"");
             }
         }
-
         return builder.toString();
     }
 
+    // --------------------------------------------------------- sinatureBuilder
+    @Deprecated
+    public SignatureBuilder getSignatureBuilder() {
+        return signatureBuilder;
+    }
 
-    private String prebuilt;
+    @Deprecated
+    public void setSignatureBuilder(final SignatureBuilder signatureBuilder) {
+        this.signatureBuilder = signatureBuilder;
+    }
 
+    public AuthorizationBuilder signatureBuilder(
+            final SignatureBuilder signatureBuilder) {
+        this.signatureBuilder = signatureBuilder;
+        return this;
+    }
 
+    public AuthorizationBuilder signature(final String signature) {
+        return signatureBuilder(new SignatureBuilder() {
+            @Override
+            public String build() {
+                return signature;
+            }
+        });
+    }
+
+    // -------------------------------------------------------------------------
     private String realm;
 
-
     private SignatureBuilder signatureBuilder;
-
-
 }
-

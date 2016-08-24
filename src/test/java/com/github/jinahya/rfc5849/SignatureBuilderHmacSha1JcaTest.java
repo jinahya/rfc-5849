@@ -13,24 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class SignatureBuilderHmacSha1JcaTest
-    extends SignatureBuilderHmacSha1Test<SignatureBuilderHmacSha1Jca> {
-
+        extends SignatureBuilderHmacSha1Test<SignatureBuilderHmacSha1Jca> {
 
     public SignatureBuilderHmacSha1JcaTest() {
-
         super(SignatureBuilderHmacSha1Jca.class);
     }
-
-
 }
-

@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849.util;
 
-
+import static com.github.jinahya.rfc5849.util.Percent.decodePercent;
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.ThreadLocalRandom.current;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -26,30 +25,20 @@ import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
-
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class PercentTest {
 
-
     @Test(invocationCount = 128)
     public void encodeDecode() {
-
         final String expected
-            = RandomStringUtils.random(current().nextInt(0, 1024));
-
-        final String encoded = Percent.encode(expected);
-
-        final String actual = Percent.decode(encoded);
-
+                = RandomStringUtils.random(current().nextInt(0, 1024));
+        final String encoded = encodePercent(expected);
+        final String actual = decodePercent(encoded);
         assertEquals(actual, expected);
     }
 
-
     private transient final Logger logger = getLogger(lookup().lookupClass());
-
-
 }
-

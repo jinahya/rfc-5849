@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849;
-
 
 import java.security.Key;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-
 
 /**
  *
@@ -29,27 +25,18 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class SignatureBuilderHmacSha1Jca extends SignatureBuilderHmacSha1 {
 
-
     /**
      * Standard algorithm name for HMAC-SHA1.
      */
     public static final String ALGORITHM = "HmacSHA1";
 
-
     @Override
     protected byte[] build(final byte[] keyBytes, final byte[] baseBytes)
-        throws Exception {
-
+            throws Exception {
         final Key key = new SecretKeySpec(keyBytes, ALGORITHM);
-
         final Mac mac = Mac.getInstance(ALGORITHM);
         mac.init(key);
-
         final byte[] output = mac.doFinal(baseBytes);
-
         return output;
     }
-
-
 }
-

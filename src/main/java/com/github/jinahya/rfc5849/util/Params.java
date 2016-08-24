@@ -13,26 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package com.github.jinahya.rfc5849.util;
 
-
+import static com.github.jinahya.rfc5849.util.Formurl.decodeFormurl;
+import static com.github.jinahya.rfc5849.util.Formurl.encodeFormurl;
+import static com.github.jinahya.rfc5849.util.Percent.decodePercent;
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringTokenizer;
-
 
 /**
  * A multivalued map.
  *
  * @author Jin Kwon &lt;onacit at gmail.com&gt;
  */
-public class Params extends HashMap<String, List<String>> {
-
+@Deprecated
+public class Params {//extends HashMap<String, List<String>> {
 
     /**
      * Adds an entry.
@@ -40,25 +42,20 @@ public class Params extends HashMap<String, List<String>> {
      * @param key the key.
      * @param value the value.
      */
-    public void add(final String key, final String value) {
-
+    protected void add(final String key, final String value) {
         if (key == null) {
             throw new NullPointerException("null key");
         }
-
         if (value == null) {
             throw new NullPointerException("null value");
         }
-
-        List<String> values = get(key);
+        List<String> values = map.get(key);
         if (values == null) {
             values = new ArrayList<String>();
-            put(key, values);
+            map.put(key, values);
         }
-
         values.add(value);
     }
-
 
     /**
      * Adds an singleton entry. All previous values mapped to {@code key} are
@@ -67,38 +64,27 @@ public class Params extends HashMap<String, List<String>> {
      * @param key the key.
      * @param value the value.
      */
-    public void putSingle(final String key, final String value) {
-
+    protected void putSingle(final String key, final String value) {
         if (key == null) {
             throw new NullPointerException("null key");
         }
-
-        remove(key);
-
+        map.remove(key);
         add(key, value);
     }
 
-
     public String getFirst(final String key) {
-
         if (key == null) {
             throw new NullPointerException("null key");
         }
-
-        final List<String> values = get(key);
-
+        final List<String> values = map.get(key);
         if (values == null || values.isEmpty()) {
             return null;
         }
-
         return values.get(0);
     }
 
-
     private List<String> s(final String concatenated) {
-
         final List<String> split = new ArrayList<String>();
-
         for (final StringTokenizer t = new StringTokenizer(concatenated, "&");
              t.hasMoreTokens();) {
             final String token = t.nextToken();
@@ -112,57 +98,46 @@ public class Params extends HashMap<String, List<String>> {
             split.add(key);
             split.add(value);
         }
-
         return split;
     }
 
-
+    // ---------------------------------------------------------- percentEncoded
     public StringBuilder printPercentEncoded(final StringBuilder builder) {
-
         if (builder == null) {
             throw new NullPointerException("null builder");
         }
-
         final int length = builder.length();
-
-        for (final Entry<String, List<String>> entry : entrySet()) {
-            final String key = Percent.encode(entry.getKey());
+        for (final Entry<String, List<String>> entry : map.entrySet()) {
+            final String key = encodePercent(entry.getKey());
             for (final String value : entry.getValue()) {
                 builder
-                    .append("&")
-                    .append(key)
-                    .append("=")
-                    .append(Percent.encode(value));
+                        .append("&")
+                        .append(key)
+                        .append("=")
+                        .append(encodePercent(value));
             }
         }
         if (builder.length() > length) {
             builder.delete(length, length + 1);
         }
-
         return builder;
     }
 
-
     public String printPercentEncoded() {
-
         return printPercentEncoded(new StringBuilder()).toString();
     }
 
-
     public Params parsePercentDecoded(final String printed) {
-
         if (printed == null) {
             throw new NullPointerException("null printed");
         }
-
         for (final Iterator<String> i = s(printed).iterator(); i.hasNext();) {
-            add(Percent.decode(i.next()), Percent.decode(i.next()));
+            add(decodePercent(i.next()), decodePercent(i.next()));
         }
-
         return this;
     }
 
-
+    // ---------------------------------------------------------- formurlEncoded
     /**
      * Prints entries in a form-urlencoded and appends to given builder.
      *
@@ -171,30 +146,25 @@ public class Params extends HashMap<String, List<String>> {
      * @return given {@code builder}.
      */
     public StringBuilder printFormurlEncoded(final StringBuilder builder) {
-
         if (builder == null) {
             throw new NullPointerException("null builder");
         }
-
         final int length = builder.length();
-
-        for (final Entry<String, List<String>> entry : entrySet()) {
-            final String key = Formurl.encode(entry.getKey());
+        for (final Entry<String, List<String>> entry : map.entrySet()) {
+            final String key = encodeFormurl(entry.getKey());
             for (final String value : entry.getValue()) {
                 builder
-                    .append("&")
-                    .append(key)
-                    .append("=")
-                    .append(Formurl.encode(value));
+                        .append("&")
+                        .append(key)
+                        .append("=")
+                        .append(encodeFormurl(value));
             }
         }
         if (builder.length() > length) {
             builder.delete(length, length + 1);
         }
-
         return builder;
     }
-
 
     /**
      * Prints entries to a for-urlencoded string.
@@ -202,10 +172,8 @@ public class Params extends HashMap<String, List<String>> {
      * @return a url-encoded string.
      */
     public String printFormurlEncoded() {
-
         return printFormurlEncoded(new StringBuilder()).toString();
     }
-
 
     /**
      * Parse entries from a form-urlencoded string.
@@ -215,18 +183,21 @@ public class Params extends HashMap<String, List<String>> {
      * @return this instance.
      */
     public Params parseFormurlDecoded(final String printed) {
-
         if (printed == null) {
             throw new NullPointerException("null printed");
         }
-
         for (final Iterator<String> i = s(printed).iterator(); i.hasNext();) {
-            add(Formurl.decode(i.next()), Formurl.decode(i.next()));
+            add(decodeFormurl(i.next()), decodeFormurl(i.next()));
         }
-
         return this;
     }
 
+    // ----------------------------------------------------------------- entries
+    public Set<Entry<String, List<String>>> entries() {
+        return new HashMap<String, List<String>>(map).entrySet();
+    }
 
+    // -------------------------------------------------------------------------
+    private final Map<String, List<String>> map
+            = new HashMap<String, List<String>>();
 }
-
