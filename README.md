@@ -1,4 +1,9 @@
 # rfc5849
+implementation of [RFC5849](https://tools.ietf.org/html/rfc5849).
+
+[![Build Status](https://travis-ci.org/jinahya/rfc5849.svg?branch=develop)](https://travis-ci.org/jinahya/rfc5849)
+[![Javadocs](http://www.javadoc.io/badge/com.github.jinahya/rfc5849.svg)](http://www.javadoc.io/doc/com.github.jinahya/rfc5849)
+
 ## BaseStringBuilder
 ````java
 final BaseStringBuilder builder = new BaseStringBuilder();
