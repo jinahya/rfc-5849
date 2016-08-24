@@ -5,7 +5,9 @@ implementation of [RFC5849](https://tools.ietf.org/html/rfc5849).
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.jinahya/rfc5849.svg?maxAge=2592000)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.jinahya%22%20a%3A%22rfc5849%22)
 [![Javadocs](http://www.javadoc.io/badge/com.github.jinahya/rfc5849.svg)](http://www.javadoc.io/doc/com.github.jinahya/rfc5849)
 
-## BaseStringBuilder
+## buiders
+
+### BaseStringBuilder
 ````java
 final BaseStringBuilder builder = new BaseStringBuilder();
 ````
@@ -17,7 +19,9 @@ builder.queryParameter(key, value);
 builder.protocolParameter(key, value); // key must start with 'oauth_'
 builder.entityParameter(key, value);
 ````
-## SignatureBuilder
+
+### SignatureBuilder
+
 |class                        |method   |platform|
 |-----------------------------|---------|--------|
 |`SignatureBuilderHmacSha1Bc` |HMAC-SHA1|BC      |
@@ -25,7 +29,9 @@ builder.entityParameter(key, value);
 |`SignatureBuilderRsaSha1Bc`  |RSA-SHA1 |BC      |
 |`SignatureBuilderRsaSha1Jca` |RSA-SHA1 |JCA     |
 |`SignatureBuilderPlaintext`  |PLAINTEXT|        |
-### HMAC-SHA1
+
+#### HMAC-SHA1
+
 There are two implementations. One for Java Cryptograph Architexture/Extention and one for Bouncy Castle.
 ````java
 new SignatureBuilderHmacSha1Bc();
@@ -37,7 +43,9 @@ signatureBuilder.consumerSecret(consumerSecret);
 signatureBuilder.tokenSecret(tokenSecret);
 signatureBuilder.baseStringBuilder(baseStringBuilder);
 ````
-### RSA-SHA1
+
+#### RSA-SHA1
+
 ````java
 new SignatureBuilderRsaSha1Bc();
 new SignatureBuilderRsaSha1Jca();
@@ -47,17 +55,23 @@ You can use following methods to set values.
 signatureBuilder.privateKey(privateKey);
 signatureBuidler.baseStringBuilder(baseStringBuilder);
 ````
-### PLAINTEXT
+
+#### PLAINTEXT
+
 ````java
 new SignaatureBuilderPlaintext();
 ````
-## AuthorizationBuilder
+
+### AuthorizationBuilder
+
 ````java
 final AuthorizationBuilder authorizationBuilder = new AuthorizationBuilder();
 authorizationBuilder.realm(realm);
 authorizationBuilder.signatureBuilder(signatureBuilder);
 ````
-## Examples
+
+## examples
+
 ````java
 final AuthorizationBuilder builder = new AuthorizationBuilder()
     .realm("Example")
