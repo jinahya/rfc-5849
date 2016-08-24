@@ -2,6 +2,7 @@
 implementation of [RFC5849](https://tools.ietf.org/html/rfc5849).
 
 [![Build Status](https://travis-ci.org/jinahya/rfc5849.svg?branch=develop)](https://travis-ci.org/jinahya/rfc5849)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.jinahya/rfc5849.svg?maxAge=2592000)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.jinahya%22%20a%3A%22rfc5849%22)
 [![Javadocs](http://www.javadoc.io/badge/com.github.jinahya/rfc5849.svg)](http://www.javadoc.io/doc/com.github.jinahya/rfc5849)
 
 ## BaseStringBuilder
