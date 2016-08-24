@@ -33,6 +33,7 @@ import java.util.StringTokenizer;
  *
  * @author Jin Kwon &lt;onacit at gmail.com&gt;
  */
+@Deprecated
 public class Params {//extends HashMap<String, List<String>> {
 
     /**

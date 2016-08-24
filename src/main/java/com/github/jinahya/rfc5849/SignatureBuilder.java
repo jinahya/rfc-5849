@@ -27,6 +27,10 @@ public abstract class SignatureBuilder implements Builder<String> {
         this.signatureMethod = signatureMethod;
     }
 
+//    public SignatureBuilder(final SignatureMethod signatureMethod) {
+//        super();
+//        this.signatureMethod = signatureMethod.signatureMethod();
+//    }
     SignatureBuilder() {
         this(null);
     }
@@ -57,7 +61,7 @@ public abstract class SignatureBuilder implements Builder<String> {
             throw new NullPointerException("null baseStringBuilder");
         }
         this.baseStringBuilder = baseStringBuilder;
-        this.baseStringBuilder.setOauthSignatureMethod(signatureMethod);
+        this.baseStringBuilder.oauthSignatureMethod(signatureMethod);
         return this;
     }
 

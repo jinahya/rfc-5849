@@ -28,7 +28,7 @@ import java.util.TreeMap;
  */
 public class AuthorizationBuilder implements Builder<String> {
 
-    public static final String REALM = "realm";
+    private static final String REALM = "realm";
 
 //    // ---------------------------------------------------------------- prebuilt
 //    protected String getPrebuilt() {
@@ -56,31 +56,7 @@ public class AuthorizationBuilder implements Builder<String> {
         return this;
     }
 
-    // --------------------------------------------------------- sinatureBuilder
-    public SignatureBuilder getSignatureBuilder() {
-        return signatureBuilder;
-    }
-
-    public void setSignatureBuilder(final SignatureBuilder signatureBuilder) {
-        this.signatureBuilder = signatureBuilder;
-    }
-
-    public AuthorizationBuilder signatureBuilder(
-            final SignatureBuilder signatureBuilder) {
-        setSignatureBuilder(signatureBuilder);
-        return this;
-    }
-
-    public AuthorizationBuilder signature(final String signature, final String method) {
-        return signatureBuilder(new SignatureBuilder() {
-            @Override
-            public String build() {
-                return signature;
-            }
-        });
-    }
     // -------------------------------------------------------------------------
-
     @Override
     public String build() throws Exception {
         if (signatureBuilder == null) {
@@ -140,6 +116,33 @@ public class AuthorizationBuilder implements Builder<String> {
         return builder.toString();
     }
 
+    // --------------------------------------------------------- sinatureBuilder
+    @Deprecated
+    public SignatureBuilder getSignatureBuilder() {
+        return signatureBuilder;
+    }
+
+    @Deprecated
+    public void setSignatureBuilder(final SignatureBuilder signatureBuilder) {
+        this.signatureBuilder = signatureBuilder;
+    }
+
+    public AuthorizationBuilder signatureBuilder(
+            final SignatureBuilder signatureBuilder) {
+        this.signatureBuilder = signatureBuilder;
+        return this;
+    }
+
+    public AuthorizationBuilder signature(final String signature) {
+        return signatureBuilder(new SignatureBuilder() {
+            @Override
+            public String build() {
+                return signature;
+            }
+        });
+    }
+
+    // -------------------------------------------------------------------------
     private String realm;
 
     private SignatureBuilder signatureBuilder;

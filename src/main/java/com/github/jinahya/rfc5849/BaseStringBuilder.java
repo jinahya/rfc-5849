@@ -15,20 +15,23 @@
  */
 package com.github.jinahya.rfc5849;
 
-import com.github.jinahya.rfc5849.util.Params;
 import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class BaseStringBuilder extends Params implements Builder<String> {
+public class BaseStringBuilder
+        //        extends Params
+        implements Builder<String> {
 
     static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
 
@@ -40,17 +43,17 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         if (baseUri == null) {
             throw new IllegalStateException("no baseUri");
         }
-        if (getFirst(Rfc5849Constants.OAUTH_NONCE) == null
+        if (!map.containsKey(Rfc5849Constants.OAUTH_NONCE)
             && nonceBuilder != null) {
             oauthNonce(nonceBuilder.build());
         }
-        if (getFirst(Rfc5849Constants.OAUTH_TIMESTAMP) == null
+        if (!map.containsKey(Rfc5849Constants.OAUTH_TIMESTAMP)
             && timestampBuilder != null) {
             oauthTimestamp(timestampBuilder.build());
         }
-        final Map<String, List<String>> map
+        final Map<String, List<String>> encoded
                 = new TreeMap<String, List<String>>();
-        for (final Entry<String, List<String>> entry : entries()) {
+        for (final Entry<String, List<String>> entry : map.entrySet()) {
             final String decodedKey = entry.getKey();
             final String encodedKey = encodePercent(decodedKey);
             final List<String> decodedValues = entry.getValue();
@@ -60,11 +63,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
                 encodedValues.add(encodePercent(decodedValue));
             }
             Collections.sort(encodedValues);
-            map.put(encodedKey, encodedValues);
+            encoded.put(encodedKey, encodedValues);
         }
         final StringBuilder builder = new StringBuilder();
         {
-            for (final Entry<String, List<String>> entry : map.entrySet()) {
+            for (final Entry<String, List<String>> entry : encoded.entrySet()) {
                 final String key = entry.getKey();
                 for (final String value : entry.getValue()) {
                     if (builder.length() > 0) {
@@ -77,21 +80,35 @@ public class BaseStringBuilder extends Params implements Builder<String> {
         final String built = httpMethod.toUpperCase()
                              + "&" + encodePercent(baseUri)
                              + "&" + encodePercent(builder.toString());
-        if (printer != null) {
-            printer.println("baseString: " + built);
-        }
         return built;
     }
 
+    // --------------------------------------------------------------------- map
+    private void add(final String key, final String value) {
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
+        if (value == null) {
+            throw new NullPointerException("null value");
+        }
+        List<String> values = map.get(key);
+        if (values == null) {
+            values = new ArrayList<String>();
+            map.put(key, values);
+        }
+        values.add(value);
+    }
+
+    private void put(final String key, final String value) {
+        map.remove(key);
+        add(key, value);
+    }
+
+    Set<Entry<String, List<String>>> entries() {
+        return new HashMap<String, List<String>>(map).entrySet();
+    }
+
     // -------------------------------------------------------------- httpMethod
-    public String getHttpMethod() {
-        return httpMethod;
-    }
-
-    public void setHttpMethod(final String httpMethod) {
-        this.httpMethod = httpMethod;
-    }
-
     /**
      * Replaces the current value of {@code httpMethod}with given and returns
      * this instance.
@@ -101,19 +118,11 @@ public class BaseStringBuilder extends Params implements Builder<String> {
      * @return this instance.
      */
     public BaseStringBuilder httpMethod(final String httpMethod) {
-        setHttpMethod(httpMethod);
+        this.httpMethod = httpMethod;
         return this;
     }
 
     // ----------------------------------------------------------------- baseUri
-    public String getBaseUri() {
-        return baseUri;
-    }
-
-    public void setBaseUri(final String baseUri) {
-        this.baseUri = baseUri;
-    }
-
     /**
      * Replaces the value of base URI with given and returns this instance.
      *
@@ -122,76 +131,47 @@ public class BaseStringBuilder extends Params implements Builder<String> {
      * @return this instance.
      */
     public BaseStringBuilder baseUri(final String baseUri) {
-        setBaseUri(baseUri);
+        this.baseUri = baseUri;
         return this;
     }
 
-    public void addQueryParameter(final String key, final String value) {
+    // ---------------------------------------------------------- queryParameter
+    /**
+     * Adds a query parameter.
+     *
+     * @param key key
+     * @param value value
+     * @return this instance
+     */
+    public BaseStringBuilder queryParameter(final String key,
+                                            final String value) {
         if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
                     "query parameter's key(" + key + ") starts with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
         add(key, value);
-    }
-
-    public BaseStringBuilder queryParameter(final String key,
-                                            final String value) {
-        addQueryParameter(key, value);
         return this;
     }
 
-    public String getProtocolParameter(final String key) {
-        if (key == null) {
-            throw new NullPointerException("null key");
-        }
-        if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
-            throw new IllegalArgumentException(
-                    "key(" + key + ") doesn start with "
-                    + PROTOCOL_PARAMETER_PREFIX);
-        }
-        return getFirst(key);
-    }
-
-    public void setProtocolParameter(final String key, final String value) {
+    // ------------------------------------------------------- protocolParameter
+    public BaseStringBuilder protocolParameter(final String key,
+                                               final String value) {
         if (key != null && !key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
                     "key(" + key + ") doesn't start with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
-        putSingle(key, value);
-    }
-
-    public BaseStringBuilder protocolParameter(final String key,
-                                               final String value) {
-        setProtocolParameter(key, value);
+        put(key, value);
         return this;
     }
 
     // ----------------------------------------------------------- oauthCallback
-    public String getOauthCallback() {
-        return getProtocolParameter(Rfc5849Constants.OAUTH_CALLBACK);
-    }
-
-    public void setOauthCallback(final String oauthCallback) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_CALLBACK, oauthCallback);
-    }
-
     public BaseStringBuilder oauthCallback(final String oauthCallback) {
-        setOauthCallback(oauthCallback);
-        return this;
+        return protocolParameter(Rfc5849Constants.OAUTH_CALLBACK, oauthCallback);
     }
 
     // -------------------------------------------------------- oauthConsumerKey
-    public String getOauthConsumerKey() {
-        return getProtocolParameter(Rfc5849Constants.OAUTH_CONSUMER_KEY);
-    }
-
-    public void setOauthConsumerKey(final String oauthConsumerKey) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_CONSUMER_KEY,
-                             oauthConsumerKey);
-    }
-
     /**
      * Sets a protocol parameter value for
      * {@value Rfc5849Constants#OAUTH_CONSUMER_KEY}.
@@ -202,180 +182,66 @@ public class BaseStringBuilder extends Params implements Builder<String> {
      * @return this instance.
      */
     public BaseStringBuilder oauthConsumerKey(final String oauthConsumerKey) {
-        setOauthConsumerKey(oauthConsumerKey);
-        return this;
+        return protocolParameter(Rfc5849Constants.OAUTH_CONSUMER_KEY,
+                                 oauthConsumerKey);
     }
 
     // -------------------------------------------------------------- oauthNonce
-    public String getOauthNonce() {
-        return getProtocolParameter(Rfc5849Constants.OAUTH_NONCE);
-    }
-
-    public void setOauthNonce(final String oauthNonce) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_NONCE, oauthNonce);
-    }
-
     public BaseStringBuilder oauthNonce(final String oauthNonce) {
-        setOauthNonce(oauthNonce);
-        return this;
+        return protocolParameter(Rfc5849Constants.OAUTH_NONCE, oauthNonce);
     }
 
-    // ------------------------------------------------------- oauthNonceBuilder
-    public NonceBuilder getOauthNonceBuilder() {
-        return nonceBuilder;
-    }
-
-    public void setOauthNonceBuilder(final NonceBuilder oauthNonceBuilder) {
-        this.nonceBuilder = oauthNonceBuilder;
-    }
-
-    public BaseStringBuilder oauthNonce(final NonceBuilder nonceBuilder) {
+    // ------------------------------------------------------------ nonceBuilder
+    public BaseStringBuilder nonceBuilder(final NonceBuilder nonceBuilder) {
         this.nonceBuilder = nonceBuilder;
         return this;
     }
 
     // ---------------------------------------------------- oauthSignatureMethod
-    public String getOauthSignatureMethod() {
-        return getProtocolParameter(Rfc5849Constants.OAUTH_SIGNATURE_METHOD);
-    }
-
-    public void setOauthSignatureMethod(final String oauthSignatureMethod) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_SIGNATURE_METHOD,
-                             oauthSignatureMethod);
-    }
-
     public BaseStringBuilder oauthSignatureMethod(
             final String oauthSignatureMethod) {
-        setOauthSignatureMethod(oauthSignatureMethod);
-        return this;
+        return protocolParameter(Rfc5849Constants.OAUTH_SIGNATURE_METHOD,
+                                 oauthSignatureMethod);
     }
 
     // ---------------------------------------------------------- oauthTimestamp
-    public String getOauthTimestamp() {
-        return getProtocolParameter(Rfc5849Constants.OAUTH_TIMESTAMP);
-    }
-
-    public void setOauthTimestamp(final String oauthTimestamp) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_TIMESTAMP, oauthTimestamp);
-    }
-
     public BaseStringBuilder oauthTimestamp(final String oauthTimestamp) {
-        setOauthTimestamp(oauthTimestamp);
-        return this;
+        return protocolParameter(Rfc5849Constants.OAUTH_TIMESTAMP,
+                                 oauthTimestamp);
     }
 
-    // --------------------------------------------------- oauthTimestampBuilder
-    public TimestampBuilder getOauthTimestampBuilder() {
-        return timestampBuilder;
-    }
-
-    public void setOauthTimestampBuilder(
+    // -------------------------------------------------------- timestampBuilder
+    public BaseStringBuilder timestampBuilder(
             final TimestampBuilder timestampBuilder) {
         this.timestampBuilder = timestampBuilder;
-    }
-
-    public BaseStringBuilder oauthTimestampBuilder(
-            final TimestampBuilder timestampBuilder) {
-        setOauthTimestampBuilder(timestampBuilder);
         return this;
     }
 
     // -------------------------------------------------------------- oauthToken
-    public String getOauthToken() {
-        return getProtocolParameter(Rfc5849Constants.OAUTH_TOKEN);
-    }
-
-    public void setOauthToken(final String oauthToken) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_TOKEN, oauthToken);
-    }
-
     public BaseStringBuilder oauthToken(final String oauthToken) {
-        setOauthToken(oauthToken);
-        return this;
+        return protocolParameter(Rfc5849Constants.OAUTH_TOKEN, oauthToken);
     }
 
     // ------------------------------------------------------------ oauthVersion
-    public String getOauthVersion() {
-        return getProtocolParameter(Rfc5849Constants.OAUTH_VERSION);
-    }
-
-    public void setOauthVersion(final String oauthVersion) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_VERSION, oauthVersion);
-    }
-
     public BaseStringBuilder oauthVersion(final String oauthVersion) {
-        setOauthVersion(oauthVersion);
-        return this;
+        return protocolParameter(Rfc5849Constants.OAUTH_VERSION, oauthVersion);
     }
 
     // ----------------------------------------------------------- oauthVerifier
-    public String getOauthVerifier() {
-        return getProtocolParameter(Rfc5849Constants.OAUTH_VERIFIER);
-    }
-
-    public void setOauthVerifier(final String oauthVerifier) {
-        setProtocolParameter(Rfc5849Constants.OAUTH_VERIFIER, oauthVerifier);
-    }
-
     public BaseStringBuilder oauthVerifier(final String oauthVerifier) {
-        setOauthVerifier(oauthVerifier);
-        return this;
+        return protocolParameter(Rfc5849Constants.OAUTH_VERIFIER,
+                                 oauthVerifier);
     }
 
     // -------------------------------------------------------- entityParameters
-    @Deprecated
-    public void addEntityParameter(final String key, final String value) {
-        if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
-            throw new IllegalArgumentException(
-                    "key(" + key + ") starts with "
-                    + PROTOCOL_PARAMETER_PREFIX);
-        }
-        add(key, value);
-    }
-
     public BaseStringBuilder entityParameter(final String key,
                                              final String value) {
-        if (key != null && key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
-            throw new IllegalArgumentException(
-                    "key(" + key + ") starts with "
-                    + PROTOCOL_PARAMETER_PREFIX);
-        }
-        add(key, value);
-        return this;
+        return queryParameter(key, value);
     }
 
-//    public BaseStringBuilder entityParameters(final Params params) {
-//        if (params == null) {
-//            throw new NullPointerException("null params");
-//        }
-//        for (final Entry<String, List<String>> entry : params.entries()) {
-//            final String key = entry.getKey();
-//            for (String value : entry.getValue()) {
-//                entityParameter(key, value);
-//            }
-//        }
-//        return this;
-//    }
-//
-    public BaseStringBuilder entityParameters(
-            final Map<String, List<String>> entityParameters) {
-        if (entityParameters == null) {
-            throw new NullPointerException("null entityParameters");
-        }
-        for (final Entry<String, List<String>> entry
-             : entityParameters.entrySet()) {
-            final String key = entry.getKey();
-            for (String value : entry.getValue()) {
-                entityParameter(key, value);
-            }
-        }
-        return this;
-    }
-
-    public BaseStringBuilder printer(final java.io.PrintStream printer) {
-        this.printer = printer;
-        return this;
-    }
+    // -------------------------------------------------------------------------
+    private final Map<String, List<String>> map
+            = new HashMap<String, List<String>>();
 
     private String httpMethod;
 
@@ -384,7 +250,4 @@ public class BaseStringBuilder extends Params implements Builder<String> {
     private NonceBuilder nonceBuilder;
 
     private TimestampBuilder timestampBuilder;
-
-    private transient java.io.PrintStream printer;
-
 }

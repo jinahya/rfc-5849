@@ -31,6 +31,7 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
      */
     public static final String SIGNATURE_METHOD = "RSA-SHA1";
 
+    // -------------------------------------------------------------------------
     /**
      * Creates a new instance.
      */
@@ -38,44 +39,9 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
         super(SIGNATURE_METHOD);
     }
 
-    /**
-     * Returns current value of {@link #privateKey}.
-     *
-     * @return current value of {@link #privateKey}.
-     */
-    public T getPrivateKey() {
-        return privateKey;
-    }
-
-    /**
-     * Replaces current value of {@link #privateKey} with given.
-     *
-     * @param privateKey the new value for {@link #privateKey}.
-     */
-    public void setPrivateKey(final T privateKey) {
-        this.privateKey = privateKey;
-    }
-
-    /**
-     * Replaces current value of {@link #privateKey} with given.
-     *
-     * @param privateKey the new value for {@link #privateKey}.
-     *
-     * @return this instance.
-     *
-     * @see #setPrivateKey(java.lang.Object)
-     */
-    public SignatureBuilderRsaSha1<T> privateKey(final T privateKey) {
-        setPrivateKey(privateKey);
-        return this;
-    }
-
+    // -------------------------------------------------------------------------
     @Override
     public String build() throws Exception {
-//        final String prebuilt = getPrebuilt();
-//        if (prebuilt != null) {
-//            return prebuilt;
-//        }
         final BaseStringBuilder baseStringBuilder = baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
@@ -92,6 +58,19 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
     protected abstract byte[] build(final T privateKey, final byte[] baseBytes)
             throws Exception;
 
+    // -------------------------------------------------------------------------
+    /**
+     * Sets a private key.
+     *
+     * @param privateKey the private key.
+     * @return this instance.
+     */
+    public SignatureBuilderRsaSha1<T> privateKey(final T privateKey) {
+        this.privateKey = privateKey;
+        return this;
+    }
+
+    // -------------------------------------------------------------------------
     /**
      * The private key to use.
      */

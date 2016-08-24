@@ -42,7 +42,7 @@ public abstract class SignatureBuilderHmacSha1
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
-        final String keyString = super.build();
+        final String keyString = super.build(); // consumerSecret&tokenSecret
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
         final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");

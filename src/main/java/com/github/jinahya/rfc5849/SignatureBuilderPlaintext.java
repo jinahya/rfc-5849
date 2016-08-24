@@ -26,6 +26,7 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
 
     public static final String SIGNATURE_METHOD = "PLAINTEXT";
 
+    // -------------------------------------------------------------------------
     SignatureBuilderPlaintext(final String signatureMethod) {
         super(signatureMethod);
     }
@@ -34,6 +35,19 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
         this(SIGNATURE_METHOD);
     }
 
+    // -------------------------------------------------------------------------
+    @Override
+    public String build() throws Exception {
+        if (consumerSecret == null) {
+            throw new IllegalStateException("no consumerSecret set");
+        }
+        if (tokenSecret == null) {
+            throw new IllegalStateException("no tokenSecret set");
+        }
+        return encodePercent(consumerSecret) + "&" + encodePercent(tokenSecret);
+    }
+
+    // ---------------------------------------------------------- consumerSecret
     /**
      * Replaces the consumer secret with given and return self.
      *
@@ -47,22 +61,13 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
         return this;
     }
 
+    // ------------------------------------------------------------- tokenSecret
     public SignatureBuilderPlaintext tokenSecret(final String tokenSecret) {
         this.tokenSecret = tokenSecret;
         return this;
     }
 
-    @Override
-    public String build() throws Exception {
-        if (consumerSecret == null) {
-            throw new IllegalStateException("no consumerSecret set");
-        }
-        if (tokenSecret == null) {
-            throw new IllegalStateException("no tokenSecret set");
-        }
-        return encodePercent(consumerSecret) + "&" + encodePercent(tokenSecret);
-    }
-
+    // -------------------------------------------------------------------------
     private String consumerSecret;
 
     private String tokenSecret;

@@ -60,8 +60,8 @@ public final class Base64 {
         if (input.length == 0) {
             return new byte[0];
         }
-        final byte[] output
-                = new byte[(input.length / 3 + (input.length % 3 > 0 ? 1 : 0)) * 4];
+        final byte[] output = new byte[(input.length / 3
+                                        + (input.length % 3 > 0 ? 1 : 0)) * 4];
         int index = 0; // output index
         for (int i = 0; i < input.length; i += 3) {
             int word = 0;
