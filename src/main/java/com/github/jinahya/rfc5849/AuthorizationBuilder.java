@@ -15,7 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import com.github.jinahya.rfc5849.util.Percent;
+import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -85,19 +85,17 @@ public class AuthorizationBuilder implements Builder<String> {
                     "no baseStringBuilder set on signatgureBuilder");
         }
         final Map<String, String> params = new TreeMap<String, String>();
-
         final String oauthSignature = signatureBuilder.build();
         params.put(Rfc5849Constants.OAUTH_SIGNATURE, oauthSignature);
 
         for (final Entry<String, List<String>> entry
-                : baseStringBuilder.entrySet()) {
+             : baseStringBuilder.entrySet()) {
             final String key = entry.getKey();
             if (!key.startsWith(BaseStringBuilder.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;
             }
             params.put(key, entry.getValue().get(0));
         }
-
         final StringBuilder builder = new StringBuilder("OAuth");
         {
             if (realm != null) {
@@ -108,31 +106,30 @@ public class AuthorizationBuilder implements Builder<String> {
                         .append(realm)
                         .append("\"");
             }
-            final Iterator<Entry<String, String>> i
+            final Iterator<Entry<String, String>> entries
                     = params.entrySet().iterator();
-            if (i.hasNext()) {
+            if (entries.hasNext()) {
                 if (realm != null) {
                     builder.append(",");
                 }
-                final Entry<String, String> entry = i.next();
+                final Entry<String, String> entry = entries.next();
                 builder
                         .append(" ")
-                        .append(Percent.encodePercent(entry.getKey()))
+                        .append(encodePercent(entry.getKey()))
                         .append("=\"")
-                        .append(Percent.encodePercent(entry.getValue()))
+                        .append(encodePercent(entry.getValue()))
                         .append("\"");
             }
-            while (i.hasNext()) {
-                final Entry<String, String> entry = i.next();
+            while (entries.hasNext()) {
+                final Entry<String, String> entry = entries.next();
                 builder
                         .append(", ")
-                        .append(Percent.encodePercent(entry.getKey()))
+                        .append(encodePercent(entry.getKey()))
                         .append("=\"")
-                        .append(Percent.encodePercent(entry.getValue()))
+                        .append(encodePercent(entry.getValue()))
                         .append("\"");
             }
         }
-
         return builder.toString();
     }
 

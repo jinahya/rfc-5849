@@ -19,10 +19,10 @@ package com.github.jinahya.rfc5849;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderHmacSha1JcTest
-        extends SignatureBuilderHmacSha1Test<SignatureBuilderHmacSha1Jc> {
+public class SignatureBuilderHmacSha1JcaTest
+        extends SignatureBuilderHmacSha1Test<SignatureBuilderHmacSha1Jca> {
 
-    public SignatureBuilderHmacSha1JcTest() {
-        super(SignatureBuilderHmacSha1Jc.class);
+    public SignatureBuilderHmacSha1JcaTest() {
+        super(SignatureBuilderHmacSha1Jca.class);
     }
 }

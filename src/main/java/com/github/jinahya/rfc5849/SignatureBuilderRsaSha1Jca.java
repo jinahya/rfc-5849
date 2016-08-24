@@ -15,28 +15,30 @@
  */
 package com.github.jinahya.rfc5849;
 
-import java.security.Key;
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+import java.security.PrivateKey;
+import java.security.Signature;
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderHmacSha1Jc extends SignatureBuilderHmacSha1 {
+public class SignatureBuilderRsaSha1Jca
+        extends SignatureBuilderRsaSha1<PrivateKey> {
 
-    /**
-     * Standard algorithm name for HMAC-SHA1.
-     */
-    public static final String ALGORITHM = "HmacSHA1";
+    protected static final String ALGORITHM = "SHA1withRSA";
 
     @Override
-    protected byte[] build(final byte[] keyBytes, final byte[] baseBytes)
+    protected byte[] build(final PrivateKey privateKey, final byte[] baseBytes)
             throws Exception {
-        final Key key = new SecretKeySpec(keyBytes, ALGORITHM);
-        final Mac mac = Mac.getInstance(ALGORITHM);
-        mac.init(key);
-        final byte[] output = mac.doFinal(baseBytes);
-        return output;
+        final Signature signature = Signature.getInstance(ALGORITHM);
+        signature.initSign(privateKey);
+        signature.update(baseBytes);
+        return signature.sign();
     }
+
+    @Override
+    public SignatureBuilderRsaSha1Jca privateKey(final PrivateKey privateKey) {
+        return (SignatureBuilderRsaSha1Jca) super.privateKey(privateKey);
+    }
+
 }

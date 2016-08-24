@@ -15,7 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import com.github.jinahya.rfc5849.util.Base64;
+import static com.github.jinahya.rfc5849.util.Base64.encodeBase64ToString;
 
 /**
  *
@@ -50,7 +50,7 @@ public abstract class SignatureBuilderHmacSha1
         final String baseString = getBaseStringBuilder().build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
         final byte[] signature = build(keyBytes, baseBytes);
-        return Base64.encodeBase64ToString(signature);
+        return encodeBase64ToString(signature);
     }
 
     /**

@@ -44,7 +44,7 @@ public class AuthorizationBuilderTest {
 
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .signatureBuilder(
-                        new SignatureBuilderHmacSha1Jc()
+                        new SignatureBuilderHmacSha1Jca()
                         .consumerSecret("kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw")
                         .tokenSecret("LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE")
                         .baseStringBuilder(
@@ -123,7 +123,7 @@ public class AuthorizationBuilderTest {
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("http://photos.example.net/photos")
                 .signatureBuilder(
-                        new SignatureBuilderHmacSha1Jc()
+                        new SignatureBuilderHmacSha1Jca()
                         .consumerSecret("kd94hf93k423kf44")
                         .tokenSecret("pfkkdhi9sl3r4s00")
                         .baseStringBuilder(
