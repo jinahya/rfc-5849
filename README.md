@@ -1,5 +1,5 @@
 # rfc5849
-implementation of [RFC5849](https://tools.ietf.org/html/rfc5849).
+implementation of [The OAuth 1.0 Protocol](https://tools.ietf.org/html/rfc5849).
 
 [![Build Status](https://travis-ci.org/jinahya/rfc5849.svg?branch=develop)](https://travis-ci.org/jinahya/rfc5849)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.jinahya/rfc5849.svg?maxAge=2592000)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.jinahya%22%20a%3A%22rfc5849%22)
