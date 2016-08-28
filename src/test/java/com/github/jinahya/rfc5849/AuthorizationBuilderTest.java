@@ -27,11 +27,12 @@ import org.testng.annotations.Test;
  */
 public class AuthorizationBuilderTest {
 
+    private static final Logger logger = getLogger(lookup().lookupClass());
+
     /**
      * Tests against the example from {@code dev.twitter.com/oauth}.
      *
      * @throws Exception if an error occurs.
-     *
      * @see
      * <a href="https://dev.twitter.com/oauth/overview/creating-signatures">Creating
      * a signature Overview</a>
@@ -41,7 +42,6 @@ public class AuthorizationBuilderTest {
      */
     @Test
     public void twitterExample() throws Exception {
-
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .signatureBuilder(
                         new SignatureBuilderHmacSha1Jca()
@@ -61,9 +61,7 @@ public class AuthorizationBuilderTest {
                                 .entityParameter("status", "Hello Ladies + Gentlemen, a signed OAuth request!")
                         )
                 );
-
         final String actual = builder.build();
-
         final String documented
                 = "OAuth"
                   + " oauth_consumer_key=\"xvz1evFS4wEEPTGEFPHBog\""
@@ -73,7 +71,6 @@ public class AuthorizationBuilderTest {
                   + ", oauth_timestamp=\"1318622958\""
                   + ", oauth_token=\"370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb\""
                   + ", oauth_version=\"1.0\"";
-
         final String expected
                 = "OAuth"
                   + " oauth_consumer_key=\"xvz1evFS4wEEPTGEFPHBog\""
@@ -83,7 +80,6 @@ public class AuthorizationBuilderTest {
                   + ", oauth_timestamp=\"1318622958\""
                   + ", oauth_token=\"370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb\""
                   + ", oauth_version=\"1.0\"";
-
         assertEquals(actual, expected);
     }
 
@@ -91,13 +87,11 @@ public class AuthorizationBuilderTest {
      * Tests against the example from {@code http://nouncer.com/oauth}.
      *
      * @throws Exception if an error occurs.
-     *
      * @see <a href="http://nouncer.com/oauth/authentication.html">OAuth 1.0
      * Authentication Sandbox</a>
      */
     @Test
     public void nouncerExample() throws Exception {
-
         final String documented
                 = "OAuth"
                   + " realm=\"http://photos.example.net/photos\","
@@ -108,7 +102,6 @@ public class AuthorizationBuilderTest {
                   + " oauth_signature_method=\"HMAC-SHA1\","
                   + " oauth_version=\"1.0\","
                   + " oauth_signature=\"tR3%2BTy81lMeYAr%2FFid0kMTYa%2FWM%3D\"";
-
         final String expected
                 = "OAuth"
                   + " realm=\"http://photos.example.net/photos\","
@@ -119,7 +112,6 @@ public class AuthorizationBuilderTest {
                   + " oauth_timestamp=\"1191242096\","
                   + " oauth_token=\"nnch734d00sl2jdk\","
                   + " oauth_version=\"1.0\"";
-
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("http://photos.example.net/photos")
                 .signatureBuilder(
@@ -140,13 +132,12 @@ public class AuthorizationBuilderTest {
                                 .oauthVersion("1.0")
                         )
                 );
-
         final String actual = builder.build();
-
         assertEquals(actual, expected);
     }
 
     /**
+     * Tests against rfc5849.
      *
      * @throws Exception
      * @see <a href="http://tools.ietf.org/html/rfc5849#section-1.2">1.2.
@@ -154,10 +145,8 @@ public class AuthorizationBuilderTest {
      */
     @Test
     public void rfc5849_1_2() throws Exception {
-
         final String consumerKey = "dpf43f3p2l4k3l03";
         final String consumerSecret = "kd94hf93k423kf44";
-
         {
             final String documented
                     = "OAuth"
@@ -196,12 +185,10 @@ public class AuthorizationBuilderTest {
             final String actual = builder.build();
             assertEquals(actual, expected);
         }
-
         {
             final String oauthToken = "hh5s93j4hdidpola";
             final String oauthTokenSecret = "hdhd0244k9j7ao03";
             final String oauthVerifier = "hfdp7dh39dks9884";
-
             final String documented
                     = "OAuth"
                       + " realm=\"Photos\","
@@ -212,7 +199,6 @@ public class AuthorizationBuilderTest {
                       + " oauth_nonce=\"walatlh\","
                       + " oauth_verifier=\"hfdp7dh39dks9884\","
                       + " oauth_signature=\"gKgrFCywp7rO0OXSjdot%2FIHF7IU%3D\"";
-
             final String expected
                     = "OAuth"
                       + " realm=\"Photos\","
@@ -243,11 +229,9 @@ public class AuthorizationBuilderTest {
             final String actual = builder.build();
             assertEquals(actual, expected);
         }
-
         {
             final String oauthToken = "nnch734d00sl2jdk";
             final String oauthTokenSecret = "pfkkdhi9sl3r4s00";
-
             final String documented
                     = "OAuth"
                       + " realm=\"Photos\","
@@ -290,14 +274,14 @@ public class AuthorizationBuilderTest {
     }
 
     /**
+     * Test against RFC5849.
      *
-     * @throws Exception
+     * @throws Exception if failed
      * @see <a href="http://tools.ietf.org/html/rfc5849#section-2.1">2.1.
      * Temporary Credentials</a>
      */
     @Test
     public void rfc5849_2_1() throws Exception {
-
         final String documented
                 = "OAuth"
                   + " realm=\"Example\","
@@ -305,7 +289,6 @@ public class AuthorizationBuilderTest {
                   + " oauth_signature_method=\"PLAINTEXT\","
                   + " oauth_callback=\"http%3A%2F%2Fclient.example.net%2Fcb%3Fx%3D1\","
                   + " oauth_signature=\"ja893SD9%26\"";
-
         final String expected
                 = "OAuth"
                   + " realm=\"Example\","
@@ -313,7 +296,6 @@ public class AuthorizationBuilderTest {
                   + " oauth_consumer_key=\"jd83jd92dhsh93js\","
                   + " oauth_signature=\"ja893SD9%26\","
                   + " oauth_signature_method=\"PLAINTEXT\"";
-
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("Example")
                 .signatureBuilder(
@@ -326,21 +308,19 @@ public class AuthorizationBuilderTest {
                                 .oauthCallback("http://client.example.net/cb?x=1")
                         )
                 );
-
         final String actual = builder.build();
-
         assertEquals(actual, expected);
     }
 
     /**
+     * Tests against rfc5849.
      *
-     * @throws Exception
+     * @throws Exception if failed
      * @see <a href="http://tools.ietf.org/html/rfc5849#section-2.3">2.3. Token
      * Credentials</a>
      */
     @Test
     public void rfc5849_2_3() throws Exception {
-
         final String documented
                 = "OAuth"
                   + " realm=\"Example\","
@@ -349,7 +329,6 @@ public class AuthorizationBuilderTest {
                   + " oauth_signature_method=\"PLAINTEXT\","
                   + " oauth_verifier=\"473f82d3\","
                   + " oauth_signature=\"ja893SD9%26xyz4992k83j47x0b\"";
-
         final String expected
                 = "OAuth"
                   + " realm=\"Example\","
@@ -358,7 +337,6 @@ public class AuthorizationBuilderTest {
                   + " oauth_signature_method=\"PLAINTEXT\","
                   + " oauth_token=\"hdk48Djdsa\","
                   + " oauth_verifier=\"473f82d3\"";
-
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("Example")
                 .signatureBuilder(
@@ -372,9 +350,7 @@ public class AuthorizationBuilderTest {
                                 .oauthVerifier("473f82d3")
                         )
                 );
-
         final String actual = builder.build();
-
         assertEquals(actual, expected);
     }
 
@@ -431,7 +407,4 @@ public class AuthorizationBuilderTest {
         final String actual = builder.build();
         assertEquals(actual, expected);
     }
-
-    private transient final Logger logger = getLogger(lookup().lookupClass());
-
 }

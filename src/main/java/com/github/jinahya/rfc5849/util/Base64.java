@@ -16,6 +16,7 @@
 package com.github.jinahya.rfc5849.util;
 
 import java.io.UnsupportedEncodingException;
+import static java.lang.Math.ceil;
 
 /**
  *
@@ -44,7 +45,7 @@ public final class Base64 {
         }
     }
 
-    private static final byte PAD = 0x3D;
+    private static final byte PAD = 0x3D; // '='
 
     /**
      * Encodes given input.
@@ -60,8 +61,9 @@ public final class Base64 {
         if (input.length == 0) {
             return new byte[0];
         }
-        final byte[] output = new byte[(input.length / 3
-                                        + (input.length % 3 > 0 ? 1 : 0)) * 4];
+//        final byte[] output = new byte[((input.length / 3)
+//                                        + (input.length % 3 > 0 ? 1 : 0)) * 4];
+        final byte[] output = new byte[((int) ceil(input.length / 3.0d)) * 4];
         int index = 0; // output index
         for (int i = 0; i < input.length; i += 3) {
             int word = 0;
@@ -98,8 +100,6 @@ public final class Base64 {
         try {
             return new String(encodeBase64(input), "ISO-8859-1");
         } catch (final UnsupportedEncodingException uee) {
-            //throw new RuntimeException(uee);
-            uee.printStackTrace(System.err);
             throw new RuntimeException(uee.getMessage());
         }
     }
@@ -160,8 +160,6 @@ public final class Base64 {
         try {
             return decodeBase64(input.getBytes("ISO-8859-1"));
         } catch (final UnsupportedEncodingException uee) {
-            //throw new RuntimeException(uee);
-            uee.printStackTrace(System.err);
             throw new RuntimeException(uee.getMessage());
         }
     }

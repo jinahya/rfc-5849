@@ -31,6 +31,8 @@ import org.testng.annotations.Test;
  */
 public class PercentTest {
 
+    private static final Logger logger = getLogger(lookup().lookupClass());
+
     @Test(invocationCount = 128)
     public void encodeDecode() {
         final String expected
@@ -39,6 +41,4 @@ public class PercentTest {
         final String actual = decodePercent(encoded);
         assertEquals(actual, expected);
     }
-
-    private transient final Logger logger = getLogger(lookup().lookupClass());
 }
