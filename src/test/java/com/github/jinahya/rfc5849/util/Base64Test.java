@@ -30,6 +30,8 @@ import org.testng.annotations.Test;
  */
 public class Base64Test {
 
+    private static final Logger logger = getLogger(lookup().lookupClass());
+
     @Test(invocationCount = 128)
     public void encode() {
         final byte[] expected = new byte[current().nextInt(1024)];
@@ -71,6 +73,4 @@ public class Base64Test {
         assertNotNull(decoded);
         assertEquals(decoded.length, 0);
     }
-
-    private transient final Logger logger = getLogger(lookup().lookupClass());
 }

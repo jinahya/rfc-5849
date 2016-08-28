@@ -43,13 +43,21 @@ public class BaseStringBuilder
         if (baseUri == null) {
             throw new IllegalStateException("no baseUri");
         }
-        if (!map.containsKey(Rfc5849Constants.OAUTH_NONCE)
-            && nonceBuilder != null) {
-            oauthNonce(nonceBuilder.build());
+        if (!map.containsKey(Rfc5849Constants.OAUTH_NONCE)) {
+            if (nonceBuilder != null) {
+                oauthNonce(nonceBuilder.build());
+            } else {
+                throw new IllegalArgumentException(
+                        "no " + Rfc5849Constants.OAUTH_NONCE);
+            }
         }
-        if (!map.containsKey(Rfc5849Constants.OAUTH_TIMESTAMP)
-            && timestampBuilder != null) {
-            oauthTimestamp(timestampBuilder.build());
+        if (!map.containsKey(Rfc5849Constants.OAUTH_TIMESTAMP)) {
+            if (timestampBuilder != null) {
+                oauthTimestamp(timestampBuilder.build());
+            } else {
+                throw new IllegalArgumentException(
+                        "no " + Rfc5849Constants.OAUTH_TIMESTAMP);
+            }
         }
         final Map<String, List<String>> encoded
                 = new TreeMap<String, List<String>>();
@@ -168,7 +176,8 @@ public class BaseStringBuilder
 
     // ----------------------------------------------------------- oauthCallback
     public BaseStringBuilder oauthCallback(final String oauthCallback) {
-        return protocolParameter(Rfc5849Constants.OAUTH_CALLBACK, oauthCallback);
+        return protocolParameter(Rfc5849Constants.OAUTH_CALLBACK,
+                                 oauthCallback);
     }
 
     // -------------------------------------------------------- oauthConsumerKey

@@ -60,24 +60,24 @@ public class AuthorizationBuilder implements Builder<String> {
     @Override
     public String build() throws Exception {
         if (signatureBuilder == null) {
-            throw new IllegalStateException("no signatureBuilder set");
+            throw new IllegalStateException("no signatureBuilder");
         }
         final BaseStringBuilder baseStringBuilder
                 = signatureBuilder.baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException(
-                    "no baseStringBuilder set on the signatgureBuilder");
+                    "no baseStringBuilder on the signatgureBuilder");
         }
         final Map<String, String> params = new TreeMap<String, String>();
         final String oauthSignature = signatureBuilder.build();
         params.put(Rfc5849Constants.OAUTH_SIGNATURE, oauthSignature);
-        for (final Entry<String, List<String>> entry
+        for (final Entry<String, List<String>> entiry
              : baseStringBuilder.entries()) {
-            final String key = entry.getKey();
+            final String key = entiry.getKey();
             if (!key.startsWith(BaseStringBuilder.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;
             }
-            params.put(key, entry.getValue().get(0));
+            params.put(key, entiry.getValue().get(0));
         }
         final StringBuilder builder = new StringBuilder("OAuth");
         {
@@ -117,31 +117,29 @@ public class AuthorizationBuilder implements Builder<String> {
     }
 
     // --------------------------------------------------------- sinatureBuilder
-    @Deprecated
-    public SignatureBuilder getSignatureBuilder() {
-        return signatureBuilder;
-    }
-
-    @Deprecated
-    public void setSignatureBuilder(final SignatureBuilder signatureBuilder) {
-        this.signatureBuilder = signatureBuilder;
-    }
-
+//    @Deprecated
+//    public SignatureBuilder getSignatureBuilder() {
+//        return signatureBuilder;
+//    }
+//
+//    @Deprecated
+//    public void setSignatureBuilder(final SignatureBuilder signatureBuilder) {
+//        this.signatureBuilder = signatureBuilder;
+//    }
     public AuthorizationBuilder signatureBuilder(
             final SignatureBuilder signatureBuilder) {
         this.signatureBuilder = signatureBuilder;
         return this;
     }
 
-    public AuthorizationBuilder signature(final String signature) {
-        return signatureBuilder(new SignatureBuilder() {
-            @Override
-            public String build() {
-                return signature;
-            }
-        });
-    }
-
+//    public AuthorizationBuilder signature(final String signature) {
+//        return signatureBuilder(new SignatureBuilder() {
+//            @Override
+//            public String build() {
+//                return signature;
+//            }
+//        });
+//    }
     // -------------------------------------------------------------------------
     private String realm;
 

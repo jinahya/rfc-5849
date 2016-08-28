@@ -15,6 +15,9 @@
  */
 package com.github.jinahya.rfc5849;
 
+import static java.lang.invoke.MethodHandles.lookup;
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
@@ -23,6 +26,8 @@ import org.testng.annotations.Test;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class BaseStringBuilderTest {
+
+    private static final Logger logger = getLogger(lookup().lookupClass());
 
     /**
      * Tests against twitter example.
@@ -35,9 +40,7 @@ public class BaseStringBuilderTest {
      */
     @Test
     public void twitterExample() throws Exception {
-
         final BaseStringBuilder builder = new BaseStringBuilder();
-
         builder.httpMethod("POST");
         builder.baseUri("https://api.twitter.com/1/statuses/update.json");
         builder.entityParameter(
@@ -53,7 +56,6 @@ public class BaseStringBuilderTest {
                 "oauth_token",
                 "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb");
         builder.protocolParameter("oauth_version", "1.0");
-
         final String expected
                 = "POST"
                   + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
@@ -65,9 +67,8 @@ public class BaseStringBuilderTest {
                   + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
                   + "%26oauth_version%3D1.0"
                   + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521";
-
         final String actual = builder.build();
-
+        logger.debug("dev.twitter.com/actual: {}", actual);
         assertEquals(actual, expected);
     }
 
@@ -81,12 +82,9 @@ public class BaseStringBuilderTest {
      */
     @Test(enabled = true)
     public void nouncerExample() throws Exception {
-
         final BaseStringBuilder builder = new BaseStringBuilder();
-
         builder.httpMethod("GET");
         builder.baseUri("http://photos.example.net/photos");
-
         builder.protocolParameter("oauth_consumer_key", "dpf43f3p2l4k3l03");
         builder.protocolParameter("oauth_token", "nnch734d00sl2jdk");
         builder.protocolParameter("oauth_nonce", "kllo9940pd9333jh");
@@ -95,7 +93,6 @@ public class BaseStringBuilderTest {
         builder.protocolParameter("oauth_version", "1.0");
         builder.queryParameter("size", "original");
         builder.queryParameter("file", "vacation.jpg");
-
         final String expected
                 = "GET"
                   + "&http%3A%2F%2Fphotos.example.net%2Fphotos"
@@ -107,9 +104,8 @@ public class BaseStringBuilderTest {
                   + "%26oauth_token%3Dnnch734d00sl2jdk"
                   + "%26oauth_version%3D1.0"
                   + "%26size%3Doriginal";
-
         final String actual = builder.build();
-
+        logger.debug("nouncer.com/actual: {}", actual);
         assertEquals(actual, expected);
     }
 
@@ -122,7 +118,6 @@ public class BaseStringBuilderTest {
      */
     @Test(enabled = true)
     public void rfc5849_3_4_1_1() throws Exception {
-
         final String documented
                 = "POST"
                   + "&http%3A%2F%2Fexample.com%2Frequest"
@@ -137,9 +132,7 @@ public class BaseStringBuilderTest {
                   + "%26oauth_signature_method%3DHMAC-SHA1"
                   + "%26oauth_timestamp%3D137131201"
                   + "%26oauth_token%3Dkkk9d7dh3k39sjv7";
-
         final String expected = documented;
-
         final BaseStringBuilder builder = new BaseStringBuilder()
                 .httpMethod("POST")
                 .baseUri("http://example.com/request")
@@ -154,10 +147,8 @@ public class BaseStringBuilderTest {
                 .protocolParameter("oauth_nonce", "7d8f3e4a")
                 .entityParameter("c2", "")
                 .entityParameter("a3", "2 q");
-
         final String actual = builder.build();
-
+        logger.debug("rfc5849/actual: {}", actual);
         assertEquals(actual, expected);
     }
-
 }

@@ -26,10 +26,11 @@ import org.testng.annotations.Test;
  */
 public class TimestampBuilderTest {
 
+    private static final Logger logger = getLogger(lookup().lookupClass());
+
     @Test
     public void build() throws Exception {
-        final String built = new TimestampBuilder().build();
+        final String timestamp = new TimestampBuilder().build();
+        logger.debug("timestamp: {}", timestamp);
     }
-
-    private transient final Logger logger = getLogger(lookup().lookupClass());
 }
