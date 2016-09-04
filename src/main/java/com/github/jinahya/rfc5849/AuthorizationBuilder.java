@@ -30,27 +30,7 @@ public class AuthorizationBuilder implements Builder<String> {
 
     private static final String REALM = "realm";
 
-//    // ---------------------------------------------------------------- prebuilt
-//    protected String getPrebuilt() {
-//        return prebuilt;
-//    }
-//
-//    protected void setPrebuilt(final String prebuilt) {
-//        this.prebuilt = prebuilt;
-//    }
-//
-//    public AuthorizationBuilder prebuilt(final String prebuilt) {
-//        setPrebuilt(prebuilt);
-//        return this;
-//    }
     // ------------------------------------------------------------------- realm
-//    public String getRealm() {
-//        return realm;
-//    }
-//
-//    public void setRealm(final String realm) {
-//        this.realm = realm;
-//    }
     public AuthorizationBuilder realm(final String realm) {
         this.realm = realm;
         return this;
@@ -117,29 +97,12 @@ public class AuthorizationBuilder implements Builder<String> {
     }
 
     // --------------------------------------------------------- sinatureBuilder
-//    @Deprecated
-//    public SignatureBuilder getSignatureBuilder() {
-//        return signatureBuilder;
-//    }
-//
-//    @Deprecated
-//    public void setSignatureBuilder(final SignatureBuilder signatureBuilder) {
-//        this.signatureBuilder = signatureBuilder;
-//    }
     public AuthorizationBuilder signatureBuilder(
             final SignatureBuilder signatureBuilder) {
         this.signatureBuilder = signatureBuilder;
         return this;
     }
 
-//    public AuthorizationBuilder signature(final String signature) {
-//        return signatureBuilder(new SignatureBuilder() {
-//            @Override
-//            public String build() {
-//                return signature;
-//            }
-//        });
-//    }
     // -------------------------------------------------------------------------
     private String realm;
 

@@ -47,7 +47,7 @@ public final class Rfc5849Constants {
 
     public static final String OAUTH_VERSION = "oauth_version";
 
-    public Rfc5849Constants() {
+    private Rfc5849Constants() {
         super();
     }
 }
