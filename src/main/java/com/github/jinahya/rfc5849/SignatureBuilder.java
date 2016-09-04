@@ -31,10 +31,9 @@ public abstract class SignatureBuilder implements Builder<String> {
 //        super();
 //        this.signatureMethod = signatureMethod.signatureMethod();
 //    }
-    SignatureBuilder() {
-        this(null);
-    }
-
+//    SignatureBuilder() {
+//        this(null);
+//    }
     // --------------------------------------------------------- signatureMethod
     /**
      * Returns signature method.
@@ -45,11 +44,10 @@ public abstract class SignatureBuilder implements Builder<String> {
         return signatureMethod;
     }
 
-    public SignatureBuilder signatureMethod(final String signatureMethod) {
-        this.signatureMethod = signatureMethod;
-        return this;
-    }
-
+//    public SignatureBuilder signatureMethod(final String signatureMethod) {
+//        this.signatureMethod = signatureMethod;
+//        return this;
+//    }
     // ------------------------------------------------------- baseStringBuilder
     BaseStringBuilder baseStringBuilder() {
         return baseStringBuilder;
@@ -66,7 +64,8 @@ public abstract class SignatureBuilder implements Builder<String> {
     }
 
     // -------------------------------------------------------------- baseString
-    public SignatureBuilder baseString(final String baseString) {
+    @Deprecated
+    SignatureBuilder baseString(final String baseString) {
         if (baseString == null) {
             throw new NullPointerException("null baseString");
         }

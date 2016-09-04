@@ -49,11 +49,10 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
 
     // ---------------------------------------------------------- consumerSecret
     /**
-     * Replaces the consumer secret with given and return self.
+     * Replaces the consumer secret with given and return this instance.
      *
      * @param consumerSecret new consumer secret.
-     *
-     * @return self.
+     * @return this instance
      */
     public SignatureBuilderPlaintext consumerSecret(
             final String consumerSecret) {
@@ -62,6 +61,12 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
     }
 
     // ------------------------------------------------------------- tokenSecret
+    /**
+     * Replaces the token secret with given value and returns this instance.
+     *
+     * @param tokenSecret new token secret
+     * @return this instance
+     */
     public SignatureBuilderPlaintext tokenSecret(final String tokenSecret) {
         this.tokenSecret = tokenSecret;
         return this;

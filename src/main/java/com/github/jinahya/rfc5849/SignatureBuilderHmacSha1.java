@@ -60,6 +60,5 @@ public abstract class SignatureBuilderHmacSha1
      *
      * @throws Exception if an error occurs.
      */
-    protected abstract byte[] build(byte[] keyBytes, byte[] baseBytes)
-            throws Exception;
+    abstract byte[] build(byte[] keyBytes, byte[] baseBytes) throws Exception;
 }

@@ -22,7 +22,7 @@ import static com.github.jinahya.rfc5849.util.Base64.encodeBase64ToString;
  * is {@value #SIGNATURE_METHOD}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @param <T> private key type parameter
+ * @param <T> init param type parameter
  */
 public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
 
@@ -46,33 +46,32 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
-        if (privateKey == null) {
-            throw new IllegalStateException("no privateKey set");
+        if (initParam == null) {
+            throw new IllegalStateException("no initParam set");
         }
         final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
-        final byte[] built = build(privateKey, baseBytes);
+        final byte[] built = build(initParam, baseBytes);
         return encodeBase64ToString(built);
     }
 
-    protected abstract byte[] build(final T privateKey, final byte[] baseBytes)
-            throws Exception;
+    abstract byte[] build(T initParam, byte[] baseBytes) throws Exception;
 
     // -------------------------------------------------------------------------
     /**
      * Sets a private key.
      *
-     * @param privateKey the private key.
+     * @param initParam the private key.
      * @return this instance.
      */
-    public SignatureBuilderRsaSha1<T> privateKey(final T privateKey) {
-        this.privateKey = privateKey;
+    public SignatureBuilderRsaSha1<T> initParam(final T initParam) {
+        this.initParam = initParam;
         return this;
     }
 
     // -------------------------------------------------------------------------
     /**
-     * The private key to use.
+     * The init param.
      */
-    private T privateKey;
+    private T initParam;
 }

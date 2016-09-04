@@ -29,18 +29,17 @@ public class SignatureBuilderRsaSha1Bc
         extends SignatureBuilderRsaSha1<CipherParameters> {
 
     @Override
-    protected byte[] build(final CipherParameters privateKey,
-                           final byte[] baseBytes)
+    byte[] build(final CipherParameters initParam, final byte[] baseBytes)
             throws Exception {
         final Signer signer = new RSADigestSigner(new SHA1Digest());
-        signer.init(true, privateKey);
+        signer.init(true, initParam);
         signer.update(baseBytes, 0, baseBytes.length);
         return signer.generateSignature();
     }
 
     @Override
-    public SignatureBuilderRsaSha1Bc privateKey(
-            final CipherParameters privateKey) {
-        return (SignatureBuilderRsaSha1Bc) super.privateKey(privateKey);
+    public SignatureBuilderRsaSha1Bc initParam(
+            final CipherParameters initParam) {
+        return (SignatureBuilderRsaSha1Bc) super.initParam(initParam);
     }
 }

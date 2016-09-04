@@ -28,16 +28,16 @@ public class SignatureBuilderRsaSha1Jca
     protected static final String ALGORITHM = "SHA1withRSA";
 
     @Override
-    protected byte[] build(final PrivateKey privateKey, final byte[] baseBytes)
+    byte[] build(final PrivateKey initParam, final byte[] baseBytes)
             throws Exception {
         final Signature signature = Signature.getInstance(ALGORITHM);
-        signature.initSign(privateKey);
+        signature.initSign(initParam);
         signature.update(baseBytes);
         return signature.sign();
     }
 
     @Override
-    public SignatureBuilderRsaSha1Jca privateKey(final PrivateKey privateKey) {
-        return (SignatureBuilderRsaSha1Jca) super.privateKey(privateKey);
+    public SignatureBuilderRsaSha1Jca initParam(final PrivateKey initParam) {
+        return (SignatureBuilderRsaSha1Jca) super.initParam(initParam);
     }
 }
