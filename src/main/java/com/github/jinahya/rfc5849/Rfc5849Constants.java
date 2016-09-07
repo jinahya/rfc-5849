@@ -21,6 +21,9 @@ package com.github.jinahya.rfc5849;
  */
 public final class Rfc5849Constants {
 
+    /**
+     * A constant whose value is {@value #OAUTH_CALLBACK}.
+     */
     public static final String OAUTH_CALLBACK = "oauth_callback";
 
     public static final String OAUTH_CALLBACK_CONFIRMED

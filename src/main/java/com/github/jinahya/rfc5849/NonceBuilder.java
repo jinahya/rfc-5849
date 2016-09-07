@@ -30,6 +30,11 @@ public class NonceBuilder implements Builder<String> {
         return nonce();
     }
 
+    /**
+     * Generates a nonce.
+     *
+     * @return a nonce
+     */
     protected String nonce() {
         if (true) {
             return Long.toString(random().nextLong());
@@ -38,13 +43,24 @@ public class NonceBuilder implements Builder<String> {
         return new BigInteger(130, random()).toString(32);
     }
 
+    /**
+     * Returns a random.
+     *
+     * @return a random
+     */
     protected Random random() {
-//        return new SecureRandom();
-        if (random == null) {
-            random = new SecureRandom();
+        if (true) {
+            if (random == null) {
+                random = new SecureRandom();
+            }
+            return random;
         }
-        return random;
+        Random random_ = random;
+        if (random_ == null) {
+            random = random_ = new SecureRandom();
+        }
+        return random_;
     }
 
-    private transient Random random;
+    private volatile Random random;
 }

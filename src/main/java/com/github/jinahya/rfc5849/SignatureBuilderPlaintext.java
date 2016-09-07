@@ -24,7 +24,7 @@ import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
  */
 public class SignatureBuilderPlaintext extends SignatureBuilder {
 
-    public static final String SIGNATURE_METHOD = "PLAINTEXT";
+    private static final String SIGNATURE_METHOD = "PLAINTEXT";
 
     // -------------------------------------------------------------------------
     SignatureBuilderPlaintext(final String signatureMethod) {
@@ -36,6 +36,12 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * Builds the signature value.
+     *
+     * @return this instance.
+     * @throws Exception if failed to build
+     */
     @Override
     public String build() throws Exception {
         if (consumerSecret == null) {

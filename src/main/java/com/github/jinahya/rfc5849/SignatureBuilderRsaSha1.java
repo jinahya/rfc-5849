@@ -22,14 +22,11 @@ import static com.github.jinahya.rfc5849.util.Base64.encodeBase64ToString;
  * is {@value #SIGNATURE_METHOD}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @param <T> init param type parameter
+ * @param <T> initParam type parameter
  */
 public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
 
-    /**
-     * The signature method value which is {@value #SIGNATURE_METHOD}.
-     */
-    public static final String SIGNATURE_METHOD = "RSA-SHA1";
+    private static final String SIGNATURE_METHOD = "RSA-SHA1";
 
     // -------------------------------------------------------------------------
     /**
@@ -40,6 +37,12 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * Builds the signature value.
+     *
+     * @return this instance
+     * @throws Exception if failed to build
+     */
     @Override
     public String build() throws Exception {
         final BaseStringBuilder baseStringBuilder = baseStringBuilder();
@@ -51,6 +54,7 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
         }
         final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
+        System.out.println("baseByte.length: " + baseBytes.length);
         final byte[] built = build(initParam, baseBytes);
         return encodeBase64ToString(built);
     }
@@ -59,9 +63,9 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
 
     // -------------------------------------------------------------------------
     /**
-     * Sets a private key.
+     * Sets a initialization parameter.
      *
-     * @param initParam the private key.
+     * @param initParam a initialization parameter.
      * @return this instance.
      */
     public SignatureBuilderRsaSha1<T> initParam(final T initParam) {

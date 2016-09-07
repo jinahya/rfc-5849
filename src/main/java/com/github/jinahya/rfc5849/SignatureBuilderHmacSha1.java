@@ -27,7 +27,7 @@ public abstract class SignatureBuilderHmacSha1
     /**
      * The signature method value.
      */
-    public static final String SIGNATURE_METHOD = "HMAC-SHA1";
+    private static final String SIGNATURE_METHOD = "HMAC-SHA1";
 
     /**
      * Creates a new instance.
@@ -36,6 +36,7 @@ public abstract class SignatureBuilderHmacSha1
         super(SIGNATURE_METHOD);
     }
 
+    // -------------------------------------------------------------------------
     @Override
     public String build() throws Exception {
         final BaseStringBuilder baseStringBuilder = baseStringBuilder();
@@ -50,15 +51,5 @@ public abstract class SignatureBuilderHmacSha1
         return encodeBase64ToString(built);
     }
 
-    /**
-     * Generates signature.
-     *
-     * @param keyBytes key bytes.
-     * @param baseBytes base string bytes.
-     *
-     * @return signature value.
-     *
-     * @throws Exception if an error occurs.
-     */
     abstract byte[] build(byte[] keyBytes, byte[] baseBytes) throws Exception;
 }

@@ -16,8 +16,11 @@
 package com.github.jinahya.rfc5849;
 
 /**
+ * A builder for building signatures.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4">3.4. Signature
+ * (RFC 5849)</a>
  */
 public abstract class SignatureBuilder implements Builder<String> {
 
@@ -27,32 +30,33 @@ public abstract class SignatureBuilder implements Builder<String> {
         this.signatureMethod = signatureMethod;
     }
 
-//    public SignatureBuilder(final SignatureMethod signatureMethod) {
-//        super();
-//        this.signatureMethod = signatureMethod.signatureMethod();
-//    }
-//    SignatureBuilder() {
-//        this(null);
-//    }
     // --------------------------------------------------------- signatureMethod
     /**
      * Returns signature method.
      *
      * @return signature method.
      */
+    @Deprecated
     String signatureMethod() {
         return signatureMethod;
     }
 
-//    public SignatureBuilder signatureMethod(final String signatureMethod) {
-//        this.signatureMethod = signatureMethod;
-//        return this;
-//    }
     // ------------------------------------------------------- baseStringBuilder
+    /**
+     * Returns the {@code baseStringBuilder}.
+     *
+     * @return the {@code baseStringBuilder}
+     */
     BaseStringBuilder baseStringBuilder() {
         return baseStringBuilder;
     }
 
+    /**
+     * Sets the {@code baseStringBuilder}.
+     *
+     * @param baseStringBuilder a {@link BaseStringBuilder}
+     * @return this instance
+     */
     public SignatureBuilder baseStringBuilder(
             final BaseStringBuilder baseStringBuilder) {
         if (baseStringBuilder == null) {
@@ -78,8 +82,7 @@ public abstract class SignatureBuilder implements Builder<String> {
     }
 
     // -------------------------------------------------------------------------
-//    private String prebuilt;
-    private String signatureMethod;
+    private final String signatureMethod;
 
     private BaseStringBuilder baseStringBuilder;
 }

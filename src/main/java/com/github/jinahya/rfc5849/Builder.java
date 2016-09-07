@@ -15,19 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-/**
- *
- * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @param <T> output type parameter
- */
 interface Builder<T> {
 
-    /**
-     * Builds output.
-     *
-     * @return output.
-     *
-     * @throws Exception if failed to build.
-     */
     T build() throws Exception;
 }

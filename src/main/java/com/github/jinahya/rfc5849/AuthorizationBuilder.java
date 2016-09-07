@@ -23,20 +23,35 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 /**
+ * A builder for builder authorization header value.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.1">3.5.1.
+ * Authorization Header (RFC 5849)</a>
  */
 public class AuthorizationBuilder implements Builder<String> {
 
     private static final String REALM = "realm";
 
     // ------------------------------------------------------------------- realm
+    /**
+     * Sets the realm value.
+     *
+     * @param realm the realm value
+     * @return this instance
+     */
     public AuthorizationBuilder realm(final String realm) {
         this.realm = realm;
         return this;
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * Builds the authorization header value.
+     *
+     * @return authorization header value.
+     * @throws Exception if an error occurs.
+     */
     @Override
     public String build() throws Exception {
         if (signatureBuilder == null) {
@@ -97,6 +112,12 @@ public class AuthorizationBuilder implements Builder<String> {
     }
 
     // --------------------------------------------------------- sinatureBuilder
+    /**
+     * Sets a signature builder.
+     *
+     * @param signatureBuilder the signature builder
+     * @return this instance
+     */
     public AuthorizationBuilder signatureBuilder(
             final SignatureBuilder signatureBuilder) {
         this.signatureBuilder = signatureBuilder;

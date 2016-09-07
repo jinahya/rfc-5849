@@ -25,25 +25,25 @@ import static java.util.Objects.requireNonNull;
  */
 public abstract class SignatureBuilderTest<T extends SignatureBuilder> {
 
-    public SignatureBuilderTest(final Class<T> builderType) {
+    public SignatureBuilderTest(final Class<T> builderClass) {
         super();
-        this.builderType = requireNonNull(builderType, "null builderType");
+        this.builderClass = requireNonNull(builderClass, "null builderClass");
     }
 
     /**
-     * Creates a new instance of {@link #builderType}. The {@code newInstance()}
-     * method of {@code SignatureBuidlerTest} class returns the result of
-     * {@code builderType#newInstance()}.
+     * Creates a new instance of {@link #builderClass}. The
+     * {@code newInstance()} method of {@code SignatureBuidlerTest} class
+     * returns the result of {@code builderType#newInstance()}.
      *
-     * @return a new instance of {@link #builderType}.
+     * @return a new instance of {@link #builderClass}.
      */
     protected T newInstance() {
         try {
-            return builderType.newInstance();
+            return builderClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected final Class<T> builderType;
+    protected final Class<T> builderClass;
 }
