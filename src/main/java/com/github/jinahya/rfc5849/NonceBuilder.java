@@ -27,15 +27,6 @@ public class NonceBuilder implements Builder<String> {
 
     @Override
     public String build() throws Exception {
-        return nonce();
-    }
-
-    /**
-     * Generates a nonce.
-     *
-     * @return a nonce
-     */
-    protected String nonce() {
         if (true) {
             return Long.toString(random().nextLong());
         }

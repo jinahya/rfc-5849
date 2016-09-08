@@ -20,11 +20,8 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.interfaces.RSAPrivateKey;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -32,7 +29,7 @@ import java.util.function.Function;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class SignatureBuilderRsaSah1JcaTest
-        extends SignatureBuilderRsaSha1Test<SignatureBuilderRsaSha1Jca, RSAPrivateKey> {
+        extends SignatureBuilderRsaSha1Test<SignatureBuilderRsaSha1Jca, PrivateKey> {
 
     static <R> R applyKeyPair(final Function<KeyPair, R> function)
             throws NoSuchAlgorithmException {
@@ -49,25 +46,25 @@ public class SignatureBuilderRsaSah1JcaTest
         return applyKeyPair(p -> function.apply(p.getPublic(), p.getPrivate()));
     }
 
-    static void acceptKeyPair(final Consumer<KeyPair> consumer)
+    static <R> R applyPublicKey(final Function<PublicKey, R> function)
             throws NoSuchAlgorithmException {
-        applyKeyPair(p -> {
-            consumer.accept(p);
-            return null;
-        });
+        return applyKeyPair((k, i) -> function.apply(k));
     }
 
-    static void acceptKeyPair(final BiConsumer<PublicKey, PrivateKey> consumer)
+    static <R> R applyPrivateKey(final Function<PrivateKey, R> function)
             throws NoSuchAlgorithmException {
-        acceptKeyPair(p -> consumer.accept(p.getPublic(), p.getPrivate()));
+        return applyKeyPair((i, k) -> function.apply(k));
     }
 
+    /**
+     * Creates a new instance.
+     */
     public SignatureBuilderRsaSah1JcaTest() {
         super(SignatureBuilderRsaSha1Jca.class);
     }
 
     @Override
-    RSAPrivateKey newInitParam() throws Exception {
-        return (RSAPrivateKey) applyKeyPair(KeyPair::getPrivate);
+    PrivateKey newInitParam() throws Exception {
+        return applyKeyPair(KeyPair::getPrivate);
     }
 }

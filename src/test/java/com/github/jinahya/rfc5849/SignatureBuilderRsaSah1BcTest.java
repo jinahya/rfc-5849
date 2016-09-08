@@ -23,7 +23,6 @@ import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.generators.RSAKeyPairGenerator;
 import org.bouncycastle.crypto.params.RSAKeyGenerationParameters;
-import org.bouncycastle.crypto.params.RSAKeyParameters;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -33,11 +32,11 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class SignatureBuilderRsaSah1BcTest
-        extends SignatureBuilderRsaSha1Test<SignatureBuilderRsaSha1Bc, RSAKeyParameters> {
+        extends SignatureBuilderRsaSha1Test<SignatureBuilderRsaSha1Bc, CipherParameters> {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
-    static <R> R applyKeyPairBc(
+    static <R> R applyKeyPair(
             final Function<AsymmetricCipherKeyPair, R> function) {
         final RSAKeyPairGenerator generator = new RSAKeyPairGenerator();
         generator.init(new RSAKeyGenerationParameters(
@@ -47,28 +46,29 @@ public class SignatureBuilderRsaSah1BcTest
         return function.apply(pair);
     }
 
-    static <R> R applyKeyPairBc(
+    static <R> R applyKeyPair(
             final BiFunction<CipherParameters, CipherParameters, R> function) {
-        return applyKeyPairBc(
+        return SignatureBuilderRsaSah1BcTest.applyKeyPair(
                 p -> function.apply(p.getPublic(), p.getPrivate()));
     }
 
-    static <R> R applyPublicKeyBc(
-            final Function<CipherParameters, R> function) {
-        return applyKeyPairBc((p, i) -> function.apply(p));
+    static <R> R applyPublicKey(final Function<CipherParameters, R> function) {
+        return applyKeyPair((p, i) -> function.apply(p));
     }
 
-    static <R> R applyPrivateKeyBc(
-            final Function<CipherParameters, R> function) {
-        return applyKeyPairBc((i, p) -> function.apply(p));
+    static <R> R applyPrivateKey(final Function<CipherParameters, R> function) {
+        return applyKeyPair((i, p) -> function.apply(p));
     }
 
+    /**
+     * Creates a new instance.
+     */
     public SignatureBuilderRsaSah1BcTest() {
         super(SignatureBuilderRsaSha1Bc.class);
     }
 
     @Override
-    RSAKeyParameters newInitParam() throws Exception {
-        return (RSAKeyParameters) applyPrivateKeyBc(p -> p);
+    CipherParameters newInitParam() throws Exception {
+        return applyPrivateKey(p -> p);
     }
 }
