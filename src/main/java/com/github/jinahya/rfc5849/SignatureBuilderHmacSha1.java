@@ -15,7 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.util.Base64.encodeBase64ToString;
+import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
  * A signature builder for {@code HMAC-SHA1}.

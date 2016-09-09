@@ -15,7 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.util.Base64.encodeBase64ToString;
+import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
  * An abstract class for signature builder implementation whose signature method

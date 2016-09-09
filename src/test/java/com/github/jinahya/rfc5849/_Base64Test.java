@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jinahya.rfc5849.util;
+package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.util.Base64.encodeBase64;
+import static com.github.jinahya.rfc5849._Base64.encodeBase64;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.ThreadLocalRandom.current;
 import org.slf4j.Logger;
@@ -28,7 +28,7 @@ import org.testng.annotations.Test;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class Base64Test {
+public class _Base64Test {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -58,18 +58,18 @@ public class Base64Test {
         final byte[] expected = new byte[current().nextInt(1024)];
         current().nextBytes(expected);
         final byte[] encoded = java.util.Base64.getEncoder().encode(expected);
-        final byte[] actual = Base64.decodeBase64(encoded);
+        final byte[] actual = _Base64.decodeBase64(encoded);
         assertEquals(actual, expected);
     }
 
     @Test(expectedExceptions = {NullPointerException.class})
     public void decodeNullBytes() {
-        Base64.decodeBase64((byte[]) null);
+        _Base64.decodeBase64((byte[]) null);
     }
 
     @Test
     public void decodeEmptyBytes() {
-        final byte[] decoded = Base64.decodeBase64(new byte[0]);
+        final byte[] decoded = _Base64.decodeBase64(new byte[0]);
         assertNotNull(decoded);
         assertEquals(decoded.length, 0);
     }

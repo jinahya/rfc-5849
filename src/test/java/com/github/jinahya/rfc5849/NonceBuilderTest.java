@@ -36,15 +36,15 @@ public class NonceBuilderTest {
     public void build() throws Exception {
         final Set<String> set = new HashSet<>();
         for (int i = 0; i < 1048576; i++) {
-            final String built = new NonceBuilder().build();
+            final String built = new SimpleNonceBuilder().build();
             assertTrue(set.add(built));
         }
     }
 
 //    @Test
     public void test() throws Exception {
-        final String built1 = new NonceBuilder().build();
-        final String built2 = new NonceBuilder().build();
+        final String built1 = new SimpleNonceBuilder().build();
+        final String built2 = new SimpleNonceBuilder().build();
         assertNotEquals(built1, built2);
     }
 }

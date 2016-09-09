@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jinahya.rfc5849.util;
+package com.github.jinahya.rfc5849;
 
 import java.io.UnsupportedEncodingException;
 import static java.lang.Math.ceil;
@@ -22,7 +22,7 @@ import static java.lang.Math.ceil;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public final class Base64 {
+final class _Base64 {
 
     private static final byte[] ENCODE = {
         0x41, 0x42, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48,
@@ -54,7 +54,7 @@ public final class Base64 {
      *
      * @return encoding output.
      */
-    public static byte[] encodeBase64(final byte[] input) {
+    static byte[] encodeBase64(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
@@ -93,7 +93,7 @@ public final class Base64 {
      *
      * @return a string
      */
-    public static String encodeBase64ToString(final byte[] input) {
+    static String encodeBase64ToString(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
@@ -111,7 +111,7 @@ public final class Base64 {
      *
      * @return decoding output.
      */
-    public static byte[] decodeBase64(final byte[] input) {
+    static byte[] decodeBase64(final byte[] input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
@@ -153,7 +153,7 @@ public final class Base64 {
      *
      * @return decoding output.
      */
-    public static byte[] decodeBase64(final String input) {
+    static byte[] decodeBase64(final String input) {
         if (input == null) {
             throw new NullPointerException("null input");
         }
@@ -164,7 +164,7 @@ public final class Base64 {
         }
     }
 
-    private Base64() {
+    private _Base64() {
         super();
     }
 }

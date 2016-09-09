@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jinahya.rfc5849.util;
+package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.util.Percent.decodePercent;
-import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
+import static com.github.jinahya.rfc5849._Percent.decodePercent;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.util.concurrent.ThreadLocalRandom.current;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -29,7 +29,7 @@ import org.testng.annotations.Test;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class PercentTest {
+public class _PercentTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 

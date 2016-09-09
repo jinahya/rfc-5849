@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jinahya.rfc5849.util;
+package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.util.Hex.decodeHexSingle;
-import static com.github.jinahya.rfc5849.util.Hex.encodeHexSingle;
+import static com.github.jinahya.rfc5849._Hex.decodeHexSingle;
+import static com.github.jinahya.rfc5849._Hex.encodeHexSingle;
 import java.io.UnsupportedEncodingException;
 
 /**
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public final class Percent {
+final class _Percent {
 
     private static boolean unreserved(final int b) {
         return (b >= 0x30 && b <= 0x39) // digits
@@ -35,7 +35,7 @@ public final class Percent {
                || b == 0x7E; // '~'
     }
 
-    public static String encodePercent(final String s, final String enc)
+    static String encodePercent(final String s, final String enc)
             throws UnsupportedEncodingException {
         if (s == null) {
             throw new NullPointerException("null decoded");
@@ -67,7 +67,7 @@ public final class Percent {
      *
      * @return encoding result.
      */
-    public static String encodePercent(final String s) {
+    static String encodePercent(final String s) {
         try {
             return encodePercent(s, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
@@ -75,7 +75,7 @@ public final class Percent {
         }
     }
 
-    public static String decodePercent(final String s, final String enc)
+    static String decodePercent(final String s, final String enc)
             throws UnsupportedEncodingException {
         if (s == null) {
             throw new NullPointerException("null s");
@@ -107,7 +107,7 @@ public final class Percent {
      *
      * @return decoding result.
      */
-    public static String decodePercent(final String s) {
+    static String decodePercent(final String s) {
         try {
             return decodePercent(s, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
@@ -115,7 +115,7 @@ public final class Percent {
         }
     }
 
-    private Percent() {
+    private _Percent() {
         super();
     }
 }

@@ -23,7 +23,7 @@ import java.util.Random;
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public class NonceBuilder implements Builder<String> {
+public class SimpleNonceBuilder implements Builder<String> {
 
     @Override
     public String build() throws Exception {

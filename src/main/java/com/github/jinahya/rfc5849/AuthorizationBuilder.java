@@ -15,7 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.util.Percent.encodePercent;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;

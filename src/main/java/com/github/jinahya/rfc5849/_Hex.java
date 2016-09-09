@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jinahya.rfc5849.util;
+package com.github.jinahya.rfc5849;
 
 /**
  * A utility class for encoding/decoding hex.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-class Hex {
+class _Hex {
 
     private static int encodeHalf(final int decoded) {
         switch (decoded) {
@@ -91,7 +91,7 @@ class Hex {
                | decodeHalf(input[inoff + 1] & 0xFF);
     }
 
-    private Hex() {
+    private _Hex() {
         super();
     }
 }

@@ -21,10 +21,10 @@ import static java.lang.System.currentTimeMillis;
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public class TimestampBuilder implements Builder<String> {
+public class SimpleTimestampBuilder implements Builder<String> {
 
     @Override
-    public String build() throws Exception {
+    public String build() {//throws Exception {
         return Long.toString(currentTimeMillis() / 1000L);
     }
 }
