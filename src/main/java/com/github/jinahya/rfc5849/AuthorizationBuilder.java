@@ -33,6 +33,15 @@ public class AuthorizationBuilder implements Builder<String> {
 
     private static final String REALM = "realm";
 
+    static AuthorizationBuilder of(final String prebuilt) {
+        return new AuthorizationBuilder() {
+            @Override
+            public String build() {
+                return prebuilt;
+            }
+        };
+    }
+
     // ------------------------------------------------------------------- realm
     /**
      * Sets the realm value.

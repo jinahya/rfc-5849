@@ -24,9 +24,21 @@ package com.github.jinahya.rfc5849;
  */
 public abstract class SignatureBuilder implements Builder<String> {
 
+    static SignatureBuilder of(final String prebuilt) {
+        return new SignatureBuilder("irrelevant") {
+            @Override
+            public String build() {
+                return prebuilt;
+            }
+        };
+    }
+
     // ------------------------------------------------------------ constructors
     SignatureBuilder(final String signatureMethod) {
         super();
+        if (signatureMethod == null) {
+            throw new NullPointerException("null signatureMethod");
+        }
         this.signatureMethod = signatureMethod;
     }
 

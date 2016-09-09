@@ -120,11 +120,7 @@ public abstract class SignatureBuilderRsaSha1Test<T extends SignatureBuilderRsaS
         final SignatureBuilder signatureBuilder
                 = newInstance()
                 .initParam(newInitParam())
-                .baseStringBuilder(new BaseStringBuilder() {
-                    public String build() {
-                        return "abcd";
-                    }
-                });
+                .baseStringBuilder(BaseStringBuilder.of("abcd"));
         final String signature = signatureBuilder.build();
         logger.debug("signature: {}", signature);
     }

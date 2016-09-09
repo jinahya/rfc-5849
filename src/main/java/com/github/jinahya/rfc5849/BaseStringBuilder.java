@@ -36,6 +36,15 @@ public class BaseStringBuilder implements Builder<String> {
 
     static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
 
+    static BaseStringBuilder of(final String prebuilt) {
+        return new BaseStringBuilder() {
+            @Override
+            public String build() {
+                return prebuilt;
+            }
+        };
+    }
+
 //    public static BaseStringBuilder parseBaseString(final String built) {
 //        if (built == null) {
 //            throw new NullPointerException("null built");
