@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
- * A builder for building signature base string.
+ * A builder for generating signature base strings.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.1">3.4.1.
@@ -109,7 +109,7 @@ public class BaseStringBuilder implements Builder<String> {
 //    }
     // -------------------------------------------------------------------------
     @Override
-    public String build() throws Exception {
+    public String build() {//throws Exception {
         if (httpMethod == null) {
             throw new IllegalStateException("no httpMethod set");
         }
@@ -120,14 +120,14 @@ public class BaseStringBuilder implements Builder<String> {
 //            oauthNonce(nonceBuilder.build());
 //        }
         if (!map.containsKey(Rfc5849Constants.OAUTH_NONCE)) {
-            throw new IllegalArgumentException(
+            throw new IllegalStateException(
                     "no " + Rfc5849Constants.OAUTH_NONCE);
         }
 //        if (timestampBuilder != null) {
 //            oauthTimestamp(timestampBuilder.build());
 //        }
         if (!map.containsKey(Rfc5849Constants.OAUTH_TIMESTAMP)) {
-            throw new IllegalArgumentException(
+            throw new IllegalStateException(
                     "no " + Rfc5849Constants.OAUTH_TIMESTAMP);
         }
         final Map<String, List<String>> encoded
