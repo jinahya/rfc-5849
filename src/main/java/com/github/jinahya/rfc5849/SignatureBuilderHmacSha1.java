@@ -15,11 +15,14 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.util.Base64.encodeBase64ToString;
+import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
+ * A signature builder for {@code HMAC-SHA1}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.2">3.4.2.
+ * HMAC-SHA1</a>
  */
 public abstract class SignatureBuilderHmacSha1
         extends SignatureBuilderPlaintext {
@@ -27,7 +30,7 @@ public abstract class SignatureBuilderHmacSha1
     /**
      * The signature method value.
      */
-    public static final String SIGNATURE_METHOD = "HMAC-SHA1";
+    private static final String SIGNATURE_METHOD = "HMAC-SHA1";
 
     /**
      * Creates a new instance.
@@ -36,6 +39,7 @@ public abstract class SignatureBuilderHmacSha1
         super(SIGNATURE_METHOD);
     }
 
+    // -------------------------------------------------------------------------
     @Override
     public String build() throws Exception {
         final BaseStringBuilder baseStringBuilder = baseStringBuilder();
@@ -50,16 +54,5 @@ public abstract class SignatureBuilderHmacSha1
         return encodeBase64ToString(built);
     }
 
-    /**
-     * Generates signature.
-     *
-     * @param keyBytes key bytes.
-     * @param baseBytes base string bytes.
-     *
-     * @return signature value.
-     *
-     * @throws Exception if an error occurs.
-     */
-    protected abstract byte[] build(byte[] keyBytes, byte[] baseBytes)
-            throws Exception;
+    abstract byte[] build(byte[] keyBytes, byte[] baseBytes) throws Exception;
 }

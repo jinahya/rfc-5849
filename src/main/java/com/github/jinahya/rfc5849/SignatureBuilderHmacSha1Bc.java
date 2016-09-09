@@ -21,13 +21,17 @@ import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.params.KeyParameter;
 
 /**
+ * A signature builder using the <b>Legion of the Bouncy Castle</b> Java
+ * cryptography APIs.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://www.bouncycastle.org/java.html">The Legion of the
+ * Bouncy Castle</a>
  */
 public class SignatureBuilderHmacSha1Bc extends SignatureBuilderHmacSha1 {
 
     @Override
-    protected byte[] build(final byte[] keyBytes, final byte[] baseBytes)
+    byte[] build(final byte[] keyBytes, final byte[] baseBytes)
             throws Exception {
         final Mac mac = new HMac(new SHA1Digest());
         mac.init(new KeyParameter(keyBytes));

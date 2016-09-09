@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.jinahya.rfc5849.util;
+package com.github.jinahya.rfc5849;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -23,9 +23,9 @@ import java.net.URLEncoder;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public final class Formurl {
+final class _Formurl {
 
-    public static String encodeFormurl(final String decoded) {
+    static String encodeFormurl(final String decoded) {
         if (decoded == null) {
             throw new NullPointerException("null decoded");
         }
@@ -37,7 +37,7 @@ public final class Formurl {
         }
     }
 
-    public static String decodeFormurl(final String encoded) {
+    static String decodeFormurl(final String encoded) {
         if (encoded == null) {
             throw new NullPointerException("null encoded");
         }
@@ -49,7 +49,7 @@ public final class Formurl {
         }
     }
 
-    private Formurl() {
+    private _Formurl() {
         super();
     }
 }

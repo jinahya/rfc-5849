@@ -23,21 +23,17 @@ import java.security.Signature;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class SignatureBuilderRsaSha1Jca
+        //        extends SignatureBuilderRsaSha1<RSAPrivateKey> {
         extends SignatureBuilderRsaSha1<PrivateKey> {
 
     protected static final String ALGORITHM = "SHA1withRSA";
 
     @Override
-    protected byte[] build(final PrivateKey privateKey, final byte[] baseBytes)
+    byte[] build(final PrivateKey initParam, final byte[] baseBytes)
             throws Exception {
         final Signature signature = Signature.getInstance(ALGORITHM);
-        signature.initSign(privateKey);
+        signature.initSign(initParam);
         signature.update(baseBytes);
         return signature.sign();
-    }
-
-    @Override
-    public SignatureBuilderRsaSha1Jca privateKey(final PrivateKey privateKey) {
-        return (SignatureBuilderRsaSha1Jca) super.privateKey(privateKey);
     }
 }

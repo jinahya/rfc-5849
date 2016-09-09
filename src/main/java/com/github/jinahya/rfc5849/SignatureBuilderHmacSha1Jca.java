@@ -20,18 +20,21 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
+ * An implementation using the Java Cryptography Architecture.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see SecretKeySpec
+ * @see Mac
+ * @see
+ * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java
+ * Cryptography Architecture (JCA) Reference Guide</a>
  */
 public class SignatureBuilderHmacSha1Jca extends SignatureBuilderHmacSha1 {
 
-    /**
-     * Standard algorithm name for HMAC-SHA1.
-     */
-    public static final String ALGORITHM = "HmacSHA1";
+    private static final String ALGORITHM = "HmacSHA1";
 
     @Override
-    protected byte[] build(final byte[] keyBytes, final byte[] baseBytes)
+    byte[] build(final byte[] keyBytes, final byte[] baseBytes)
             throws Exception {
         final Key key = new SecretKeySpec(keyBytes, ALGORITHM);
         final Mac mac = Mac.getInstance(ALGORITHM);

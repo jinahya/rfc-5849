@@ -23,13 +23,13 @@ import org.testng.annotations.Test;
  * method.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @param <T> signature builder type parameter
+ * @param <T> implementation type parameter
  */
 public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHmacSha1>
         extends SignatureBuilderTest<T> {
 
-    public SignatureBuilderHmacSha1Test(final Class<T> builderType) {
-        super(builderType);
+    public SignatureBuilderHmacSha1Test(final Class<T> builderClass) {
+        super(builderClass);
     }
 
     @Test
@@ -54,7 +54,12 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
         builder
                 .consumerSecret(consumerSecret)
                 .tokenSecret(tokenSecret)
-                .baseString(baseString);
+                .baseStringBuilder(new BaseStringBuilder() {
+                    @Override
+                    public String build() {
+                        return baseString;
+                    }
+                });
         final String expected = "tnnArxj06cWHq44gCs1OSKk/jLY=";
         final String actual = builder.build();
         assertEquals(actual, expected);
@@ -79,7 +84,12 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
         builder
                 .consumerSecret(consumerSecret)
                 .tokenSecret(tokenSecret)
-                .baseString(baseString);
+                .baseStringBuilder(new BaseStringBuilder() {
+                    @Override
+                    public String build() {
+                        return baseString;
+                    }
+                });
         final String expected = "tR3+Ty81lMeYAr/Fid0kMTYa/WM=";
         final String actual = builder.build();
         assertEquals(actual, expected);

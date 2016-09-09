@@ -15,36 +15,16 @@
  */
 package com.github.jinahya.rfc5849;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.Random;
+import static java.lang.System.currentTimeMillis;
 
 /**
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public class NonceBuilder implements Builder<String> {
+public class SimpleTimestampBuilder implements Builder<String> {
 
     @Override
-    public String build() throws Exception {
-        return nonce();
+    public String build() {//throws Exception {
+        return Long.toString(currentTimeMillis() / 1000L);
     }
-
-    protected String nonce() {
-        if (true) {
-            return Long.toString(random().nextLong());
-        }
-        // http://stackoverflow.com/a/41156/330457
-        return new BigInteger(130, random()).toString(32);
-    }
-
-    protected Random random() {
-//        return new SecureRandom();
-        if (random == null) {
-            random = new SecureRandom();
-        }
-        return random;
-    }
-
-    private transient Random random;
 }

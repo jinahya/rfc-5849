@@ -68,7 +68,7 @@ public class BaseStringBuilderTest {
                   + "%26oauth_version%3D1.0"
                   + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521";
         final String actual = builder.build();
-        logger.debug("dev.twitter.com/actual: {}", actual);
+        //logger.debug("dev.twitter.com/actual: {}", actual);
         assertEquals(actual, expected);
     }
 
@@ -105,7 +105,7 @@ public class BaseStringBuilderTest {
                   + "%26oauth_version%3D1.0"
                   + "%26size%3Doriginal";
         final String actual = builder.build();
-        logger.debug("nouncer.com/actual: {}", actual);
+        //logger.debug("nouncer.com/actual: {}", actual);
         assertEquals(actual, expected);
     }
 
@@ -148,7 +148,7 @@ public class BaseStringBuilderTest {
                 .entityParameter("c2", "")
                 .entityParameter("a3", "2 q");
         final String actual = builder.build();
-        logger.debug("rfc5849/actual: {}", actual);
+        //logger.debug("rfc5849/actual: {}", actual);
         assertEquals(actual, expected);
     }
 }

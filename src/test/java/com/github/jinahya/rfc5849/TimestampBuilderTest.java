@@ -30,7 +30,7 @@ public class TimestampBuilderTest {
 
     @Test
     public void build() throws Exception {
-        final String timestamp = new TimestampBuilder().build();
-        logger.debug("timestamp: {}", timestamp);
+        final String timestamp = new SimpleTimestampBuilder().build();
+        //logger.debug("timestamp: {}", timestamp);
     }
 }
