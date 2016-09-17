@@ -33,6 +33,13 @@ public class AuthorizationBuilder implements Builder<String> {
 
     private static final String REALM = "realm";
 
+    /**
+     * Creates a new authorization builder whose {@link #build()} method always
+     * returns given value.
+     *
+     * @param prebuilt the value
+     * @return a new authorization builder.
+     */
     static AuthorizationBuilder of(final String prebuilt) {
         return new AuthorizationBuilder() {
             @Override

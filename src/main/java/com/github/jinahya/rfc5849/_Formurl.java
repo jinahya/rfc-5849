@@ -23,6 +23,7 @@ import java.net.URLEncoder;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Deprecated
 final class _Formurl {
 
     static String encodeFormurl(final String decoded) {
