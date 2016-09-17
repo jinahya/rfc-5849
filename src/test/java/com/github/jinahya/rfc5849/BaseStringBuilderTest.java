@@ -22,6 +22,7 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 /**
+ * Tests {@link BaseStringBuilder}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
@@ -150,5 +151,41 @@ public class BaseStringBuilderTest {
         final String actual = builder.build();
         //logger.debug("rfc5849/actual: {}", actual);
         assertEquals(actual, expected);
+    }
+
+    @Test(expectedExceptions = {IllegalStateException.class})
+    public void buildWithoutHttpMethod() {
+        new BaseStringBuilder()
+                .baseUri("baseUri")
+                .oauthNonce("oauthNonce")
+                .oauthTimestamp("oauthTimestamp")
+                .build();
+    }
+
+    @Test(expectedExceptions = {IllegalStateException.class})
+    public void buildWithoutBaseUri() {
+        new BaseStringBuilder()
+                .httpMethod("httpMethod")
+                .oauthNonce("oauthNonce")
+                .oauthTimestamp("oauthTimestamp")
+                .build();
+    }
+
+    @Test(expectedExceptions = {IllegalStateException.class})
+    public void buildWithoutOauthNonce() {
+        new BaseStringBuilder()
+                .httpMethod("httpMethod")
+                .baseUri("baseUri")
+                .oauthTimestamp("oauthTimestamp")
+                .build();
+    }
+
+    @Test(expectedExceptions = {IllegalStateException.class})
+    public void buildWithoutOauthTimestamp() {
+        new BaseStringBuilder()
+                .httpMethod("httpMethod")
+                .baseUri("baseUri")
+                .oauthNonce("oauthNonce")
+                .build();
     }
 }

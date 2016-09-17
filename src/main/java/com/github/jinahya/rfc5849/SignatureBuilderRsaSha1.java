@@ -23,10 +23,12 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> initParam type parameter
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.3">3.4.3.
+ * RSA-SHA1 (RFC 5849)</a>
  */
 public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
 
-    private static final String SIGNATURE_METHOD = "RSA-SHA1";
+    public static final String SIGNATURE_METHOD = "RSA-SHA1";
 
     // -------------------------------------------------------------------------
     /**
@@ -54,7 +56,6 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
         }
         final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
-        System.out.println("baseByte.length: " + baseBytes.length);
         final byte[] built = build(initParam, baseBytes);
         return encodeBase64ToString(built);
     }

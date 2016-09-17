@@ -64,7 +64,7 @@ public class AuthorizationBuilder implements Builder<String> {
     @Override
     public String build() throws Exception {
         if (signatureBuilder == null) {
-            throw new IllegalStateException("no signatureBuilder");
+            throw new IllegalStateException("no signatureBuilder set");
         }
         final BaseStringBuilder baseStringBuilder
                 = signatureBuilder.baseStringBuilder();
