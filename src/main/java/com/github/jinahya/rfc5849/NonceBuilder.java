@@ -31,5 +31,5 @@ public interface NonceBuilder extends Builder<String> {
      * @throws Exception if an error occurs.
      */
     @Override
-    public String build() throws Exception;
+    String build() throws Exception;
 }
