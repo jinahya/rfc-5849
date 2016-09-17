@@ -29,7 +29,7 @@ public class SimpleTimestampBuilderTest {
     private static final Logger logger = getLogger(lookup().lookupClass());
 
     @Test
-    public void build() {
+    public void build() throws Exception {
         final String built = new SimpleTimestampBuilder().build();
     }
 }
