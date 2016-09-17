@@ -19,11 +19,11 @@ import java.security.PrivateKey;
 import java.security.Signature;
 
 /**
+ * A signature builder uses Java Cryptography Architecture.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class SignatureBuilderRsaSha1Jca
-        //        extends SignatureBuilderRsaSha1<RSAPrivateKey> {
         extends SignatureBuilderRsaSha1<PrivateKey> {
 
     protected static final String ALGORITHM = "SHA1withRSA";

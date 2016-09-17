@@ -15,23 +15,48 @@
  */
 package com.github.jinahya.rfc5849;
 
-import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
 /**
+ * A simple nonce builder.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
+ * Timestamp (RFC 5849)</a>
  */
-public class SimpleNonceBuilder implements Builder<String> {
+public class SimpleNonceBuilder implements NonceBuilder {
 
+    /**
+     * Returns a nonce builder with given identifiers.
+     *
+     * @param ids identifies for specifying client
+     * @return a nonce builder
+     */
+    public static NonceBuilder of(final String... ids) {
+        final StringBuilder builder = new StringBuilder();
+        for (final String id : ids) {
+            builder.append(String.valueOf(id)).append("-");
+        }
+        final String prefix = builder.toString();
+        return new SimpleNonceBuilder() {
+            @Override
+            public String build() throws Exception {
+                return prefix + super.build();
+            }
+        };
+    }
+
+    /**
+     * Builds a nonce value. This methods returns the value of
+     * {@link Random#nextLong()} invoked on the value from {@link #random}.
+     *
+     * @return a nonce value
+     * @throws Exception if an error occurs
+     */
     @Override
     public String build() throws Exception {
-        if (true) {
-            return Long.toString(random().nextLong());
-        }
-        // http://stackoverflow.com/a/41156/330457
-        return new BigInteger(130, random()).toString(32);
+        return Long.toString(random().nextLong());
     }
 
     /**
@@ -40,18 +65,11 @@ public class SimpleNonceBuilder implements Builder<String> {
      * @return a random
      */
     protected Random random() {
-        if (true) {
-            if (random == null) {
-                random = new SecureRandom();
-            }
-            return random;
+        if (random == null) {
+            random = new SecureRandom();
         }
-        Random random_ = random;
-        if (random_ == null) {
-            random = random_ = new SecureRandom();
-        }
-        return random_;
+        return random;
     }
 
-    private volatile Random random;
+    private Random random;
 }

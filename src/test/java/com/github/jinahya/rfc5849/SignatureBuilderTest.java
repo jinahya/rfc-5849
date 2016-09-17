@@ -16,6 +16,7 @@
 package com.github.jinahya.rfc5849;
 
 import static java.util.Objects.requireNonNull;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * An abstract class for testing {@link SignatureBuilder}.
@@ -24,6 +25,10 @@ import static java.util.Objects.requireNonNull;
  * @param <T> signature builder type parameter.
  */
 public abstract class SignatureBuilderTest<T extends SignatureBuilder> {
+
+    static ThreadLocalRandom random() {
+        return ThreadLocalRandom.current();
+    }
 
     public SignatureBuilderTest(final Class<T> builderClass) {
         super();

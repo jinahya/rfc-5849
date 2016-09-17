@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Jin Kwon &lt;jinahya at gmail.com&gt;.
+ * Copyright 2016 Jin Kwon &lt;jinahya_at_gmail.com&gt;.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,22 +15,21 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.invoke.MethodHandles.lookup;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
-import org.testng.annotations.Test;
-
 /**
+ * An interface for building timestamp values.
  *
- * @author Jin Kwon &lt;jinahya at gmail.com&gt;
+ * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
+ * Timestamp (RFC 5849)</a>
  */
-public class TimestampBuilderTest {
+public interface TimestampBuilder extends Builder<String> {
 
-    private static final Logger logger = getLogger(lookup().lookupClass());
-
-    @Test
-    public void build() throws Exception {
-        final String timestamp = new SimpleTimestampBuilder().build();
-        //logger.debug("timestamp: {}", timestamp);
-    }
+    /**
+     * Builds a timestamp value.
+     *
+     * @return a timestamp value
+     * @throws Exception if an error occurs.
+     */
+    @Override
+    public String build() throws Exception;
 }

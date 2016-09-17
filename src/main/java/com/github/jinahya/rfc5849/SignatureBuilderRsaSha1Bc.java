@@ -15,7 +15,6 @@
  */
 package com.github.jinahya.rfc5849;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import static java.util.logging.Logger.getLogger;
 import org.bouncycastle.crypto.CipherParameters;
@@ -24,12 +23,11 @@ import org.bouncycastle.crypto.digests.SHA1Digest;
 import org.bouncycastle.crypto.signers.RSADigestSigner;
 
 /**
- * A signature builder using Bouncy Castle.
+ * A signature builder uses Bouncy Castle.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class SignatureBuilderRsaSha1Bc
-        //        extends SignatureBuilderRsaSha1<RSAKeyParameters> {
         extends SignatureBuilderRsaSha1<CipherParameters> {
 
     private static final Logger logger
@@ -38,7 +36,6 @@ public class SignatureBuilderRsaSha1Bc
     @Override
     byte[] build(final CipherParameters initParam, final byte[] baseBytes)
             throws Exception {
-        logger.log(Level.INFO, "baseBytes.length: {0}", baseBytes.length);
         final Signer signer = new RSADigestSigner(new SHA1Digest());
         signer.init(true, initParam);
         signer.update(baseBytes, 0, baseBytes.length);

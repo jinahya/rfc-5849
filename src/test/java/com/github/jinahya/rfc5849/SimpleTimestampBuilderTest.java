@@ -15,26 +15,21 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.System.currentTimeMillis;
+import static java.lang.invoke.MethodHandles.lookup;
+import org.slf4j.Logger;
+import static org.slf4j.LoggerFactory.getLogger;
+import org.testng.annotations.Test;
 
 /**
- * A simple timestamp builder.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
- * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
- * Timestamp (RFC 5849)</a>
  */
-public class SimpleTimestampBuilder implements TimestampBuilder {
+public class SimpleTimestampBuilderTest {
 
-    /**
-     * Returns a timestamp value. This method returns the value
-     * {@link System#currentTimeMillis()} divided by {@code 1000}.
-     *
-     * @return a timestamp value.
-     * @throws Exception if an error occurs.
-     */
-    @Override
-    public String build() throws Exception {
-        return Long.toString(currentTimeMillis() / 1000L);
+    private static final Logger logger = getLogger(lookup().lookupClass());
+
+    @Test
+    public void build() {
+        final String built = new SimpleTimestampBuilder().build();
     }
 }

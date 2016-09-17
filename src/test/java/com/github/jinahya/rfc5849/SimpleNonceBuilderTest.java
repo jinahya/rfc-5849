@@ -16,35 +16,26 @@
 package com.github.jinahya.rfc5849;
 
 import static java.lang.invoke.MethodHandles.lookup;
-import java.util.HashSet;
-import java.util.Set;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
-import static org.testng.Assert.assertNotEquals;
-import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
 
 /**
+ * Test class for {@link SimpleNonceBuilder}.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public class NonceBuilderTest {
+public class SimpleNonceBuilderTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
-    @Test//(invocationCount = 128)
-    public void build() throws Exception {
-        final Set<String> set = new HashSet<>();
-        for (int i = 0; i < 1048576; i++) {
-            final String built = new SimpleNonceBuilder().build();
-            assertTrue(set.add(built));
-        }
+    @Test
+    public static void of() throws Exception {
+        final String built = SimpleNonceBuilder.of("device", "agent").build();
     }
 
-//    @Test
-    public void test() throws Exception {
-        final String built1 = new SimpleNonceBuilder().build();
-        final String built2 = new SimpleNonceBuilder().build();
-        assertNotEquals(built1, built2);
+    @Test
+    public void build() throws Exception {
+        final String built = new SimpleNonceBuilder().build();
     }
 }
