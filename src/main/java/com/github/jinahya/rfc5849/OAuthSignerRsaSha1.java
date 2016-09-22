@@ -46,7 +46,7 @@ public abstract class OAuthSignerRsaSha1<T> extends OAuthSigner {
      * @throws Exception if failed to build
      */
     @Override
-    public String build() throws Exception {
+    public String sign() throws Exception {
         final OAuthBaseString baseStringBuilder = baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");

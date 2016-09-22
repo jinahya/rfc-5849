@@ -16,6 +16,7 @@
 package com.github.jinahya.rfc5849;
 
 import static com.github.jinahya.rfc5849._Percent.encodePercent;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
 
 /**
  * A signature builder for {@code PLAINTEXT}.
@@ -43,7 +44,7 @@ public class OAuthSignerPlaintext extends OAuthSigner {
      * @throws Exception if failed to build
      */
     @Override
-    public String build() throws Exception {
+    public String sign() throws Exception {
         if (consumerSecret == null) {
             throw new IllegalStateException("no consumerSecret set");
         }

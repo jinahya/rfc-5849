@@ -15,12 +15,12 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
 
 /**
  * A builder for builder authorization header value.
@@ -80,10 +80,10 @@ public class AuthorizationBuilder implements Builder<String> {
                     "no baseStringBuilder on the signatgureBuilder");
         }
         final Map<String, String> params = new TreeMap<String, String>();
-        final String oauthSignature = signatureBuilder.build();
+        final String oauthSignature = signatureBuilder.sign();
         params.put(OAuthConstants.OAUTH_SIGNATURE, oauthSignature);
         for (final Entry<String, List<String>> entiry
-             : baseStringBuilder.entries()) {
+             : baseStringBuilder.map().entrySet()) {
             final String key = entiry.getKey();
             if (!key.startsWith(OAuthBaseString.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;

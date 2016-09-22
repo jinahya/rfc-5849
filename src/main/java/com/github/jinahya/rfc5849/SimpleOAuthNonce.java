@@ -15,8 +15,12 @@
  */
 package com.github.jinahya.rfc5849;
 
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.security.SecureRandom;
 import java.util.Random;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
 
 /**
  * A simple nonce builder.
@@ -30,19 +34,20 @@ public class SimpleOAuthNonce implements OAuthNonce {
     /**
      * Returns a nonce builder with given identifiers.
      *
-     * @param ids identifies for specifying client
+     * @param identifiers identifies for specifying client
      * @return a nonce builder
      */
-    public static OAuthNonce of(final String... ids) {
+    public static OAuthNonce of(final String... identifiers) {
         final StringBuilder builder = new StringBuilder();
-        for (final String id : ids) {
-            builder.append(String.valueOf(id)).append("-");
+        for (final String identifier : identifiers) {
+            builder.append(encodePercent(String.valueOf(identifier)))
+                    .append("-");
         }
         final String prefix = builder.toString();
         return new SimpleOAuthNonce() {
             @Override
-            public String build() {
-                return prefix + super.build();
+            public String generate() {
+                return prefix + super.generate();
             }
         };
     }
@@ -54,7 +59,7 @@ public class SimpleOAuthNonce implements OAuthNonce {
      * @return a nonce value
      */
     @Override
-    public String build() {
+    public String generate() {
         return Long.toString(random().nextLong());
     }
 

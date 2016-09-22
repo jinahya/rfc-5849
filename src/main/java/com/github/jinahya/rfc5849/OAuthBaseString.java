@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -117,11 +116,6 @@ public class OAuthBaseString {//implements Builder<String> {
     private void put(final String key, final String value) {
         map().remove(key);
         add(key, value);
-    }
-
-    @Deprecated
-    Set<Entry<String, List<String>>> entries() {
-        return new HashMap<String, List<String>>(map()).entrySet();
     }
 
     // -------------------------------------------------------------- httpMethod
@@ -252,20 +246,6 @@ public class OAuthBaseString {//implements Builder<String> {
         return protocolParameter(OAuthConstants.OAUTH_NONCE, oauthNonce);
     }
 
-//    // ------------------------------------------------------------ nonceBuilder
-//    /**
-//     * Sets a builder for
-//     * {@value com.github.jinahya.rfc5849.Rfc5849Constants#OAUTH_NONCE}.
-//     *
-//     * @param nonceBuilder the builder for
-//     * {@value com.github.jinahya.rfc5849.Rfc5849Constants#OAUTH_NONCE}
-//     * @return this instance
-//     * @see #oauthNonce(java.lang.String)
-//     */
-//    public BaseStringBuilder nonceBuilder(final NonceBuilder nonceBuilder) {
-//        this.nonceBuilder = nonceBuilder;
-//        return this;
-//    }
     // ---------------------------------------------------- oauthSignatureMethod
     /**
      * Sets a protocol parameter value for
@@ -295,20 +275,6 @@ public class OAuthBaseString {//implements Builder<String> {
                                  oauthTimestamp);
     }
 
-//    // -------------------------------------------------------- timestampBuilder
-//    /**
-//     * Sets a builder for
-//     * {@value com.github.jinahya.rfc5849.Rfc5849Constants#OAUTH_TIMESTAMP}.
-//     *
-//     * @param timestampBuilder the builder for
-//     * {@value com.github.jinahya.rfc5849.Rfc5849Constants#OAUTH_TIMESTAMP}
-//     * @return this instance.
-//     */
-//    public BaseStringBuilder timestampBuilder(
-//            final TimestampBuilder timestampBuilder) {
-//        this.timestampBuilder = timestampBuilder;
-//        return this;
-//    }
     // -------------------------------------------------------------- oauthToken
     /**
      * Sets a protocol parameter value for
@@ -355,8 +321,4 @@ public class OAuthBaseString {//implements Builder<String> {
     private String baseUri;
 
     private Map<String, List<String>> map;
-//            = new HashMap<String, List<String>>();
-
-//    private NonceBuilder nonceBuilder;
-//    private TimestampBuilder timestampBuilder;
 }

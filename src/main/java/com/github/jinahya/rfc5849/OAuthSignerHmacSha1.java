@@ -40,12 +40,12 @@ public abstract class OAuthSignerHmacSha1 extends OAuthSignerPlaintext {
 
     // -------------------------------------------------------------------------
     @Override
-    public String build() throws Exception {
+    public String sign() throws Exception {
         final OAuthBaseString baseStringBuilder = baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
-        final String keyString = super.build(); // consumerSecret&tokenSecret
+        final String keyString = super.sign(); // consumerSecret&tokenSecret
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
         final String baseString = baseStringBuilder.build();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");

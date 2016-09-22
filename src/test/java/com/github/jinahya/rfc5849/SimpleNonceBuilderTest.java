@@ -31,11 +31,11 @@ public class SimpleNonceBuilderTest {
 
     @Test
     public static void of() throws Exception {
-        final String built = SimpleOAuthNonce.of("device", "agent").build();
+        final String built = SimpleOAuthNonce.of("device", "agent").generate();
     }
 
     @Test
     public void build() throws Exception {
-        final String built = new SimpleOAuthNonce().build();
+        final String built = new SimpleOAuthNonce().generate();
     }
 }

@@ -36,6 +36,7 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.testng.annotations.Test;
+import static java.io.File.createTempFile;
 
 /**
  * Test class for {@link OAuthSignerRsaSha1}.
@@ -131,7 +132,7 @@ public abstract class OAuthSignerRsaSha1Test<T extends OAuthSignerRsaSha1<P>, P>
                         + "%26oauth_version%3D1.0"
                         + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521"
                 ));
-        final String signature = signatureBuilder.build();
+        final String signature = signatureBuilder.sign();
         logger.debug("signature: {}", signature);
     }
 }

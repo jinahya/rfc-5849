@@ -16,19 +16,19 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * An interface for building timestamp values.
+ * An interface for generating values for
+ * {@link OAuthConstants#OAUTH_TIMESTAMP}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
  * Timestamp (RFC 5849)</a>
  */
-public interface OAuthTimestamp {// extends Builder<String> {
+public interface OAuthTimestamp {
 
     /**
      * Builds a timestamp value.
      *
      * @return a timestamp value
      */
-//    @Override
-    String build();//throws Exception;
+    String generate();
 }

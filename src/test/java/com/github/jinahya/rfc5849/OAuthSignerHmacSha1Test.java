@@ -61,7 +61,7 @@ public abstract class OAuthSignerHmacSha1Test<T extends OAuthSignerHmacSha1>
                     }
                 });
         final String expected = "tnnArxj06cWHq44gCs1OSKk/jLY=";
-        final String actual = builder.build();
+        final String actual = builder.sign();
         assertEquals(actual, expected);
     }
 
@@ -91,7 +91,7 @@ public abstract class OAuthSignerHmacSha1Test<T extends OAuthSignerHmacSha1>
                     }
                 });
         final String expected = "tR3+Ty81lMeYAr/Fid0kMTYa/WM=";
-        final String actual = builder.build();
+        final String actual = builder.sign();
         assertEquals(actual, expected);
     }
 }

@@ -16,7 +16,8 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * A builder for building signatures.
+ * An interface for generating values for
+ * {@link OAuthConstants#OAUTH_SIGNATURE}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4">3.4. Signature
@@ -26,8 +27,7 @@ public abstract class OAuthSigner {//implements Builder<String> {
 
     static OAuthSigner of(final String prebuilt) {
         return new OAuthSigner("irrelevant") {
-//            @Override
-            public String build() {
+            public String sign() {
                 return prebuilt;
             }
         };
@@ -43,7 +43,7 @@ public abstract class OAuthSigner {//implements Builder<String> {
     }
 
     // -------------------------------------------------------------------------
-    public abstract String build() throws Exception;
+    public abstract String sign() throws Exception;
 
     // --------------------------------------------------------- signatureMethod
     /**

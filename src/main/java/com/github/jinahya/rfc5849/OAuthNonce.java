@@ -16,19 +16,18 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * An interface for building nonce values.
+ * An interface for generating values for {@link OAuthConstants#OAUTH_NONCE}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
  * Timestamp (RFC 5849)</a>
  */
-public interface OAuthNonce {//extends Builder<String> {
+public interface OAuthNonce {
 
     /**
      * Builds a nonce value.
      *
      * @return a nonce value
      */
-//    @Override
-    String build();// throws Exception;
+    String generate();
 }
