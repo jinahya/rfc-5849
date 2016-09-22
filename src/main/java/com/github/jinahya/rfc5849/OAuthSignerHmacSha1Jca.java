@@ -29,7 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
  * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java
  * Cryptography Architecture (JCA) Reference Guide</a>
  */
-public class SignatureBuilderHmacSha1Jca extends SignatureBuilderHmacSha1 {
+public class OAuthSignerHmacSha1Jca extends OAuthSignerHmacSha1 {
 
     private static final String ALGORITHM = "HmacSHA1";
 

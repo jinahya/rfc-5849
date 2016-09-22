@@ -22,11 +22,11 @@ package com.github.jinahya.rfc5849;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4">3.4. Signature
  * (RFC 5849)</a>
  */
-public abstract class SignatureBuilder implements Builder<String> {
+public abstract class OAuthSigner {//implements Builder<String> {
 
-    static SignatureBuilder of(final String prebuilt) {
-        return new SignatureBuilder("irrelevant") {
-            @Override
+    static OAuthSigner of(final String prebuilt) {
+        return new OAuthSigner("irrelevant") {
+//            @Override
             public String build() {
                 return prebuilt;
             }
@@ -34,13 +34,16 @@ public abstract class SignatureBuilder implements Builder<String> {
     }
 
     // ------------------------------------------------------------ constructors
-    SignatureBuilder(final String signatureMethod) {
+    OAuthSigner(final String signatureMethod) {
         super();
         if (signatureMethod == null) {
             throw new NullPointerException("null signatureMethod");
         }
         this.signatureMethod = signatureMethod;
     }
+
+    // -------------------------------------------------------------------------
+    public abstract String build() throws Exception;
 
     // --------------------------------------------------------- signatureMethod
     /**
@@ -59,18 +62,18 @@ public abstract class SignatureBuilder implements Builder<String> {
      *
      * @return the {@code baseStringBuilder}
      */
-    BaseStringBuilder baseStringBuilder() {
+    OAuthBaseString baseStringBuilder() {
         return baseStringBuilder;
     }
 
     /**
      * Sets the {@code baseStringBuilder}.
      *
-     * @param baseStringBuilder a {@link BaseStringBuilder}
+     * @param baseStringBuilder a {@link OAuthBaseString}
      * @return this instance
      */
-    public SignatureBuilder baseStringBuilder(
-            final BaseStringBuilder baseStringBuilder) {
+    public OAuthSigner baseStringBuilder(
+            final OAuthBaseString baseStringBuilder) {
         if (baseStringBuilder == null) {
             throw new NullPointerException("null baseStringBuilder");
         }
@@ -81,11 +84,11 @@ public abstract class SignatureBuilder implements Builder<String> {
 
     // -------------------------------------------------------------- baseString
     @Deprecated
-    SignatureBuilder baseString(final String baseString) {
+    OAuthSigner baseString(final String baseString) {
         if (baseString == null) {
             throw new NullPointerException("null baseString");
         }
-        return baseStringBuilder(new BaseStringBuilder() {
+        return baseStringBuilder(new OAuthBaseString() {
             @Override
             public String build() {
                 return baseString;
@@ -96,5 +99,5 @@ public abstract class SignatureBuilder implements Builder<String> {
     // -------------------------------------------------------------------------
     private final String signatureMethod;
 
-    private BaseStringBuilder baseStringBuilder;
+    private OAuthBaseString baseStringBuilder;
 }

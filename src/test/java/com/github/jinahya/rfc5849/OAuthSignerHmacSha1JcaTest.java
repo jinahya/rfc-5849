@@ -15,25 +15,14 @@
  */
 package com.github.jinahya.rfc5849;
 
-import java.security.PrivateKey;
-import java.security.Signature;
-
 /**
- * A signature builder uses Java Cryptography Architecture.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderRsaSha1Jca
-        extends SignatureBuilderRsaSha1<PrivateKey> {
+public class OAuthSignerHmacSha1JcaTest
+        extends OAuthSignerHmacSha1Test<OAuthSignerHmacSha1Jca> {
 
-    protected static final String ALGORITHM = "SHA1withRSA";
-
-    @Override
-    byte[] build(final PrivateKey initParam, final byte[] baseBytes)
-            throws Exception {
-        final Signature signature = Signature.getInstance(ALGORITHM);
-        signature.initSign(initParam);
-        signature.update(baseBytes);
-        return signature.sign();
+    public OAuthSignerHmacSha1JcaTest() {
+        super(OAuthSignerHmacSha1Jca.class);
     }
 }

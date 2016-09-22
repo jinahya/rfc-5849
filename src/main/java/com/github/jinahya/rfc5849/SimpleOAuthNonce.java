@@ -25,7 +25,7 @@ import java.util.Random;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
  * Timestamp (RFC 5849)</a>
  */
-public class SimpleNonceBuilder implements NonceBuilder {
+public class SimpleOAuthNonce implements OAuthNonce {
 
     /**
      * Returns a nonce builder with given identifiers.
@@ -33,29 +33,28 @@ public class SimpleNonceBuilder implements NonceBuilder {
      * @param ids identifies for specifying client
      * @return a nonce builder
      */
-    public static NonceBuilder of(final String... ids) {
+    public static OAuthNonce of(final String... ids) {
         final StringBuilder builder = new StringBuilder();
         for (final String id : ids) {
             builder.append(String.valueOf(id)).append("-");
         }
         final String prefix = builder.toString();
-        return new SimpleNonceBuilder() {
+        return new SimpleOAuthNonce() {
             @Override
-            public String build() throws Exception {
+            public String build() {
                 return prefix + super.build();
             }
         };
     }
 
     /**
-     * Builds a nonce value. This methods returns the value of
+     * {@inheritDoc}. This methods returns the value of
      * {@link Random#nextLong()} invoked on the value from {@link #random}.
      *
      * @return a nonce value
-     * @throws Exception if an error occurs
      */
     @Override
-    public String build() throws Exception {
+    public String build() {
         return Long.toString(random().nextLong());
     }
 

@@ -44,11 +44,11 @@ public class AuthorizationBuilderTest {
     public void twitterExample() throws Exception {
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .signatureBuilder(
-                        new SignatureBuilderHmacSha1Jca()
+                        new OAuthSignerHmacSha1Jca()
                         .consumerSecret("kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw")
                         .tokenSecret("LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE")
                         .baseStringBuilder(
-                                new BaseStringBuilder()
+                                new OAuthBaseString()
                                 .httpMethod("POST")
                                 .baseUri("https://api.twitter.com/1/statuses/update.json")
                                 .queryParameter("include_entities", "true")
@@ -115,11 +115,11 @@ public class AuthorizationBuilderTest {
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("http://photos.example.net/photos")
                 .signatureBuilder(
-                        new SignatureBuilderHmacSha1Jca()
+                        new OAuthSignerHmacSha1Jca()
                         .consumerSecret("kd94hf93k423kf44")
                         .tokenSecret("pfkkdhi9sl3r4s00")
                         .baseStringBuilder(
-                                new BaseStringBuilder()
+                                new OAuthBaseString()
                                 .httpMethod("GET")
                                 .baseUri("http://photos.example.net/photos")
                                 .queryParameter("size", "original")
@@ -169,11 +169,11 @@ public class AuthorizationBuilderTest {
             final AuthorizationBuilder builder = new AuthorizationBuilder()
                     .realm("Photos")
                     .signatureBuilder(
-                            new SignatureBuilderHmacSha1Bc()
+                            new OAuthSignerHmacSha1Bc()
                             .consumerSecret(consumerSecret)
                             .tokenSecret("")
                             .baseStringBuilder(
-                                    new BaseStringBuilder()
+                                    new OAuthBaseString()
                                     .httpMethod("POST")
                                     .baseUri("https://photos.example.net/initiate")
                                     .oauthConsumerKey(consumerKey)
@@ -212,11 +212,11 @@ public class AuthorizationBuilderTest {
             final AuthorizationBuilder builder = new AuthorizationBuilder()
                     .realm("Photos")
                     .signatureBuilder(
-                            new SignatureBuilderHmacSha1Bc()
+                            new OAuthSignerHmacSha1Bc()
                             .consumerSecret(consumerSecret)
                             .tokenSecret(oauthTokenSecret)
                             .baseStringBuilder(
-                                    new BaseStringBuilder()
+                                    new OAuthBaseString()
                                     .httpMethod("POST")
                                     .baseUri("https://photos.example.net/token")
                                     .oauthConsumerKey(consumerKey)
@@ -253,11 +253,11 @@ public class AuthorizationBuilderTest {
             final AuthorizationBuilder builder = new AuthorizationBuilder()
                     .realm("Photos")
                     .signatureBuilder(
-                            new SignatureBuilderHmacSha1Bc()
+                            new OAuthSignerHmacSha1Bc()
                             .consumerSecret(consumerSecret)
                             .tokenSecret(oauthTokenSecret)
                             .baseStringBuilder(
-                                    new BaseStringBuilder()
+                                    new OAuthBaseString()
                                     .httpMethod("GET")
                                     .baseUri("http://photos.example.net/photos")
                                     .oauthConsumerKey(consumerKey)
@@ -299,11 +299,11 @@ public class AuthorizationBuilderTest {
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("Example")
                 .signatureBuilder(
-                        new SignatureBuilderPlaintext()
+                        new OAuthSignerPlaintext()
                         .consumerSecret("ja893SD9")
                         .tokenSecret("")
                         .baseStringBuilder(
-                                new BaseStringBuilder()
+                                new OAuthBaseString()
                                 .oauthConsumerKey("jd83jd92dhsh93js")
                                 .oauthCallback("http://client.example.net/cb?x=1")
                         )
@@ -340,11 +340,11 @@ public class AuthorizationBuilderTest {
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("Example")
                 .signatureBuilder(
-                        new SignatureBuilderPlaintext()
+                        new OAuthSignerPlaintext()
                         .consumerSecret("ja893SD9")
                         .tokenSecret("xyz4992k83j47x0b")
                         .baseStringBuilder(
-                                new BaseStringBuilder()
+                                new OAuthBaseString()
                                 .oauthConsumerKey("jd83jd92dhsh93js")
                                 .oauthToken("hdk48Djdsa")
                                 .oauthVerifier("473f82d3")
@@ -385,11 +385,11 @@ public class AuthorizationBuilderTest {
         final AuthorizationBuilder builder = new AuthorizationBuilder()
                 .realm("Example")
                 .signatureBuilder(
-                        new SignatureBuilderHmacSha1Bc()
+                        new OAuthSignerHmacSha1Bc()
                         .consumerSecret("j49sk3j29djd")
                         .tokenSecret("dh893hdasih9")
                         .baseStringBuilder(
-                                new BaseStringBuilder()
+                                new OAuthBaseString()
                                 .httpMethod("POST")
                                 .baseUri("http://example.com/request")
                                 .oauthConsumerKey("9djdj82h48djs9d2")

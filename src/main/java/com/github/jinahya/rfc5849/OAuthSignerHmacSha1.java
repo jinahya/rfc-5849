@@ -24,8 +24,7 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.2">3.4.2.
  * HMAC-SHA1</a>
  */
-public abstract class SignatureBuilderHmacSha1
-        extends SignatureBuilderPlaintext {
+public abstract class OAuthSignerHmacSha1 extends OAuthSignerPlaintext {
 
     /**
      * The signature method value.
@@ -35,14 +34,14 @@ public abstract class SignatureBuilderHmacSha1
     /**
      * Creates a new instance.
      */
-    public SignatureBuilderHmacSha1() {
+    public OAuthSignerHmacSha1() {
         super(SIGNATURE_METHOD);
     }
 
     // -------------------------------------------------------------------------
     @Override
     public String build() throws Exception {
-        final BaseStringBuilder baseStringBuilder = baseStringBuilder();
+        final OAuthBaseString baseStringBuilder = baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }

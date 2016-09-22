@@ -21,7 +21,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 import org.testng.annotations.Test;
 
 /**
- * Test class for {@link SimpleNonceBuilder}.
+ * Test class for {@link SimpleOAuthNonce}.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
@@ -31,11 +31,11 @@ public class SimpleNonceBuilderTest {
 
     @Test
     public static void of() throws Exception {
-        final String built = SimpleNonceBuilder.of("device", "agent").build();
+        final String built = SimpleOAuthNonce.of("device", "agent").build();
     }
 
     @Test
     public void build() throws Exception {
-        final String built = new SimpleNonceBuilder().build();
+        final String built = new SimpleOAuthNonce().build();
     }
 }

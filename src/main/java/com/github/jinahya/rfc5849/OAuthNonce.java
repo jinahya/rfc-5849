@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Jin Kwon &lt;jinahya at gmail.com&gt;.
+ * Copyright 2016 Jin Kwon &lt;jinahya_at_gmail.com&gt;.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,20 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.System.currentTimeMillis;
-
 /**
- * A simple timestamp builder.
+ * An interface for building nonce values.
  *
- * @author Jin Kwon &lt;jinahya at gmail.com&gt;
+ * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
  * Timestamp (RFC 5849)</a>
  */
-public class SimpleTimestampBuilder implements TimestampBuilder {
+public interface OAuthNonce {//extends Builder<String> {
 
     /**
-     * Returns a timestamp value. This method returns the value
-     * {@link System#currentTimeMillis()} divided by {@code 1000}.
+     * Builds a nonce value.
      *
-     * @return a timestamp value.
-     * @throws Exception if an error occurs.
+     * @return a nonce value
      */
-    @Override
-    public String build() throws Exception {
-        return Long.toString(currentTimeMillis() / 1000L);
-    }
+//    @Override
+    String build();// throws Exception;
 }

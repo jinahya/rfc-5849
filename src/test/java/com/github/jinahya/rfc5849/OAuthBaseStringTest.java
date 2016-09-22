@@ -22,11 +22,11 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 /**
- * Tests {@link BaseStringBuilder}.
+ * Tests {@link OAuthBaseString}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class BaseStringBuilderTest {
+public class OAuthBaseStringTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -41,7 +41,7 @@ public class BaseStringBuilderTest {
      */
     @Test
     public void twitterExample() throws Exception {
-        final BaseStringBuilder builder = new BaseStringBuilder();
+        final OAuthBaseString builder = new OAuthBaseString();
         builder.httpMethod("POST");
         builder.baseUri("https://api.twitter.com/1/statuses/update.json");
         builder.entityParameter(
@@ -83,7 +83,7 @@ public class BaseStringBuilderTest {
      */
     @Test(enabled = true)
     public void nouncerExample() throws Exception {
-        final BaseStringBuilder builder = new BaseStringBuilder();
+        final OAuthBaseString builder = new OAuthBaseString();
         builder.httpMethod("GET");
         builder.baseUri("http://photos.example.net/photos");
         builder.protocolParameter("oauth_consumer_key", "dpf43f3p2l4k3l03");
@@ -134,7 +134,7 @@ public class BaseStringBuilderTest {
                   + "%26oauth_timestamp%3D137131201"
                   + "%26oauth_token%3Dkkk9d7dh3k39sjv7";
         final String expected = documented;
-        final BaseStringBuilder builder = new BaseStringBuilder()
+        final OAuthBaseString builder = new OAuthBaseString()
                 .httpMethod("POST")
                 .baseUri("http://example.com/request")
                 .queryParameter("b5", "=%3D")
@@ -155,7 +155,7 @@ public class BaseStringBuilderTest {
 
     @Test(expectedExceptions = {IllegalStateException.class})
     public void buildWithoutHttpMethod() {
-        new BaseStringBuilder()
+        new OAuthBaseString()
                 .baseUri("baseUri")
                 .oauthNonce("oauthNonce")
                 .oauthTimestamp("oauthTimestamp")
@@ -164,7 +164,7 @@ public class BaseStringBuilderTest {
 
     @Test(expectedExceptions = {IllegalStateException.class})
     public void buildWithoutBaseUri() {
-        new BaseStringBuilder()
+        new OAuthBaseString()
                 .httpMethod("httpMethod")
                 .oauthNonce("oauthNonce")
                 .oauthTimestamp("oauthTimestamp")
@@ -173,7 +173,7 @@ public class BaseStringBuilderTest {
 
     @Test(expectedExceptions = {IllegalStateException.class})
     public void buildWithoutOauthNonce() {
-        new BaseStringBuilder()
+        new OAuthBaseString()
                 .httpMethod("httpMethod")
                 .baseUri("baseUri")
                 .oauthTimestamp("oauthTimestamp")
@@ -182,7 +182,7 @@ public class BaseStringBuilderTest {
 
     @Test(expectedExceptions = {IllegalStateException.class})
     public void buildWithoutOauthTimestamp() {
-        new BaseStringBuilder()
+        new OAuthBaseString()
                 .httpMethod("httpMethod")
                 .baseUri("baseUri")
                 .oauthNonce("oauthNonce")

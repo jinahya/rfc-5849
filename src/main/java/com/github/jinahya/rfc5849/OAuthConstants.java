@@ -23,7 +23,7 @@ package com.github.jinahya.rfc5849;
  * @see <a href="https://tools.ietf.org/html/rfc5849">The OAuth 1.0 Protocol
  * (RFC 5849)</a>
  */
-public final class Rfc5849Constants {
+public final class OAuthConstants {
 
     /**
      * A protocol parameter name whose value is {@value #OAUTH_CALLBACK}.
@@ -90,7 +90,7 @@ public final class Rfc5849Constants {
      */
     public static final String OAUTH_VERSION = "oauth_version";
 
-    private Rfc5849Constants() {
+    private OAuthConstants() {
         super();
     }
 }

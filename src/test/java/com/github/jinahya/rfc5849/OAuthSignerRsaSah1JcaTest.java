@@ -39,8 +39,8 @@ import org.testng.annotations.Test;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderRsaSah1JcaTest
-        extends SignatureBuilderRsaSha1Test<SignatureBuilderRsaSha1Jca, PrivateKey> {
+public class OAuthSignerRsaSah1JcaTest
+        extends OAuthSignerRsaSha1Test<OAuthSignerRsaSha1Jca, PrivateKey> {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -94,8 +94,8 @@ public class SignatureBuilderRsaSah1JcaTest
     /**
      * Creates a new instance.
      */
-    public SignatureBuilderRsaSah1JcaTest() {
-        super(SignatureBuilderRsaSha1Jca.class);
+    public OAuthSignerRsaSah1JcaTest() {
+        super(OAuthSignerRsaSha1Jca.class);
     }
 
     @Override

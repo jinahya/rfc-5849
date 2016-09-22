@@ -30,12 +30,12 @@ import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.fail;
 
 /**
- * Tests {@link SignatureBuilderRsaSha1Bc}.
+ * Tests {@link OAuthSignerRsaSha1Bc}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderRsaSah1BcTest
-        extends SignatureBuilderRsaSha1Test<SignatureBuilderRsaSha1Bc, CipherParameters> {
+public class OAuthSignerRsaSah1BcTest
+        extends OAuthSignerRsaSha1Test<OAuthSignerRsaSha1Bc, CipherParameters> {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -96,8 +96,8 @@ public class SignatureBuilderRsaSah1BcTest
     /**
      * Creates a new instance.
      */
-    public SignatureBuilderRsaSah1BcTest() {
-        super(SignatureBuilderRsaSha1Bc.class);
+    public OAuthSignerRsaSah1BcTest() {
+        super(OAuthSignerRsaSha1Bc.class);
     }
 
     @Override

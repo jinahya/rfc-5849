@@ -26,7 +26,7 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.3">3.4.3.
  * RSA-SHA1 (RFC 5849)</a>
  */
-public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
+public abstract class OAuthSignerRsaSha1<T> extends OAuthSigner {
 
     public static final String SIGNATURE_METHOD = "RSA-SHA1";
 
@@ -34,7 +34,7 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
     /**
      * Creates a new instance.
      */
-    public SignatureBuilderRsaSha1() {
+    public OAuthSignerRsaSha1() {
         super(SIGNATURE_METHOD);
     }
 
@@ -47,7 +47,7 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
      */
     @Override
     public String build() throws Exception {
-        final BaseStringBuilder baseStringBuilder = baseStringBuilder();
+        final OAuthBaseString baseStringBuilder = baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }
@@ -69,7 +69,7 @@ public abstract class SignatureBuilderRsaSha1<T> extends SignatureBuilder {
      * @param initParam a initialization parameter.
      * @return this instance.
      */
-    public SignatureBuilderRsaSha1<T> initParam(final T initParam) {
+    public OAuthSignerRsaSha1<T> initParam(final T initParam) {
         this.initParam = initParam;
         return this;
     }

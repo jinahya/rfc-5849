@@ -73,7 +73,7 @@ public class AuthorizationBuilder implements Builder<String> {
         if (signatureBuilder == null) {
             throw new IllegalStateException("no signatureBuilder set");
         }
-        final BaseStringBuilder baseStringBuilder
+        final OAuthBaseString baseStringBuilder
                 = signatureBuilder.baseStringBuilder();
         if (baseStringBuilder == null) {
             throw new IllegalStateException(
@@ -81,11 +81,11 @@ public class AuthorizationBuilder implements Builder<String> {
         }
         final Map<String, String> params = new TreeMap<String, String>();
         final String oauthSignature = signatureBuilder.build();
-        params.put(Rfc5849Constants.OAUTH_SIGNATURE, oauthSignature);
+        params.put(OAuthConstants.OAUTH_SIGNATURE, oauthSignature);
         for (final Entry<String, List<String>> entiry
              : baseStringBuilder.entries()) {
             final String key = entiry.getKey();
-            if (!key.startsWith(BaseStringBuilder.PROTOCOL_PARAMETER_PREFIX)) {
+            if (!key.startsWith(OAuthBaseString.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;
             }
             params.put(key, entiry.getValue().get(0));
@@ -135,7 +135,7 @@ public class AuthorizationBuilder implements Builder<String> {
      * @return this instance
      */
     public AuthorizationBuilder signatureBuilder(
-            final SignatureBuilder signatureBuilder) {
+            final OAuthSigner signatureBuilder) {
         this.signatureBuilder = signatureBuilder;
         return this;
     }
@@ -143,5 +143,5 @@ public class AuthorizationBuilder implements Builder<String> {
     // -------------------------------------------------------------------------
     private String realm;
 
-    private SignatureBuilder signatureBuilder;
+    private OAuthSigner signatureBuilder;
 }

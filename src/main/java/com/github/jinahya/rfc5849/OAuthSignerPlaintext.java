@@ -22,16 +22,16 @@ import static com.github.jinahya.rfc5849._Percent.encodePercent;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class SignatureBuilderPlaintext extends SignatureBuilder {
+public class OAuthSignerPlaintext extends OAuthSigner {
 
     private static final String SIGNATURE_METHOD = "PLAINTEXT";
 
     // -------------------------------------------------------------------------
-    SignatureBuilderPlaintext(final String signatureMethod) {
+    OAuthSignerPlaintext(final String signatureMethod) {
         super(signatureMethod);
     }
 
-    public SignatureBuilderPlaintext() {
+    public OAuthSignerPlaintext() {
         this(SIGNATURE_METHOD);
     }
 
@@ -60,7 +60,7 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
      * @param consumerSecret new consumer secret.
      * @return this instance
      */
-    public SignatureBuilderPlaintext consumerSecret(
+    public OAuthSignerPlaintext consumerSecret(
             final String consumerSecret) {
         this.consumerSecret = consumerSecret;
         return this;
@@ -73,7 +73,7 @@ public class SignatureBuilderPlaintext extends SignatureBuilder {
      * @param tokenSecret new token secret
      * @return this instance
      */
-    public SignatureBuilderPlaintext tokenSecret(final String tokenSecret) {
+    public OAuthSignerPlaintext tokenSecret(final String tokenSecret) {
         this.tokenSecret = tokenSecret;
         return this;
     }

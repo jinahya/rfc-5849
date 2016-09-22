@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Jin Kwon &lt;jinahya_at_gmail.com&gt;.
+ * Copyright 2016 Jin Kwon &lt;jinahya_at_gmail.com&gt;.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,19 @@
 package com.github.jinahya.rfc5849;
 
 /**
+ * An interface for building timestamp values.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
+ * Timestamp (RFC 5849)</a>
  */
-public class SignatureBuilderHmacSha1JcaTest
-        extends SignatureBuilderHmacSha1Test<SignatureBuilderHmacSha1Jca> {
+public interface OAuthTimestamp {// extends Builder<String> {
 
-    public SignatureBuilderHmacSha1JcaTest() {
-        super(SignatureBuilderHmacSha1Jca.class);
-    }
+    /**
+     * Builds a timestamp value.
+     *
+     * @return a timestamp value
+     */
+//    @Override
+    String build();//throws Exception;
 }
