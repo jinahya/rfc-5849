@@ -20,6 +20,7 @@ import static com.github.jinahya.rfc5849._Hex.encodeHexSingle;
 import java.io.UnsupportedEncodingException;
 
 /**
+ * A class for encoding/decoding percent.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
@@ -64,7 +65,6 @@ final class _Percent {
      * Percent-encodes given string.
      *
      * @param s the string to encode
-     *
      * @return encoding result.
      */
     static String encodePercent(final String s) {
@@ -104,7 +104,6 @@ final class _Percent {
      * Percent-decodes given string.
      *
      * @param s the string to decode
-     *
      * @return decoding result.
      */
     static String decodePercent(final String s) {

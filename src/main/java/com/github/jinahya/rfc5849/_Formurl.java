@@ -20,6 +20,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 /**
+ * A class for encoding/decoding form-urlencoded.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
@@ -32,7 +33,6 @@ final class _Formurl {
         try {
             return URLEncoder.encode(decoded, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
-            uee.printStackTrace(System.err);
             throw new RuntimeException(uee.getMessage());
         }
     }
@@ -44,7 +44,6 @@ final class _Formurl {
         try {
             return URLDecoder.decode(encoded, "UTF-8");
         } catch (final UnsupportedEncodingException uee) {
-            uee.printStackTrace(System.err);
             throw new RuntimeException(uee.getMessage());
         }
     }

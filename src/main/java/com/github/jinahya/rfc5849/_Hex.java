@@ -16,7 +16,7 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * A utility class for encoding/decoding hex.
+ * A class for encoding/decoding hex.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */

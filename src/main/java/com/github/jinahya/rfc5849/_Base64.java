@@ -19,8 +19,11 @@ import java.io.UnsupportedEncodingException;
 import static java.lang.Math.ceil;
 
 /**
+ * A class for Base64 encoding/decoding.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://tools.ietf.org/html/rfc4648">The Base16, Base32, and
+ * Base64 Data Encodings (RFC 4648)</a>
  */
 final class _Base64 {
 
@@ -51,8 +54,7 @@ final class _Base64 {
      * Encodes given input.
      *
      * @param input the input.
-     *
-     * @return encoding output.
+     * @return encoded output.
      */
     static byte[] encodeBase64(final byte[] input) {
         if (input == null) {
@@ -61,8 +63,6 @@ final class _Base64 {
         if (input.length == 0) {
             return new byte[0];
         }
-//        final byte[] output = new byte[((input.length / 3)
-//                                        + (input.length % 3 > 0 ? 1 : 0)) * 4];
         final byte[] output = new byte[((int) ceil(input.length / 3.0d)) * 4];
         int index = 0; // output index
         for (int i = 0; i < input.length; i += 3) {
@@ -87,11 +87,10 @@ final class _Base64 {
     }
 
     /**
-     * Encodes given input and returns a string.
+     * Encodes given input and returns output as a string.
      *
      * @param input the input
-     *
-     * @return a string
+     * @return output as a string
      */
     static String encodeBase64ToString(final byte[] input) {
         if (input == null) {
@@ -108,8 +107,7 @@ final class _Base64 {
      * Decodes given input.
      *
      * @param input the input.
-     *
-     * @return decoding output.
+     * @return decoded output.
      */
     static byte[] decodeBase64(final byte[] input) {
         if (input == null) {
@@ -150,8 +148,7 @@ final class _Base64 {
      * Decodes given string.
      *
      * @param input the input.
-     *
-     * @return decoding output.
+     * @return decoded output.
      */
     static byte[] decodeBase64(final String input) {
         if (input == null) {
