@@ -6,9 +6,9 @@ implementation of [The OAuth 1.0 Protocol](https://tools.ietf.org/html/rfc5849).
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.jinahya/rfc5849.svg?maxAge=2592000&style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.jinahya%22%20a%3A%22rfc5849%22)
 [![Javadocs](http://www.javadoc.io/badge/com.github.jinahya/rfc5849.svg?style=flat-square)](http://www.javadoc.io/doc/com.github.jinahya/rfc5849)
 
-## components
+## Components
 
-### `OAuthBaseString`
+### OAuthBaseString
 
 For building a [Signature Base String](https://tools.ietf.org/html/rfc5849#section-3.4.1).
 ````java
@@ -23,7 +23,7 @@ baseString.protocolParameter(key, value); // key must start with 'oauth_'
 baseString.entityParameter(key, value);
 ```
 
-### `OAuthSigner`
+### OAuthSigner
 
 For generating a [Signature](https://tools.ietf.org/html/rfc5849#section-3.4).
 
@@ -35,7 +35,7 @@ For generating a [Signature](https://tools.ietf.org/html/rfc5849#section-3.4).
 |`OAuthSignerRsaSha1Jca` |`RSA-SHA1` |JCA     |
 |`OAuthSignerPlaintext`  |`PLAINTEXT`|        |
 
-#### `HMAC-SHA1`
+#### HMAC-SHA1
 
 There are two implementations. One is for Java [Cryptograph Architexture](http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) and the other is for [Legion of the Bouncy Castle](http://www.bouncycastle.org/java.html).
 ````java
@@ -49,7 +49,7 @@ signer.tokenSecret(tokenSecret);
 signer.baseString(baseString); // OAuthBaseString
 ````
 
-#### `RSA-SHA1`
+#### RSA-SHA1
 
 There are, again, two implementations.  One is for Java [Cryptograph Architexture](http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) and the other is for [Legion of the Bouncy Castle](http://www.bouncycastle.org/java.html).
 ````java
@@ -62,13 +62,13 @@ signer.initParam(PrivateKey privateKey); // JCA
 signer.initParam(CipherParameter cipherParameter); // BC
 ````
 
-#### `PLAINTEXT`
+#### PLAINTEXT
 
 ````java
 new OAuthSignerPlaintext();
 ````
 
-### `OAuthAuthentication`
+### OAuthAuthentication
 
 ````java
 final OAuthAuthentication authentication = new OAuthAuthentication();
@@ -82,7 +82,7 @@ final String body = authentication.toBody(); // Form-Encoded Body
 final String query = authentication.toQuery(); // Request URI Query
 ````
 
-## examples
+## Examples
 
 ````java
 final OAuthAuthentication authentication = new OAuthAuthentication()
