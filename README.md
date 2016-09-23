@@ -9,7 +9,8 @@ implementation of [The OAuth 1.0 Protocol](https://tools.ietf.org/html/rfc5849).
 ## components
 
 ### `OAuthBaseString`
-For building values defined in [3.4.1. Signature Base String](https://tools.ietf.org/html/rfc5849#section-3.4.1).
+
+For building a [Signature Base String](https://tools.ietf.org/html/rfc5849#section-3.4.1).
 ````java
 final OAuthBaseString baseString = new OAuthBaseString();
 ````
@@ -23,6 +24,8 @@ baseString.entityParameter(key, value);
 ```
 
 ### `OAuthSigner`
+
+For generating a [Signature](https://tools.ietf.org/html/rfc5849#section-3.4).
 
 |class                   |method     |platform|
 |------------------------|-----------|--------|
