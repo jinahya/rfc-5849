@@ -19,16 +19,16 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 /**
- * An abstract class for testing {@link SignatureBuilder} for {@code HMAC-SHA1}
+ * An abstract class for testing {@link OAuthSigner} for {@code HMAC-SHA1}
  * method.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> implementation type parameter
  */
-public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHmacSha1>
-        extends SignatureBuilderTest<T> {
+public abstract class OAuthSignerHmacSha1Test<T extends OAuthSignerHmacSha1>
+        extends OAuthSignerTest<T> {
 
-    public SignatureBuilderHmacSha1Test(final Class<T> builderClass) {
+    public OAuthSignerHmacSha1Test(final Class<T> builderClass) {
         super(builderClass);
     }
 
@@ -54,14 +54,14 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
         builder
                 .consumerSecret(consumerSecret)
                 .tokenSecret(tokenSecret)
-                .baseStringBuilder(new BaseStringBuilder() {
+                .baseString(new OAuthBaseString() {
                     @Override
                     public String build() {
                         return baseString;
                     }
                 });
         final String expected = "tnnArxj06cWHq44gCs1OSKk/jLY=";
-        final String actual = builder.build();
+        final String actual = builder.sign();
         assertEquals(actual, expected);
     }
 
@@ -84,14 +84,14 @@ public abstract class SignatureBuilderHmacSha1Test<T extends SignatureBuilderHma
         builder
                 .consumerSecret(consumerSecret)
                 .tokenSecret(tokenSecret)
-                .baseStringBuilder(new BaseStringBuilder() {
+                .baseString(new OAuthBaseString() {
                     @Override
                     public String build() {
                         return baseString;
                     }
                 });
         final String expected = "tR3+Ty81lMeYAr/Fid0kMTYa/WM=";
-        final String actual = builder.build();
+        final String actual = builder.sign();
         assertEquals(actual, expected);
     }
 }

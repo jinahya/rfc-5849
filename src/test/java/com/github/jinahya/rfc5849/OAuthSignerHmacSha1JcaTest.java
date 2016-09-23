@@ -16,18 +16,13 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * An interface for building values.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @param <T> output type parameter
  */
-interface Builder<T> {
+public class OAuthSignerHmacSha1JcaTest
+        extends OAuthSignerHmacSha1Test<OAuthSignerHmacSha1Jca> {
 
-    /**
-     * Builds the value.
-     *
-     * @return built value
-     * @throws Exception if an error occurs.
-     */
-    T build() throws Exception;
+    public OAuthSignerHmacSha1JcaTest() {
+        super(OAuthSignerHmacSha1Jca.class);
+    }
 }

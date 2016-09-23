@@ -15,30 +15,29 @@
  */
 package com.github.jinahya.rfc5849;
 
-import java.util.logging.Logger;
-import static java.util.logging.Logger.getLogger;
-import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.Signer;
+import org.bouncycastle.crypto.Mac;
 import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.crypto.signers.RSADigestSigner;
+import org.bouncycastle.crypto.macs.HMac;
+import org.bouncycastle.crypto.params.KeyParameter;
 
 /**
- * A signature builder uses Bouncy Castle.
+ * A signature builder using the <b>Legion of the Bouncy Castle</b> Java
+ * cryptography APIs.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://www.bouncycastle.org/java.html">The Legion of the
+ * Bouncy Castle</a>
  */
-public class SignatureBuilderRsaSha1Bc
-        extends SignatureBuilderRsaSha1<CipherParameters> {
-
-    private static final Logger logger
-            = getLogger(SignatureBuilderRsaSha1Bc.class.getName());
+public class OAuthSignerHmacSha1Bc extends OAuthSignerHmacSha1 {
 
     @Override
-    byte[] build(final CipherParameters initParam, final byte[] baseBytes)
+    byte[] sign(final byte[] keyBytes, final byte[] baseBytes)
             throws Exception {
-        final Signer signer = new RSADigestSigner(new SHA1Digest());
-        signer.init(true, initParam);
-        signer.update(baseBytes, 0, baseBytes.length);
-        return signer.generateSignature();
+        final Mac mac = new HMac(new SHA1Digest());
+        mac.init(new KeyParameter(keyBytes));
+        mac.update(baseBytes, 0, baseBytes.length);
+        final byte[] output = new byte[mac.getMacSize()];
+        mac.doFinal(output, 0);
+        return output;
     }
 }

@@ -18,41 +18,39 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
- * A signature builder for {@code HMAC-SHA1}.
+ * An abstract class for signing request with {@value #SIGNATURE_METHOD}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.2">3.4.2.
  * HMAC-SHA1</a>
  */
-public abstract class SignatureBuilderHmacSha1
-        extends SignatureBuilderPlaintext {
+public abstract class OAuthSignerHmacSha1 extends OAuthSignerPlaintext {
 
     /**
-     * The signature method value.
+     * The signature method name whose value is {@value #SIGNATURE_METHOD}.
      */
-    private static final String SIGNATURE_METHOD = "HMAC-SHA1";
+    public static final String SIGNATURE_METHOD = "HMAC-SHA1";
 
     /**
      * Creates a new instance.
      */
-    public SignatureBuilderHmacSha1() {
+    public OAuthSignerHmacSha1() {
         super(SIGNATURE_METHOD);
     }
 
     // -------------------------------------------------------------------------
     @Override
-    public String build() throws Exception {
-        final BaseStringBuilder baseStringBuilder = baseStringBuilder();
-        if (baseStringBuilder == null) {
-            throw new IllegalStateException("no baseStringBuilder set");
+    public String sign() throws Exception {
+        final OAuthBaseString baseString = baseString();
+        if (baseString == null) {
+            throw new IllegalStateException("no baseString set");
         }
-        final String keyString = super.build(); // consumerSecret&tokenSecret
+        final String keyString = super.sign(); // consumerSecret&tokenSecret
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
-        final String baseString = baseStringBuilder.build();
-        final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
-        final byte[] built = build(keyBytes, baseBytes);
-        return encodeBase64ToString(built);
+        final byte[] baseBytes = baseString.build().getBytes("ISO-8859-1");
+        final byte[] signature = sign(keyBytes, baseBytes);
+        return encodeBase64ToString(signature);
     }
 
-    abstract byte[] build(byte[] keyBytes, byte[] baseBytes) throws Exception;
+    abstract byte[] sign(byte[] keyBytes, byte[] baseBytes) throws Exception;
 }

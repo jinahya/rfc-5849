@@ -19,18 +19,18 @@ import static java.util.Objects.requireNonNull;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * An abstract class for testing {@link SignatureBuilder}.
+ * An abstract class for testing {@link OAuthSigner}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> signature builder type parameter.
  */
-public abstract class SignatureBuilderTest<T extends SignatureBuilder> {
+public abstract class OAuthSignerTest<T extends OAuthSigner> {
 
     static ThreadLocalRandom random() {
         return ThreadLocalRandom.current();
     }
 
-    public SignatureBuilderTest(final Class<T> builderClass) {
+    public OAuthSignerTest(final Class<T> builderClass) {
         super();
         this.builderClass = requireNonNull(builderClass, "null builderClass");
     }

@@ -15,47 +15,50 @@
  */
 package com.github.jinahya.rfc5849;
 
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.security.SecureRandom;
 import java.util.Random;
 
 /**
- * A simple nonce builder.
+ * A simple nonce generator.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
  * Timestamp (RFC 5849)</a>
  */
-public class SimpleNonceBuilder implements NonceBuilder {
+public class SimpleOAuthNonce implements OAuthNonce {
 
     /**
-     * Returns a nonce builder with given identifiers.
+     * Creates a new instance which generates nonce values with given
+     * identifiers as a prefix.
      *
-     * @param ids identifies for specifying client
+     * @param identifiers identifies for specifying client such as device or
+     * agent identifier.
      * @return a nonce builder
      */
-    public static NonceBuilder of(final String... ids) {
+    public static OAuthNonce of(final String... identifiers) {
         final StringBuilder builder = new StringBuilder();
-        for (final String id : ids) {
-            builder.append(String.valueOf(id)).append("-");
+        for (final String identifier : identifiers) {
+            builder.append(encodePercent(String.valueOf(identifier)))
+                    .append("-");
         }
         final String prefix = builder.toString();
-        return new SimpleNonceBuilder() {
+        return new SimpleOAuthNonce() {
             @Override
-            public String build() throws Exception {
-                return prefix + super.build();
+            public String generate() {
+                return prefix + super.generate();
             }
         };
     }
 
     /**
-     * Builds a nonce value. This methods returns the value of
-     * {@link Random#nextLong()} invoked on the value from {@link #random}.
+     * {@inheritDoc} This methods returns the value of {@link Random#nextLong()}
+     * invoked on what {@link #random()} returns.
      *
-     * @return a nonce value
-     * @throws Exception if an error occurs
+     * @return {@inheritDoc}
      */
     @Override
-    public String build() throws Exception {
+    public String generate() {
         return Long.toString(random().nextLong());
     }
 

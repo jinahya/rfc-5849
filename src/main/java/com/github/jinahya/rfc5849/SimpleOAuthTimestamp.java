@@ -18,23 +18,22 @@ package com.github.jinahya.rfc5849;
 import static java.lang.System.currentTimeMillis;
 
 /**
- * A simple timestamp builder.
+ * A simple timestamp generator.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
  * Timestamp (RFC 5849)</a>
  */
-public class SimpleTimestampBuilder implements TimestampBuilder {
+public class SimpleOAuthTimestamp implements OAuthTimestamp {
 
     /**
-     * Returns a timestamp value. This method returns the value
+     * {@inheritDoc} This method returns the value
      * {@link System#currentTimeMillis()} divided by {@code 1000}.
      *
-     * @return a timestamp value.
-     * @throws Exception if an error occurs.
+     * @return {@inheritDoc}
      */
     @Override
-    public String build() throws Exception {
+    public String generate() {
         return Long.toString(currentTimeMillis() / 1000L);
     }
 }

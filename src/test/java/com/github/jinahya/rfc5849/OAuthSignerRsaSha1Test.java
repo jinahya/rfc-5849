@@ -38,14 +38,14 @@ import static org.slf4j.LoggerFactory.getLogger;
 import org.testng.annotations.Test;
 
 /**
- * Test class for {@link SignatureBuilderRsaSha1}.
+ * Test class for {@link OAuthSignerRsaSha1}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> implementation type parameter
  * @param <P> initParam type parameter
  */
-public abstract class SignatureBuilderRsaSha1Test<T extends SignatureBuilderRsaSha1<P>, P>
-        extends SignatureBuilderTest<T> {
+public abstract class OAuthSignerRsaSha1Test<T extends OAuthSignerRsaSha1<P>, P>
+        extends OAuthSignerTest<T> {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -108,7 +108,7 @@ public abstract class SignatureBuilderRsaSha1Test<T extends SignatureBuilderRsaS
      *
      * @param builderClass implementation class
      */
-    public SignatureBuilderRsaSha1Test(final Class<T> builderClass) {
+    public OAuthSignerRsaSha1Test(final Class<T> builderClass) {
         super(builderClass);
     }
 
@@ -116,10 +116,10 @@ public abstract class SignatureBuilderRsaSha1Test<T extends SignatureBuilderRsaS
 
     @Test
     public void test() throws Exception {
-        final SignatureBuilder signatureBuilder
+        final OAuthSigner signatureBuilder
                 = newInstance()
                 .initParam(newInitParam())
-                .baseStringBuilder(BaseStringBuilder.of(
+                .baseString(OAuthBaseString.of(
                         "POST"
                         + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
                         + "&include_entities%3Dtrue"
@@ -131,7 +131,7 @@ public abstract class SignatureBuilderRsaSha1Test<T extends SignatureBuilderRsaS
                         + "%26oauth_version%3D1.0"
                         + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521"
                 ));
-        final String signature = signatureBuilder.build();
+        final String signature = signatureBuilder.sign();
         logger.debug("signature: {}", signature);
     }
 }
