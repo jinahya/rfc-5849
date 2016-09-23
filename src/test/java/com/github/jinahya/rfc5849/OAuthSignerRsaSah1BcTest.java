@@ -15,6 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
+import static com.github.jinahya.rfc5849.RsaSha1Keys.applyKeyFiles;
 import java.io.IOException;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.nio.file.Files.readAllBytes;

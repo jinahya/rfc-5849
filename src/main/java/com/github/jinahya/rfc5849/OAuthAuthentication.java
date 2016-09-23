@@ -21,10 +21,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * A builder for builder authorization header value.
+ * A builder for building request authentication information.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.1">3.5.1.
@@ -63,7 +64,14 @@ public class OAuthAuthentication {//implements Builder<String> {
     }
 
     // -------------------------------------------------------------------------
-    public Map<String, String> protocolParameters() throws Exception {
+    /**
+     * Returns all protocol parameters including an entry for
+     * {@link OAuthConstants#OAUTH_SIGNATURE}.
+     *
+     * @return all protocol parameters
+     * @throws Exception if an error occurs.
+     */
+    public SortedMap<String, String> protocolParameters() throws Exception {
         if (signer == null) {
             throw new IllegalStateException("no signer set");
         }
@@ -71,18 +79,19 @@ public class OAuthAuthentication {//implements Builder<String> {
         if (baseString == null) {
             throw new IllegalStateException("no baseString on the signer");
         }
-        final Map<String, String> results = new TreeMap<String, String>();
+        final SortedMap<String, String> protocolParameters
+                = new TreeMap<String, String>();
         final String oauthSignature = signer.sign();
-        results.put(OAuthConstants.OAUTH_SIGNATURE, oauthSignature);
+        protocolParameters.put(OAuthConstants.OAUTH_SIGNATURE, oauthSignature);
         for (final Entry<String, List<String>> entiry
              : baseString.requestParameters().entrySet()) {
             final String key = entiry.getKey();
             if (!key.startsWith(OAuthBaseString.PROTOCOL_PARAMETER_PREFIX)) {
                 continue;
             }
-            results.put(key, entiry.getValue().get(0));
+            protocolParameters.put(key, entiry.getValue().get(0));
         }
-        return results;
+        return protocolParameters;
     }
 
     /**

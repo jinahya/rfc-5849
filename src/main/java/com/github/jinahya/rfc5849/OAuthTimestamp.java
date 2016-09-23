@@ -26,7 +26,7 @@ package com.github.jinahya.rfc5849;
 public interface OAuthTimestamp {
 
     /**
-     * Builds a timestamp value.
+     * Generates a timestamp value.
      *
      * @return a timestamp value
      */

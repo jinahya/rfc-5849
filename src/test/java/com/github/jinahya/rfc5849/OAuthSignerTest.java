@@ -30,25 +30,33 @@ public abstract class OAuthSignerTest<T extends OAuthSigner> {
         return ThreadLocalRandom.current();
     }
 
-    public OAuthSignerTest(final Class<T> builderClass) {
+    /**
+     * Creates a new instance.
+     *
+     * @param singerClass the type of the {@link OAuthSigner}.
+     */
+    public OAuthSignerTest(final Class<T> singerClass) {
         super();
-        this.builderClass = requireNonNull(builderClass, "null builderClass");
+        this.signerClass = requireNonNull(singerClass, "null signerClass");
     }
 
     /**
-     * Creates a new instance of {@link #builderClass}. The
-     * {@code newInstance()} method of {@code SignatureBuidlerTest} class
-     * returns the result of {@code builderType#newInstance()}.
+     * Creates a new instance of {@link #signerClass}. The {@code newInstance()}
+     * method of {@code OAuthSignerTest} class returns the result of
+     * {@code signerClass#newInstance()}.
      *
-     * @return a new instance of {@link #builderClass}.
+     * @return a new instance of {@link #signerClass}.
      */
     protected T newInstance() {
         try {
-            return builderClass.newInstance();
+            return signerClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected final Class<T> builderClass;
+    /**
+     * The type of the {@link OAuthSigner}.
+     */
+    protected final Class<T> signerClass;
 }

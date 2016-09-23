@@ -25,7 +25,7 @@ package com.github.jinahya.rfc5849;
 public interface OAuthNonce {
 
     /**
-     * Builds a nonce value.
+     * Generates a nonce value.
      *
      * @return a nonce value
      */

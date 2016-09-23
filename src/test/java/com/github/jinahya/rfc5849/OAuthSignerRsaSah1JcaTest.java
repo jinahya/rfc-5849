@@ -15,6 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
+import static com.github.jinahya.rfc5849.RsaSha1Keys.applyKeyFiles;
 import java.io.IOException;
 import static java.lang.invoke.MethodHandles.lookup;
 import static java.nio.file.Files.readAllBytes;
@@ -136,7 +137,7 @@ public class OAuthSignerRsaSah1JcaTest
                 cipher.init(Cipher.DECRYPT_MODE, privateKey);
                 final byte[] actual = cipher.doFinal(encrypted);
                 assertEquals(actual, expected);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 logger.error("failed", e);
             }
             return null;

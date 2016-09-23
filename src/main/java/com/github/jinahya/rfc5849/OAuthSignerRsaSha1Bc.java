@@ -24,6 +24,8 @@ import org.bouncycastle.crypto.signers.RSADigestSigner;
  * A signature builder uses Bouncy Castle.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://www.bouncycastle.org/java.html">The Legion of the
+ * Bouncy Castle</a>
  */
 public class OAuthSignerRsaSha1Bc extends OAuthSignerRsaSha1<CipherParameters> {
 

@@ -45,7 +45,11 @@ public class OAuthBaseString {//implements Builder<String> {
     }
 
     // -------------------------------------------------------------------------
-//    @Override
+    /**
+     * Builds the base string.
+     *
+     * @return the base string.
+     */
     public String build() {//throws Exception {
         if (httpMethod == null) {
             throw new IllegalStateException("no httpMethod set");

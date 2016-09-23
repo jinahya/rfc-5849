@@ -22,6 +22,9 @@ import java.security.Signature;
  * A request signer uses Java Cryptography Architecture.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see
+ * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java
+ * Cryptography Architecture (JCA) Reference Guide</a>
  */
 public class OAuthSignerRsaSha1Jca extends OAuthSignerRsaSha1<PrivateKey> {
 

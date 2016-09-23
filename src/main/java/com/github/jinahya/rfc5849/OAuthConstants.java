@@ -38,7 +38,7 @@ public final class OAuthConstants {
             = "oauth_callback_confirmed";
 
     /**
-     * A protocol parameter name whose value is
+     * A protocol parameter value for {@link #OAUTH_CALLBACK} which is
      * {@value #OAUTH_CALLBACK_OUT_OF_BAND}.
      */
     public static final String OAUTH_CALLBACK_OUT_OF_BAND = "oob";

@@ -39,12 +39,6 @@ public class OAuthSignerPlaintext extends OAuthSigner {
     }
 
     // -------------------------------------------------------------------------
-    /**
-     * Builds the signature value.
-     *
-     * @return this instance.
-     * @throws Exception if failed to build
-     */
     @Override
     public String sign() throws Exception {
         if (consumerSecret == null) {
@@ -58,22 +52,21 @@ public class OAuthSignerPlaintext extends OAuthSigner {
 
     // ---------------------------------------------------------- consumerSecret
     /**
-     * Replaces the consumer secret with given and return this instance.
+     * Sets the consumer secret with given and return this instance.
      *
-     * @param consumerSecret new consumer secret.
+     * @param consumerSecret the consumer secret.
      * @return this instance
      */
-    public OAuthSignerPlaintext consumerSecret(
-            final String consumerSecret) {
+    public OAuthSignerPlaintext consumerSecret(final String consumerSecret) {
         this.consumerSecret = consumerSecret;
         return this;
     }
 
     // ------------------------------------------------------------- tokenSecret
     /**
-     * Replaces the token secret with given value and returns this instance.
+     * Sets the token secret with given value and returns this instance.
      *
-     * @param tokenSecret new token secret
+     * @param tokenSecret the token secret
      * @return this instance
      */
     public OAuthSignerPlaintext tokenSecret(final String tokenSecret) {
@@ -85,5 +78,4 @@ public class OAuthSignerPlaintext extends OAuthSigner {
     private String consumerSecret;
 
     private String tokenSecret;
-
 }
