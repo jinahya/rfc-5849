@@ -18,8 +18,7 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
- * An abstract class for signature builder implementation whose signature method
- * is {@value #SIGNATURE_METHOD}.
+ * An abstract class for signing the request with {@value #SIGNATURE_METHOD}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> initParam type parameter
@@ -28,6 +27,9 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
  */
 public abstract class OAuthSignerRsaSha1<T> extends OAuthSigner {
 
+    /**
+     * The signature method name whose value is {@value #SIGNATURE_METHOD}.
+     */
     public static final String SIGNATURE_METHOD = "RSA-SHA1";
 
     // -------------------------------------------------------------------------
@@ -39,15 +41,9 @@ public abstract class OAuthSignerRsaSha1<T> extends OAuthSigner {
     }
 
     // -------------------------------------------------------------------------
-    /**
-     * Builds the signature value.
-     *
-     * @return this instance
-     * @throws Exception if failed to build
-     */
     @Override
     public String sign() throws Exception {
-        final OAuthBaseString baseStringBuilder = baseStringBuilder();
+        final OAuthBaseString baseStringBuilder = baseString();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
         }

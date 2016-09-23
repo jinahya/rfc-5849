@@ -53,17 +53,17 @@ public class OAuthBaseString {//implements Builder<String> {
         if (baseUri == null) {
             throw new IllegalStateException("no baseUri set");
         }
-        if (!map().containsKey(OAuthConstants.OAUTH_NONCE)) {
+        if (!requestParameters().containsKey(OAuthConstants.OAUTH_NONCE)) {
             throw new IllegalStateException(
                     "no " + OAuthConstants.OAUTH_NONCE);
         }
-        if (!map().containsKey(OAuthConstants.OAUTH_TIMESTAMP)) {
+        if (!requestParameters().containsKey(OAuthConstants.OAUTH_TIMESTAMP)) {
             throw new IllegalStateException(
                     "no " + OAuthConstants.OAUTH_TIMESTAMP);
         }
         final Map<String, List<String>> encoded
                 = new TreeMap<String, List<String>>();
-        for (final Entry<String, List<String>> entry : map().entrySet()) {
+        for (final Entry<String, List<String>> entry : requestParameters().entrySet()) {
             final String key = entry.getKey();
             final String encodedKey = encodePercent(key);
             final List<String> values = entry.getValue();
@@ -90,12 +90,12 @@ public class OAuthBaseString {//implements Builder<String> {
                + "&" + encodePercent(builder.toString());
     }
 
-    // --------------------------------------------------------------------- map
-    Map<String, List<String>> map() {
-        if (map == null) {
-            map = new HashMap<String, List<String>>();
+    // ------------------------------------------------------- requestParameters
+    Map<String, List<String>> requestParameters() {
+        if (requestParameters == null) {
+            requestParameters = new HashMap<String, List<String>>();
         }
-        return map;
+        return requestParameters;
     }
 
     private void add(final String key, final String value) {
@@ -105,16 +105,16 @@ public class OAuthBaseString {//implements Builder<String> {
         if (value == null) {
             throw new NullPointerException("null value");
         }
-        List<String> values = map().get(key);
+        List<String> values = requestParameters().get(key);
         if (values == null) {
             values = new ArrayList<String>();
-            map().put(key, values);
+            requestParameters().put(key, values);
         }
         values.add(value);
     }
 
     private void put(final String key, final String value) {
-        map().remove(key);
+        requestParameters().remove(key);
         add(key, value);
     }
 
@@ -320,5 +320,5 @@ public class OAuthBaseString {//implements Builder<String> {
 
     private String baseUri;
 
-    private Map<String, List<String>> map;
+    private Map<String, List<String>> requestParameters;
 }

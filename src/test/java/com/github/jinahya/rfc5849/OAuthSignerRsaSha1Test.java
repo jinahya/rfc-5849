@@ -36,7 +36,6 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.testng.annotations.Test;
-import static java.io.File.createTempFile;
 
 /**
  * Test class for {@link OAuthSignerRsaSha1}.
@@ -120,7 +119,7 @@ public abstract class OAuthSignerRsaSha1Test<T extends OAuthSignerRsaSha1<P>, P>
         final OAuthSigner signatureBuilder
                 = newInstance()
                 .initParam(newInitParam())
-                .baseStringBuilder(OAuthBaseString.of(
+                .baseString(OAuthBaseString.of(
                         "POST"
                         + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
                         + "&include_entities%3Dtrue"

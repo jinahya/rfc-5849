@@ -15,13 +15,10 @@
  */
 package com.github.jinahya.rfc5849;
 
-import java.util.logging.Logger;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.Signer;
 import org.bouncycastle.crypto.digests.SHA1Digest;
 import org.bouncycastle.crypto.signers.RSADigestSigner;
-import static java.util.logging.Logger.getLogger;
-import static java.util.logging.Logger.getLogger;
 
 /**
  * A signature builder uses Bouncy Castle.
@@ -29,9 +26,6 @@ import static java.util.logging.Logger.getLogger;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class OAuthSignerRsaSha1Bc extends OAuthSignerRsaSha1<CipherParameters> {
-
-    private static final Logger logger
-            = getLogger(OAuthSignerRsaSha1Bc.class.getName());
 
     @Override
     byte[] build(final CipherParameters initParam, final byte[] baseBytes)

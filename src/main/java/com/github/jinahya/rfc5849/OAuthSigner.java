@@ -16,14 +16,14 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * An interface for generating values for
+ * An interface for signing requests and generating values for
  * {@link OAuthConstants#OAUTH_SIGNATURE}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4">3.4. Signature
  * (RFC 5849)</a>
  */
-public abstract class OAuthSigner {//implements Builder<String> {
+public abstract class OAuthSigner {
 
     static OAuthSigner of(final String prebuilt) {
         return new OAuthSigner("irrelevant") {
@@ -43,6 +43,12 @@ public abstract class OAuthSigner {//implements Builder<String> {
     }
 
     // -------------------------------------------------------------------------
+    /**
+     * Generates a signature value for {@link OAuthConstants#OAUTH_SIGNATURE}.
+     *
+     * @return a signature.
+     * @throws Exception if an error occurs.
+     */
     public abstract String sign() throws Exception;
 
     // --------------------------------------------------------- signatureMethod
@@ -56,48 +62,33 @@ public abstract class OAuthSigner {//implements Builder<String> {
         return signatureMethod;
     }
 
-    // ------------------------------------------------------- baseStringBuilder
+    // -------------------------------------------------------------- baseString
     /**
-     * Returns the {@code baseStringBuilder}.
+     * Returns the {@code baseString}.
      *
-     * @return the {@code baseStringBuilder}
+     * @return the {@code baseString}
      */
-    OAuthBaseString baseStringBuilder() {
-        return baseStringBuilder;
+    OAuthBaseString baseString() {
+        return baseString;
     }
 
     /**
-     * Sets the {@code baseStringBuilder}.
+     * Sets the {@code baseString}.
      *
-     * @param baseStringBuilder a {@link OAuthBaseString}
+     * @param baseString an instance of {@link OAuthBaseString}
      * @return this instance
      */
-    public OAuthSigner baseStringBuilder(
-            final OAuthBaseString baseStringBuilder) {
-        if (baseStringBuilder == null) {
-            throw new NullPointerException("null baseStringBuilder");
-        }
-        this.baseStringBuilder = baseStringBuilder;
-        this.baseStringBuilder.oauthSignatureMethod(signatureMethod);
-        return this;
-    }
-
-    // -------------------------------------------------------------- baseString
-    @Deprecated
-    OAuthSigner baseString(final String baseString) {
+    public OAuthSigner baseString(final OAuthBaseString baseString) {
         if (baseString == null) {
             throw new NullPointerException("null baseString");
         }
-        return baseStringBuilder(new OAuthBaseString() {
-            @Override
-            public String build() {
-                return baseString;
-            }
-        });
+        this.baseString = baseString;
+        this.baseString.oauthSignatureMethod(signatureMethod);
+        return this;
     }
 
     // -------------------------------------------------------------------------
     private final String signatureMethod;
 
-    private OAuthBaseString baseStringBuilder;
+    private OAuthBaseString baseString;
 }

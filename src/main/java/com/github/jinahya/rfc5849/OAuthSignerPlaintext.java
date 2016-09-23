@@ -16,7 +16,6 @@
 package com.github.jinahya.rfc5849;
 
 import static com.github.jinahya.rfc5849._Percent.encodePercent;
-import static com.github.jinahya.rfc5849._Percent.encodePercent;
 
 /**
  * A signature builder for {@code PLAINTEXT}.
@@ -25,7 +24,10 @@ import static com.github.jinahya.rfc5849._Percent.encodePercent;
  */
 public class OAuthSignerPlaintext extends OAuthSigner {
 
-    private static final String SIGNATURE_METHOD = "PLAINTEXT";
+    /**
+     * The signature method name whose value is {@value #SIGNATURE_METHOD}.
+     */
+    public static final String SIGNATURE_METHOD = "PLAINTEXT";
 
     // -------------------------------------------------------------------------
     OAuthSignerPlaintext(final String signatureMethod) {

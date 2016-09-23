@@ -54,7 +54,7 @@ public abstract class OAuthSignerHmacSha1Test<T extends OAuthSignerHmacSha1>
         builder
                 .consumerSecret(consumerSecret)
                 .tokenSecret(tokenSecret)
-                .baseStringBuilder(new OAuthBaseString() {
+                .baseString(new OAuthBaseString() {
                     @Override
                     public String build() {
                         return baseString;
@@ -84,7 +84,7 @@ public abstract class OAuthSignerHmacSha1Test<T extends OAuthSignerHmacSha1>
         builder
                 .consumerSecret(consumerSecret)
                 .tokenSecret(tokenSecret)
-                .baseStringBuilder(new OAuthBaseString() {
+                .baseString(new OAuthBaseString() {
                     @Override
                     public String build() {
                         return baseString;

@@ -30,6 +30,6 @@ public class SimpleTimestampBuilderTest {
 
     @Test
     public void build() throws Exception {
-        final String built = new SimpleOAuthTimestamp().build();
+        final String built = new SimpleOAuthTimestamp().generate();
     }
 }

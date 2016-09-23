@@ -19,12 +19,15 @@ import java.security.PrivateKey;
 import java.security.Signature;
 
 /**
- * A signature builder uses Java Cryptography Architecture.
+ * A request signer uses Java Cryptography Architecture.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class OAuthSignerRsaSha1Jca extends OAuthSignerRsaSha1<PrivateKey> {
 
+    /**
+     * The algorithm name whose value is {@value #ALGORITHM}.
+     */
     protected static final String ALGORITHM = "SHA1withRSA";
 
     @Override
