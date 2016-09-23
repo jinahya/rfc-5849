@@ -104,5 +104,5 @@ final OAuthAuthentication authentication = new OAuthAuthentication()
         )
     );
 
-final String header = authentication.authorizationHeader();
+final String header = authentication.toHeader();
 ````
