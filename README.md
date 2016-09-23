@@ -9,6 +9,7 @@ implementation of [The OAuth 1.0 Protocol](https://tools.ietf.org/html/rfc5849).
 ## components
 
 ### `OAuthBaseString`
+For building values defined in [3.4.1. Signature Base String](https://tools.ietf.org/html/rfc5849#section-3.4.1).
 ````java
 final OAuthBaseString baseString = new OAuthBaseString();
 ````
@@ -19,7 +20,7 @@ baseString.baseUri(baseUri);
 baseString.queryParameter(key, value);
 baseString.protocolParameter(key, value); // key must start with 'oauth_'
 baseString.entityParameter(key, value);
-````
+```
 
 ### `OAuthSigner`
 
@@ -69,13 +70,13 @@ new OAuthSignerPlaintext();
 ````java
 final OAuthAuthentication authentication = new OAuthAuthentication();
 authentication.realm(realm);
-authentication.signer(oAuthSigner);
+authentication.signer(signer); // OAuthSigner
 ```
 Three kinds of output defined in [3.5. Parameter Transmission](https://tools.ietf.org/html/rfc5849#section-3.5) are supported.
 ```
-final String header = authentication.authorizationHeader();
-final String body = authentication.formEncodedBody();
-final String query = authentication.requestUriQuery();
+final String header = authentication.toHeader(); // Authorization Header
+final String body = authentication.toBody(); // Form-Encoded Body
+final String query = authentication.toQuery(); // Request URI Query
 ````
 
 ## examples
