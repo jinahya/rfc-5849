@@ -6,82 +6,89 @@ implementation of [The OAuth 1.0 Protocol](https://tools.ietf.org/html/rfc5849).
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.jinahya/rfc5849.svg?maxAge=2592000&style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.github.jinahya%22%20a%3A%22rfc5849%22)
 [![Javadocs](http://www.javadoc.io/badge/com.github.jinahya/rfc5849.svg?style=flat-square)](http://www.javadoc.io/doc/com.github.jinahya/rfc5849)
 
-## buiders
+## components
 
-### BaseStringBuilder
+### `OAuthBaseString`
 ````java
-final BaseStringBuilder builder = new BaseStringBuilder();
+final OAuthBaseString baseString = new OAuthBaseString();
 ````
 You can use following methods to set values.
 ````java
-builder.httpMethod(httpMethod);
-builder.baseUri(baseUri);
-builder.queryParameter(key, value);
-builder.protocolParameter(key, value); // key must start with 'oauth_'
-builder.entityParameter(key, value);
+baseString.httpMethod(httpMethod);
+baseString.baseUri(baseUri);
+baseString.queryParameter(key, value);
+baseString.protocolParameter(key, value); // key must start with 'oauth_'
+baseString.entityParameter(key, value);
 ````
 
-### SignatureBuilder
+### `OAuthSigner`
 
-|class                        |method   |platform|
-|-----------------------------|---------|--------|
-|`SignatureBuilderHmacSha1Bc` |HMAC-SHA1|BC      |
-|`SignatureBuilderHmacSha1Jca`|HMAC-SHA1|JCA     |
-|`SignatureBuilderRsaSha1Bc`  |RSA-SHA1 |BC      |
-|`SignatureBuilderRsaSha1Jca` |RSA-SHA1 |JCA     |
-|`SignatureBuilderPlaintext`  |PLAINTEXT|        |
+|class                   |method     |platform|
+|------------------------|-----------|--------|
+|`OAuthSignerHmacSha1Bc` |`HMAC-SHA1`|BC      |
+|`OAuthSignerHmacSha1Jca`|`HMAC-SHA1`|JCA     |
+|`OAuthSignerRsaSha1Bc`  |`RSA-SHA1` |BC      |
+|`OAuthSignerRsaSha1Jca` |`RSA-SHA1` |JCA     |
+|`OAuthSignerPlaintext`  |`PLAINTEXT`|        |
 
-#### HMAC-SHA1
+#### `HMAC-SHA1`
 
-There are two implementations. One for Java Cryptograph Architexture/Extention and one for Bouncy Castle.
+There are two implementations. One is for Java [Cryptograph Architexture](http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) and the other is for [Legion of the Bouncy Castle](http://www.bouncycastle.org/java.html).
 ````java
-new SignatureBuilderHmacSha1Bc();
-new SignatureBuilderHmacSha1Jca();
+final OAuthSignerHmacSha1 signer = new OAuthSignerHmacSha1Bc();
+final OAuthSignerHmacSha1 signer = new OAuthSignerHmacSha1Jca();
 ````
-When you create a builder you can use following methods to set values.
+You can use following methods to set values.
 ````java
-signatureBuilder.consumerSecret(consumerSecret);
-signatureBuilder.tokenSecret(tokenSecret);
-signatureBuilder.baseStringBuilder(baseStringBuilder);
+signer.consumerSecret(consumerSecret);
+signer.tokenSecret(tokenSecret);
+signer.baseString(baseString); // OAuthBaseString
 ````
 
-#### RSA-SHA1
+#### `RSA-SHA1`
 
+There are, again, two implementations.  One is for Java [Cryptograph Architexture](http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) and the other is for [Legion of the Bouncy Castle](http://www.bouncycastle.org/java.html).
 ````java
-new SignatureBuilderRsaSha1Bc();
-new SignatureBuilderRsaSha1Jca();
+final OAuthSignerRsaSha1 signer = new OAuthSignerRsaSha1Bc(); // BC
+final OAuthSignerRsaSha1 signer = new OAuthSignerRsaSha1Jca(); // JCA
 ```
 You can use following methods to set values.
 ````java
-signatureBuilder.privateKey(privateKey);
-signatureBuidler.baseStringBuilder(baseStringBuilder);
+signer.initParam(PrivateKey privateKey); // JCA
+signer.initParam(CipherParameter cipherParameter); // BC
 ````
 
-#### PLAINTEXT
+#### `PLAINTEXT`
 
 ````java
-new SignaatureBuilderPlaintext();
+new OAuthSignerPlaintext();
 ````
 
-### AuthorizationBuilder
+### `OAuthAuthentication`
 
 ````java
-final AuthorizationBuilder authorizationBuilder = new AuthorizationBuilder();
-authorizationBuilder.realm(realm);
-authorizationBuilder.signatureBuilder(signatureBuilder);
+final OAuthAuthentication authentication = new OAuthAuthentication();
+authentication.realm(realm);
+authentication.signer(oAuthSigner);
+```
+Three kinds of output defined in [3.5. Parameter Transmission](https://tools.ietf.org/html/rfc5849#section-3.5) are supported.
+```
+final String header = authentication.authorizationHeader();
+final String body = authentication.formEncodedBody();
+final String query = authentication.requestUriQuery();
 ````
 
 ## examples
 
 ````java
-final AuthorizationBuilder builder = new AuthorizationBuilder()
+final OAuthAuthentication authentication = new OAuthAuthentication()
     .realm("Example")
-    .signatureBuilder(
-        new SignatureBuilderHmacSha1Bc()
+    .signer(
+        new OAuthSignerHmacSha1Bc()
             .consumerSecret("j49sk3j29djd")
             .tokenSecret("dh893hdasih9")
-            .baseStringBuilder(
-                new BaseStringBuilder()
+            .baseString(
+                new OAuthBaseString()
                     .httpMethod("POST")
                     .baseUri("http://example.com/request")
                     .queryParameter("b5", "=%3D")
@@ -97,5 +104,5 @@ final AuthorizationBuilder builder = new AuthorizationBuilder()
         )
     );
 
-final String authorization = builder.build();
+final String header = authentication.authorizationHeader();
 ````
