@@ -11,11 +11,11 @@ implementation of [The OAuth 1.0 Protocol](https://tools.ietf.org/html/rfc5849).
 ### OAuthBaseString
 
 For building a [Signature Base String](https://tools.ietf.org/html/rfc5849#section-3.4.1).
-````java
+```java
 final OAuthBaseString baseString = new OAuthBaseString();
-````
+```
 You can use following methods to set values.
-````java
+```java
 baseString.httpMethod(httpMethod);
 baseString.baseUri(baseUri);
 baseString.queryParameter(key, value);
@@ -76,7 +76,7 @@ request.realm(realm);
 request.signature(signature); // OAuthSignature
 ```
 Three kinds of output defined in [3.5. Parameter Transmission](https://tools.ietf.org/html/rfc5849#section-3.5) are supported.
-```
+```java
 final String header = request.authorizationHeader(); // Authorization Header
 final String body = request.formEncodedBody(); // Form-Encoded Body
 final String query = request.requestUriQuery(); // Request URI Query
@@ -109,4 +109,4 @@ final OAuthRequest request = new OAuthRequest()
     );
 
 final String header = request.authorizationHeader();
-````
+```
