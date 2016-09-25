@@ -35,20 +35,11 @@ public class OAuthBaseString {//implements Builder<String> {
 
     static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
 
-    static OAuthBaseString of(final String prebuilt) {
-        return new OAuthBaseString() {
-            @Override
-            public String get() {
-                return prebuilt;
-            }
-        };
-    }
-
     // -------------------------------------------------------------------------
     /**
-     * Builds the base string.
+     * Builds the signature base string.
      *
-     * @return the base string.
+     * @return the signature base string.
      */
     public String get() {
         if (httpMethod == null) {
@@ -103,7 +94,7 @@ public class OAuthBaseString {//implements Builder<String> {
         return requestParameters;
     }
 
-    private void add(final String key, final String value) {
+    private void addRequestParameter(final String key, final String value) {
         if (key == null) {
             throw new NullPointerException("null key");
         }
@@ -118,9 +109,9 @@ public class OAuthBaseString {//implements Builder<String> {
         values.add(value);
     }
 
-    private void put(final String key, final String value) {
+    private void putRequestParameter(final String key, final String value) {
         requestParameters().remove(key);
-        add(key, value);
+        addRequestParameter(key, value);
     }
 
     // -------------------------------------------------------------- httpMethod
@@ -175,11 +166,18 @@ public class OAuthBaseString {//implements Builder<String> {
                     "query parameter's key(" + key + ") starts with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
-        add(key, value);
+        addRequestParameter(key, value);
         return this;
     }
 
     // ------------------------------------------------------- protocolParameter
+    /**
+     * Sets a protocol parameter.
+     *
+     * @param key protocol parameter key
+     * @param value protocol parameter value.
+     * @return this instance
+     */
     public OAuthBaseString protocolParameter(final String key,
                                              final String value) {
         if (key == null) {
@@ -193,7 +191,7 @@ public class OAuthBaseString {//implements Builder<String> {
                     "key(" + key + ") doesn't start with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
-        put(key, value);
+        putRequestParameter(key, value);
         return this;
     }
 

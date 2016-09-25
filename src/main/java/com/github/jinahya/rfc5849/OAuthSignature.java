@@ -25,13 +25,6 @@ package com.github.jinahya.rfc5849;
  */
 public abstract class OAuthSignature {
 
-//    static OAuthSignature of(final String prebuilt) {
-//        return new OAuthSignature("irrelevant") {
-//            public String get() {
-//                return prebuilt;
-//            }
-//        };
-//    }
     // ------------------------------------------------------------ constructors
     OAuthSignature(final String signatureMethod) {
         super();
@@ -45,7 +38,7 @@ public abstract class OAuthSignature {
     /**
      * Generates a signature value for {@link OAuthConstants#OAUTH_SIGNATURE}.
      *
-     * @return a signature.
+     * @return a signature value
      * @throws Exception if an error occurs.
      */
     public abstract String get() throws Exception;

@@ -18,6 +18,7 @@ package com.github.jinahya.rfc5849;
 import static java.util.Objects.requireNonNull;
 
 /**
+ * An abstract class for testing {@link OAuthNonce}.
  *
  * @author Jin Kwon &lt;onacit at gmail.com&gt;
  * @param <T> OAuthNonce type parameter

@@ -19,6 +19,7 @@ import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseString_nouncer;
 import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseString_twitter;
 import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
 
 /**
  * An abstract class for testing {@link OAuthSigner} for {@code HMAC-SHA1}

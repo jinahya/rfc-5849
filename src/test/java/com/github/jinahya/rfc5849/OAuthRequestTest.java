@@ -22,6 +22,7 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 /**
+ * A test class for {@link OAuthRequest}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */

@@ -31,6 +31,15 @@ public class OAuthBaseStringTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
+    static OAuthBaseString baseStringOf(final String prebuilt) {
+        return new OAuthBaseString() {
+            @Override
+            public String get() {
+                return prebuilt;
+            }
+        };
+    }
+
     static OAuthBaseString baseString_twitter() {
         return new OAuthBaseString()
                 .httpMethod("POST")
