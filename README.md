@@ -27,8 +27,8 @@ baseString.entityParameter(key, value);
 
 For generating a [Signature](https://tools.ietf.org/html/rfc5849#section-3.4).
 
-|class                   |method     |platform|
-|------------------------|-----------|--------|
+|class                      |method     |platform|
+|---------------------------|-----------|--------|
 |`OAuthSignatureHmacSha1Bc` |`HMAC-SHA1`|BC      |
 |`OAuthSignatureHmacSha1Jca`|`HMAC-SHA1`|JCA     |
 |`OAuthSignatureRsaSha1Bc`  |`RSA-SHA1` |BC      |
@@ -68,27 +68,27 @@ signature.initParam(CipherParameter cipherParameter); // BC
 new OAuthSignaturePlaintext();
 ```
 
-### OAuthTransmission
+### OAuthRequest
 
 ```java
-final OAuthAuthentication authentication = new OAuthAuthentication();
-authentication.realm(realm);
-authentication.signer(signer); // OAuthSigner
+final OAuthRequest request = new OAuthAuthentication();
+request.realm(realm);
+request.signature(signature); // OAuthSignature
 ```
 Three kinds of output defined in [3.5. Parameter Transmission](https://tools.ietf.org/html/rfc5849#section-3.5) are supported.
 ```
-final String header = authentication.toHeader(); // Authorization Header
-final String body = authentication.toBody(); // Form-Encoded Body
-final String query = authentication.toQuery(); // Request URI Query
+final String header = request.authorizationHeader(); // Authorization Header
+final String body = request.formEncodedBody(); // Form-Encoded Body
+final String query = request.requestUriQuery(); // Request URI Query
 ```
 
 ## Examples
 
 ```java
-final OAuthAuthentication authentication = new OAuthAuthentication()
+final OAuthRequest request = new OAuthRequest()
     .realm("Example")
-    .signer(
-        new OAuthSignerHmacSha1Bc()
+    .signature(
+        new OAuthSignatureHmacSha1Bc()
             .consumerSecret("j49sk3j29djd")
             .tokenSecret("dh893hdasih9")
             .baseString(
@@ -108,5 +108,5 @@ final OAuthAuthentication authentication = new OAuthAuthentication()
         )
     );
 
-final String header = authentication.toHeader();
+final String header = request.authorizationHeader();
 ````
