@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class OAuthAuthenticationTest {
+public class OAuthRequestTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -42,9 +42,9 @@ public class OAuthAuthenticationTest {
      */
     @Test
     public void twitterExample() throws Exception {
-        final OAuthAuthentication builder = new OAuthAuthentication()
-                .signer(
-                        new OAuthSignerHmacSha1Jca()
+        final OAuthRequest builder = new OAuthRequest()
+                .signature(
+                        new OAuthSignatureHmacSha1Jca()
                         .consumerSecret("kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw")
                         .tokenSecret("LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE")
                         .baseString(
@@ -61,7 +61,7 @@ public class OAuthAuthenticationTest {
                                 .entityParameter("status", "Hello Ladies + Gentlemen, a signed OAuth request!")
                         )
                 );
-        final String actual = builder.toHeader();
+        final String actual = builder.authorizationHeader();
         final String documented
                 = "OAuth"
                   + " oauth_consumer_key=\"xvz1evFS4wEEPTGEFPHBog\""
@@ -112,10 +112,10 @@ public class OAuthAuthenticationTest {
                   + " oauth_timestamp=\"1191242096\","
                   + " oauth_token=\"nnch734d00sl2jdk\","
                   + " oauth_version=\"1.0\"";
-        final OAuthAuthentication builder = new OAuthAuthentication()
+        final OAuthRequest builder = new OAuthRequest()
                 .realm("http://photos.example.net/photos")
-                .signer(
-                        new OAuthSignerHmacSha1Jca()
+                .signature(
+                        new OAuthSignatureHmacSha1Jca()
                         .consumerSecret("kd94hf93k423kf44")
                         .tokenSecret("pfkkdhi9sl3r4s00")
                         .baseString(
@@ -132,7 +132,7 @@ public class OAuthAuthenticationTest {
                                 .oauthVersion("1.0")
                         )
                 );
-        final String actual = builder.toHeader();
+        final String actual = builder.authorizationHeader();
         assertEquals(actual, expected);
     }
 
@@ -166,10 +166,10 @@ public class OAuthAuthenticationTest {
                       + " oauth_signature=\"74KNZJeDHnMBp0EMJ9ZHt%2FXKycU%3D\","
                       + " oauth_signature_method=\"HMAC-SHA1\","
                       + " oauth_timestamp=\"137131200\"";
-            final OAuthAuthentication builder = new OAuthAuthentication()
+            final OAuthRequest builder = new OAuthRequest()
                     .realm("Photos")
-                    .signer(
-                            new OAuthSignerHmacSha1Bc()
+                    .signature(
+                            new OAuthSignatureHmacSha1Bc()
                             .consumerSecret(consumerSecret)
                             .tokenSecret("")
                             .baseString(
@@ -182,7 +182,7 @@ public class OAuthAuthenticationTest {
                                     .oauthCallback("http://printer.example.com/ready")
                             )
                     );
-            final String actual = builder.toHeader();
+            final String actual = builder.authorizationHeader();
             assertEquals(actual, expected);
         }
         {
@@ -209,10 +209,10 @@ public class OAuthAuthenticationTest {
                       + " oauth_timestamp=\"137131201\","
                       + " oauth_token=\"hh5s93j4hdidpola\","
                       + " oauth_verifier=\"hfdp7dh39dks9884\"";
-            final OAuthAuthentication builder = new OAuthAuthentication()
+            final OAuthRequest builder = new OAuthRequest()
                     .realm("Photos")
-                    .signer(
-                            new OAuthSignerHmacSha1Bc()
+                    .signature(
+                            new OAuthSignatureHmacSha1Bc()
                             .consumerSecret(consumerSecret)
                             .tokenSecret(oauthTokenSecret)
                             .baseString(
@@ -226,7 +226,7 @@ public class OAuthAuthenticationTest {
                                     .oauthVerifier(oauthVerifier)
                             )
                     );
-            final String actual = builder.toHeader();
+            final String actual = builder.authorizationHeader();
             assertEquals(actual, expected);
         }
         {
@@ -250,10 +250,10 @@ public class OAuthAuthenticationTest {
                       + " oauth_signature_method=\"HMAC-SHA1\","
                       + " oauth_timestamp=\"137131202\","
                       + " oauth_token=\"nnch734d00sl2jdk\"";
-            final OAuthAuthentication builder = new OAuthAuthentication()
+            final OAuthRequest builder = new OAuthRequest()
                     .realm("Photos")
-                    .signer(
-                            new OAuthSignerHmacSha1Bc()
+                    .signature(
+                            new OAuthSignatureHmacSha1Bc()
                             .consumerSecret(consumerSecret)
                             .tokenSecret(oauthTokenSecret)
                             .baseString(
@@ -268,7 +268,7 @@ public class OAuthAuthenticationTest {
                                     .queryParameter("size", "original")
                             )
                     );
-            final String actual = builder.toHeader();
+            final String actual = builder.authorizationHeader();
             assertEquals(actual, expected);
         }
     }
@@ -296,10 +296,10 @@ public class OAuthAuthenticationTest {
                   + " oauth_consumer_key=\"jd83jd92dhsh93js\","
                   + " oauth_signature=\"ja893SD9%26\","
                   + " oauth_signature_method=\"PLAINTEXT\"";
-        final OAuthAuthentication builder = new OAuthAuthentication()
+        final OAuthRequest builder = new OAuthRequest()
                 .realm("Example")
-                .signer(
-                        new OAuthSignerPlaintext()
+                .signature(
+                        new OAuthSignaturePlaintext()
                         .consumerSecret("ja893SD9")
                         .tokenSecret("")
                         .baseString(
@@ -308,7 +308,7 @@ public class OAuthAuthenticationTest {
                                 .oauthCallback("http://client.example.net/cb?x=1")
                         )
                 );
-        final String actual = builder.toHeader();
+        final String actual = builder.authorizationHeader();
         assertEquals(actual, expected);
     }
 
@@ -337,10 +337,10 @@ public class OAuthAuthenticationTest {
                   + " oauth_signature_method=\"PLAINTEXT\","
                   + " oauth_token=\"hdk48Djdsa\","
                   + " oauth_verifier=\"473f82d3\"";
-        final OAuthAuthentication builder = new OAuthAuthentication()
+        final OAuthRequest builder = new OAuthRequest()
                 .realm("Example")
-                .signer(
-                        new OAuthSignerPlaintext()
+                .signature(
+                        new OAuthSignaturePlaintext()
                         .consumerSecret("ja893SD9")
                         .tokenSecret("xyz4992k83j47x0b")
                         .baseString(
@@ -350,7 +350,7 @@ public class OAuthAuthenticationTest {
                                 .oauthVerifier("473f82d3")
                         )
                 );
-        final String actual = builder.toHeader();
+        final String actual = builder.authorizationHeader();
         assertEquals(actual, expected);
     }
 
@@ -382,10 +382,10 @@ public class OAuthAuthenticationTest {
                   + " oauth_signature_method=\"HMAC-SHA1\","
                   + " oauth_timestamp=\"137131201\","
                   + " oauth_token=\"kkk9d7dh3k39sjv7\"";
-        final OAuthAuthentication builder = new OAuthAuthentication()
+        final OAuthRequest builder = new OAuthRequest()
                 .realm("Example")
-                .signer(
-                        new OAuthSignerHmacSha1Bc()
+                .signature(
+                        new OAuthSignatureHmacSha1Bc()
                         .consumerSecret("j49sk3j29djd")
                         .tokenSecret("dh893hdasih9")
                         .baseString(
@@ -404,7 +404,7 @@ public class OAuthAuthenticationTest {
                                 .entityParameter("a3", "2 q")
                         )
                 );
-        final String actual = builder.toHeader();
+        final String actual = builder.authorizationHeader();
         assertEquals(actual, expected);
     }
 }

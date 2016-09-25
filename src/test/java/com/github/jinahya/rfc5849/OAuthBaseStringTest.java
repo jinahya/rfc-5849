@@ -112,7 +112,7 @@ public class OAuthBaseStringTest {
                   + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
                   + "%26oauth_version%3D1.0"
                   + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521";
-        final String actual = baseString.build();
+        final String actual = baseString.get();
         assertEquals(actual, expected);
     }
 
@@ -138,7 +138,7 @@ public class OAuthBaseStringTest {
                   + "%26oauth_token%3Dnnch734d00sl2jdk"
                   + "%26oauth_version%3D1.0"
                   + "%26size%3Doriginal";
-        final String actual = baseString.build();
+        final String actual = baseString.get();
         assertEquals(actual, expected);
     }
 
@@ -152,7 +152,7 @@ public class OAuthBaseStringTest {
     @Test(enabled = true)
     public void rfc5849_3_4_1_1() throws Exception {
         final OAuthBaseString baseString = baseString_rfc5849_3_4_1_1();
-        final String actual = baseString.build();
+        final String actual = baseString.get();
         final String expected
                 = "POST"
                   + "&http%3A%2F%2Fexample.com%2Frequest"
@@ -176,7 +176,7 @@ public class OAuthBaseStringTest {
                 .baseUri("baseUri")
                 .oauthNonce("oauthNonce")
                 .oauthTimestamp("oauthTimestamp")
-                .build();
+                .get();
     }
 
     @Test(expectedExceptions = {IllegalStateException.class})
@@ -185,7 +185,7 @@ public class OAuthBaseStringTest {
                 .httpMethod("httpMethod")
                 .oauthNonce("oauthNonce")
                 .oauthTimestamp("oauthTimestamp")
-                .build();
+                .get();
     }
 
     @Test(expectedExceptions = {IllegalStateException.class})
@@ -194,7 +194,7 @@ public class OAuthBaseStringTest {
                 .httpMethod("httpMethod")
                 .baseUri("baseUri")
                 .oauthTimestamp("oauthTimestamp")
-                .build();
+                .get();
     }
 
     @Test(expectedExceptions = {IllegalStateException.class})
@@ -203,6 +203,6 @@ public class OAuthBaseStringTest {
                 .httpMethod("httpMethod")
                 .baseUri("baseUri")
                 .oauthNonce("oauthNonce")
-                .build();
+                .get();
     }
 }

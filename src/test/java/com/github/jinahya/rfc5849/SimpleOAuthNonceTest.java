@@ -21,15 +21,25 @@ import static org.slf4j.LoggerFactory.getLogger;
 import org.testng.annotations.Test;
 
 /**
+ * Test class for {@link SimpleOAuthNonce}.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
-public class SimpleTimestampBuilderTest {
+public class SimpleOAuthNonceTest extends OAuthNonceTest<SimpleOAuthNonce> {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
     @Test
-    public void build() throws Exception {
-        final String built = new SimpleOAuthTimestamp().generate();
+    public static void of() throws Exception {
+        final String built = SimpleOAuthNonce.of("device", "agent").get();
+    }
+
+    public SimpleOAuthNonceTest() {
+        super(SimpleOAuthNonce.class);
+    }
+
+    @Test
+    public void get() throws Exception {
+        final String nonce = newInstance().get();
     }
 }

@@ -24,7 +24,7 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.2">3.4.2.
  * HMAC-SHA1</a>
  */
-public abstract class OAuthSignerHmacSha1 extends OAuthSignerPlaintext {
+public abstract class OAuthSignatureHmacSha1 extends OAuthSignaturePlaintext {
 
     /**
      * The signature method name whose value is {@value #SIGNATURE_METHOD}.
@@ -34,23 +34,23 @@ public abstract class OAuthSignerHmacSha1 extends OAuthSignerPlaintext {
     /**
      * Creates a new instance.
      */
-    public OAuthSignerHmacSha1() {
+    public OAuthSignatureHmacSha1() {
         super(SIGNATURE_METHOD);
     }
 
     // -------------------------------------------------------------------------
     @Override
-    public String sign() throws Exception {
+    public String get() throws Exception {
         final OAuthBaseString baseString = baseString();
         if (baseString == null) {
             throw new IllegalStateException("no baseString set");
         }
-        final String keyString = super.sign(); // consumerSecret&tokenSecret
+        final String keyString = super.get(); // consumerSecret&tokenSecret
         final byte[] keyBytes = keyString.getBytes("ISO-8859-1");
-        final byte[] baseBytes = baseString.build().getBytes("ISO-8859-1");
-        final byte[] signature = sign(keyBytes, baseBytes);
+        final byte[] baseBytes = baseString.get().getBytes("ISO-8859-1");
+        final byte[] signature = get(keyBytes, baseBytes);
         return encodeBase64ToString(signature);
     }
 
-    abstract byte[] sign(byte[] keyBytes, byte[] baseBytes) throws Exception;
+    abstract byte[] get(byte[] keyBytes, byte[] baseBytes) throws Exception;
 }

@@ -29,5 +29,5 @@ public interface OAuthNonce {
      *
      * @return a nonce value
      */
-    String generate();
+    String get();
 }

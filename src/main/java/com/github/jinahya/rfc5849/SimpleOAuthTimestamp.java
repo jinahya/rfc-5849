@@ -33,7 +33,7 @@ public class SimpleOAuthTimestamp implements OAuthTimestamp {
      * @return {@inheritDoc}
      */
     @Override
-    public String generate() {
+    public String get() {
         return Long.toString(currentTimeMillis() / 1000L);
     }
 }

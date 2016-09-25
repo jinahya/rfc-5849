@@ -15,7 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.OAuthSignerTest.random;
+import static com.github.jinahya.rfc5849.OAuthSignatureTest.random;
 import java.io.File;
 import static java.io.File.createTempFile;
 import java.io.FileOutputStream;

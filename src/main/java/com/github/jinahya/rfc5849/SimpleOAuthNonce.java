@@ -45,8 +45,8 @@ public class SimpleOAuthNonce implements OAuthNonce {
         final String prefix = builder.toString();
         return new SimpleOAuthNonce() {
             @Override
-            public String generate() {
-                return prefix + super.generate();
+            public String get() {
+                return prefix + super.get();
             }
         };
     }
@@ -58,7 +58,7 @@ public class SimpleOAuthNonce implements OAuthNonce {
      * @return {@inheritDoc}
      */
     @Override
-    public String generate() {
+    public String get() {
         return Long.toString(random().nextLong());
     }
 

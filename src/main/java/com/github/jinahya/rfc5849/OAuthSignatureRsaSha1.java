@@ -25,7 +25,7 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.3">3.4.3.
  * RSA-SHA1 (RFC 5849)</a>
  */
-public abstract class OAuthSignerRsaSha1<T> extends OAuthSigner {
+public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
 
     /**
      * The signature method name whose value is {@value #SIGNATURE_METHOD}.
@@ -36,13 +36,13 @@ public abstract class OAuthSignerRsaSha1<T> extends OAuthSigner {
     /**
      * Creates a new instance.
      */
-    public OAuthSignerRsaSha1() {
+    public OAuthSignatureRsaSha1() {
         super(SIGNATURE_METHOD);
     }
 
     // -------------------------------------------------------------------------
     @Override
-    public String sign() throws Exception {
+    public String get() throws Exception {
         final OAuthBaseString baseStringBuilder = baseString();
         if (baseStringBuilder == null) {
             throw new IllegalStateException("no baseStringBuilder set");
@@ -50,13 +50,13 @@ public abstract class OAuthSignerRsaSha1<T> extends OAuthSigner {
         if (initParam == null) {
             throw new IllegalStateException("no initParam set");
         }
-        final String baseString = baseStringBuilder.build();
+        final String baseString = baseStringBuilder.get();
         final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
-        final byte[] built = build(initParam, baseBytes);
-        return encodeBase64ToString(built);
+        final byte[] signature = get(initParam, baseBytes);
+        return encodeBase64ToString(signature);
     }
 
-    abstract byte[] build(T initParam, byte[] baseBytes) throws Exception;
+    abstract byte[] get(T initParam, byte[] baseBytes) throws Exception;
 
     // -------------------------------------------------------------------------
     /**
@@ -65,7 +65,7 @@ public abstract class OAuthSignerRsaSha1<T> extends OAuthSigner {
      * @param initParam a initialization parameter.
      * @return this instance.
      */
-    public OAuthSignerRsaSha1<T> initParam(final T initParam) {
+    public OAuthSignatureRsaSha1<T> initParam(final T initParam) {
         this.initParam = initParam;
         return this;
     }

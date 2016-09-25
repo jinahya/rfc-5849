@@ -31,25 +31,9 @@ import java.util.TreeMap;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.1">3.5.1.
  * Authorization Header (RFC 5849)</a>
  */
-public class OAuthAuthentication {//implements Builder<String> {
+public class OAuthRequest {
 
     private static final String REALM = "realm";
-
-    /**
-     * Creates a new authorization builder whose {@link #toHeader()} method
-     * always returns given value.
-     *
-     * @param prebuilt the value
-     * @return a new authorization builder.
-     */
-    static OAuthAuthentication of(final String prebuilt) {
-        return new OAuthAuthentication() {
-            @Override
-            public String toHeader() {
-                return prebuilt;
-            }
-        };
-    }
 
     // ------------------------------------------------------------------- realm
     /**
@@ -58,7 +42,7 @@ public class OAuthAuthentication {//implements Builder<String> {
      * @param realm the realm value
      * @return this instance
      */
-    public OAuthAuthentication realm(final String realm) {
+    public OAuthRequest realm(final String realm) {
         this.realm = realm;
         return this;
     }
@@ -72,16 +56,16 @@ public class OAuthAuthentication {//implements Builder<String> {
      * @throws Exception if an error occurs.
      */
     public SortedMap<String, String> protocolParameters() throws Exception {
-        if (signer == null) {
+        if (signature == null) {
             throw new IllegalStateException("no signer set");
         }
-        final OAuthBaseString baseString = signer.baseString();
+        final OAuthBaseString baseString = signature.baseString();
         if (baseString == null) {
             throw new IllegalStateException("no baseString on the signer");
         }
         final SortedMap<String, String> protocolParameters
                 = new TreeMap<String, String>();
-        final String oauthSignature = signer.sign();
+        final String oauthSignature = signature.get();
         protocolParameters.put(OAuthConstants.OAUTH_SIGNATURE, oauthSignature);
         for (final Entry<String, List<String>> entiry
              : baseString.requestParameters().entrySet()) {
@@ -102,7 +86,7 @@ public class OAuthAuthentication {//implements Builder<String> {
      * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.1">3.5.1.
      * Authorization Header (RFC 5849)</a>
      */
-    public String toHeader() throws Exception {
+    public String authorizationHeader() throws Exception {
         final Map<String, String> protocolParameters = protocolParameters();
         final StringBuilder builder = new StringBuilder("OAuth");
         {
@@ -149,7 +133,7 @@ public class OAuthAuthentication {//implements Builder<String> {
      * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.2">3.5.2.
      * Form-Encoded Body (RFC 5849)</a>
      */
-    public String toBody() throws Exception {
+    public String formEncodedBody() throws Exception {
         final Map<String, String> protocolParameters = protocolParameters();
         final StringBuilder builder = new StringBuilder();
         {
@@ -182,7 +166,7 @@ public class OAuthAuthentication {//implements Builder<String> {
      * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.3">3.5.3.
      * Request URI Query (RFC 5849)</a>
      */
-    public String toQuery() throws Exception {
+    public String requestUriQuery() throws Exception {
         final Map<String, String> protocolParameters = protocolParameters();
         final StringBuilder builder = new StringBuilder();
         {
@@ -207,20 +191,20 @@ public class OAuthAuthentication {//implements Builder<String> {
         return builder.toString();
     }
 
-    // --------------------------------------------------------- sinatureBuilder
+    // --------------------------------------------------------------- signature
     /**
-     * Sets a signer.
+     * Sets a signature.
      *
-     * @param signer the signer.
+     * @param signature the signature.
      * @return this instance
      */
-    public OAuthAuthentication signer(final OAuthSigner signer) {
-        this.signer = signer;
+    public OAuthRequest signature(final OAuthSignature signature) {
+        this.signature = signature;
         return this;
     }
 
     // -------------------------------------------------------------------------
     private String realm;
 
-    private OAuthSigner signer;
+    private OAuthSignature signature;
 }

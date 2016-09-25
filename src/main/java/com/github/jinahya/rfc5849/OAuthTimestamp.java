@@ -30,5 +30,5 @@ public interface OAuthTimestamp {
      *
      * @return a timestamp value
      */
-    String generate();
+    String get();
 }

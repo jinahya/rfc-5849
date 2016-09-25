@@ -16,17 +16,17 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * Tests {@link OAuthSignerHmacSha1Jca}.
+ * Tests {@link OAuthSignerHmacSha1Bc}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class OAuthSignerHmacSha1JcaTest
-        extends OAuthSignerHmacSha1Test<OAuthSignerHmacSha1Jca> {
+public class OAuthSignatureHmacSha1BcTest
+        extends OAuthSignatureHmacSha1Test<OAuthSignatureHmacSha1Bc> {
 
     /**
      * Creates a new instance.
      */
-    public OAuthSignerHmacSha1JcaTest() {
-        super(OAuthSignerHmacSha1Jca.class);
+    public OAuthSignatureHmacSha1BcTest() {
+        super(OAuthSignatureHmacSha1Bc.class);
     }
 }

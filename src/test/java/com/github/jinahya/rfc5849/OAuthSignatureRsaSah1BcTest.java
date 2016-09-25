@@ -35,8 +35,8 @@ import static org.testng.Assert.fail;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class OAuthSignerRsaSah1BcTest
-        extends OAuthSignerRsaSha1Test<OAuthSignerRsaSha1Bc, CipherParameters> {
+public class OAuthSignatureRsaSah1BcTest
+        extends OAuthSignatureRsaSha1Test<OAuthSignatureRsaSha1Bc, CipherParameters> {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -97,8 +97,8 @@ public class OAuthSignerRsaSah1BcTest
     /**
      * Creates a new instance.
      */
-    public OAuthSignerRsaSah1BcTest() {
-        super(OAuthSignerRsaSha1Bc.class);
+    public OAuthSignatureRsaSah1BcTest() {
+        super(OAuthSignatureRsaSha1Bc.class);
     }
 
     @Override

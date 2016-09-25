@@ -27,10 +27,10 @@ import org.testng.annotations.Test;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> implementation type parameter
  */
-public abstract class OAuthSignerHmacSha1Test<T extends OAuthSignerHmacSha1>
-        extends OAuthSignerTest<T> {
+public abstract class OAuthSignatureHmacSha1Test<T extends OAuthSignatureHmacSha1>
+        extends OAuthSignatureTest<T> {
 
-    public OAuthSignerHmacSha1Test(final Class<T> singerClass) {
+    public OAuthSignatureHmacSha1Test(final Class<T> singerClass) {
         super(singerClass);
     }
 
@@ -43,7 +43,7 @@ public abstract class OAuthSignerHmacSha1Test<T extends OAuthSignerHmacSha1>
         signer.consumerSecret(consumerSecret).tokenSecret(tokenSecret)
                 .baseString(baseString_twitter());
         final String expected = "tnnArxj06cWHq44gCs1OSKk/jLY=";
-        final String actual = signer.sign();
+        final String actual = signer.get();
         assertEquals(actual, expected);
     }
 
@@ -51,11 +51,11 @@ public abstract class OAuthSignerHmacSha1Test<T extends OAuthSignerHmacSha1>
     public void nouncerExample() throws Exception {
         final String consumerSecret = "kd94hf93k423kf44";
         final String tokenSecret = "pfkkdhi9sl3r4s00";
-        final T signer = newInstance();
-        signer.consumerSecret(consumerSecret).tokenSecret(tokenSecret)
+        final T signature = newInstance();
+        signature.consumerSecret(consumerSecret).tokenSecret(tokenSecret)
                 .baseString(baseString_nouncer());
         final String expected = "tR3+Ty81lMeYAr/Fid0kMTYa/WM=";
-        final String actual = signer.sign();
+        final String actual = signature.get();
         assertEquals(actual, expected);
     }
 }

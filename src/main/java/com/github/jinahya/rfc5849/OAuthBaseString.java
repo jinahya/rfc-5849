@@ -38,7 +38,7 @@ public class OAuthBaseString {//implements Builder<String> {
     static OAuthBaseString of(final String prebuilt) {
         return new OAuthBaseString() {
             @Override
-            public String build() {
+            public String get() {
                 return prebuilt;
             }
         };
@@ -50,7 +50,7 @@ public class OAuthBaseString {//implements Builder<String> {
      *
      * @return the base string.
      */
-    public String build() {//throws Exception {
+    public String get() {
         if (httpMethod == null) {
             throw new IllegalStateException("no httpMethod set");
         }
@@ -67,7 +67,8 @@ public class OAuthBaseString {//implements Builder<String> {
         }
         final Map<String, List<String>> encoded
                 = new TreeMap<String, List<String>>();
-        for (final Entry<String, List<String>> entry : requestParameters().entrySet()) {
+        for (final Entry<String, List<String>> entry
+             : requestParameters().entrySet()) {
             final String key = entry.getKey();
             final String encodedKey = encodePercent(key);
             final List<String> values = entry.getValue();

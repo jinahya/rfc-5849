@@ -24,7 +24,7 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> signature builder type parameter.
  */
-public abstract class OAuthSignerTest<T extends OAuthSigner> {
+public abstract class OAuthSignatureTest<T extends OAuthSignature> {
 
     static ThreadLocalRandom random() {
         return ThreadLocalRandom.current();
@@ -35,7 +35,7 @@ public abstract class OAuthSignerTest<T extends OAuthSigner> {
      *
      * @param singerClass the type of the {@link OAuthSigner}.
      */
-    public OAuthSignerTest(final Class<T> singerClass) {
+    public OAuthSignatureTest(final Class<T> singerClass) {
         super();
         this.signerClass = requireNonNull(singerClass, "null signerClass");
     }

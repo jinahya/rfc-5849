@@ -23,18 +23,17 @@ package com.github.jinahya.rfc5849;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4">3.4. Signature
  * (RFC 5849)</a>
  */
-public abstract class OAuthSigner {
+public abstract class OAuthSignature {
 
-    static OAuthSigner of(final String prebuilt) {
-        return new OAuthSigner("irrelevant") {
-            public String sign() {
-                return prebuilt;
-            }
-        };
-    }
-
+//    static OAuthSignature of(final String prebuilt) {
+//        return new OAuthSignature("irrelevant") {
+//            public String get() {
+//                return prebuilt;
+//            }
+//        };
+//    }
     // ------------------------------------------------------------ constructors
-    OAuthSigner(final String signatureMethod) {
+    OAuthSignature(final String signatureMethod) {
         super();
         if (signatureMethod == null) {
             throw new NullPointerException("null signatureMethod");
@@ -49,7 +48,7 @@ public abstract class OAuthSigner {
      * @return a signature.
      * @throws Exception if an error occurs.
      */
-    public abstract String sign() throws Exception;
+    public abstract String get() throws Exception;
 
     // --------------------------------------------------------- signatureMethod
     /**
@@ -78,7 +77,7 @@ public abstract class OAuthSigner {
      * @param baseString an instance of {@link OAuthBaseString}
      * @return this instance
      */
-    public OAuthSigner baseString(final OAuthBaseString baseString) {
+    public OAuthSignature baseString(final OAuthBaseString baseString) {
         if (baseString == null) {
             throw new NullPointerException("null baseString");
         }

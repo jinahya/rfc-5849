@@ -22,7 +22,7 @@ import static com.github.jinahya.rfc5849._Percent.encodePercent;
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class OAuthSignerPlaintext extends OAuthSigner {
+public class OAuthSignaturePlaintext extends OAuthSignature {
 
     /**
      * The signature method name whose value is {@value #SIGNATURE_METHOD}.
@@ -30,17 +30,17 @@ public class OAuthSignerPlaintext extends OAuthSigner {
     public static final String SIGNATURE_METHOD = "PLAINTEXT";
 
     // -------------------------------------------------------------------------
-    OAuthSignerPlaintext(final String signatureMethod) {
+    OAuthSignaturePlaintext(final String signatureMethod) {
         super(signatureMethod);
     }
 
-    public OAuthSignerPlaintext() {
+    public OAuthSignaturePlaintext() {
         this(SIGNATURE_METHOD);
     }
 
     // -------------------------------------------------------------------------
     @Override
-    public String sign() throws Exception {
+    public String get() throws Exception {
         if (consumerSecret == null) {
             throw new IllegalStateException("no consumerSecret set");
         }
@@ -57,7 +57,7 @@ public class OAuthSignerPlaintext extends OAuthSigner {
      * @param consumerSecret the consumer secret.
      * @return this instance
      */
-    public OAuthSignerPlaintext consumerSecret(final String consumerSecret) {
+    public OAuthSignaturePlaintext consumerSecret(final String consumerSecret) {
         this.consumerSecret = consumerSecret;
         return this;
     }
@@ -69,7 +69,7 @@ public class OAuthSignerPlaintext extends OAuthSigner {
      * @param tokenSecret the token secret
      * @return this instance
      */
-    public OAuthSignerPlaintext tokenSecret(final String tokenSecret) {
+    public OAuthSignaturePlaintext tokenSecret(final String tokenSecret) {
         this.tokenSecret = tokenSecret;
         return this;
     }

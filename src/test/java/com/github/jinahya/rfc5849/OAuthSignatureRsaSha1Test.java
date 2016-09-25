@@ -30,8 +30,8 @@ import org.testng.annotations.Test;
  * @param <T> implementation type parameter
  * @param <P> initParam type parameter
  */
-public abstract class OAuthSignerRsaSha1Test<T extends OAuthSignerRsaSha1<P>, P>
-        extends OAuthSignerTest<T> {
+public abstract class OAuthSignatureRsaSha1Test<T extends OAuthSignatureRsaSha1<P>, P>
+        extends OAuthSignatureTest<T> {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -96,7 +96,7 @@ public abstract class OAuthSignerRsaSha1Test<T extends OAuthSignerRsaSha1<P>, P>
      *
      * @param builderClass implementation class
      */
-    public OAuthSignerRsaSha1Test(final Class<T> builderClass) {
+    public OAuthSignatureRsaSha1Test(final Class<T> builderClass) {
         super(builderClass);
     }
 
@@ -104,7 +104,7 @@ public abstract class OAuthSignerRsaSha1Test<T extends OAuthSignerRsaSha1<P>, P>
 
     @Test
     public void test() throws Exception {
-        final OAuthSigner signatureBuilder
+        final OAuthSignature oauthSignature
                 = newInstance()
                 .initParam(newInitParam())
                 .baseString(OAuthBaseString.of(
@@ -119,7 +119,7 @@ public abstract class OAuthSignerRsaSha1Test<T extends OAuthSignerRsaSha1<P>, P>
                         + "%26oauth_version%3D1.0"
                         + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521"
                 ));
-        final String signature = signatureBuilder.sign();
+        final String signature = oauthSignature.get();
         logger.debug("signature: {}", signature);
     }
 }

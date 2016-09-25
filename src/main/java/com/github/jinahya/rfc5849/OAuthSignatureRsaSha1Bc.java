@@ -15,29 +15,27 @@
  */
 package com.github.jinahya.rfc5849;
 
-import org.bouncycastle.crypto.Mac;
+import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.Signer;
 import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.crypto.macs.HMac;
-import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.signers.RSADigestSigner;
 
 /**
- * A signature builder using the <b>Legion of the Bouncy Castle</b> Java
- * cryptography APIs.
+ * A signature builder uses Bouncy Castle.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://www.bouncycastle.org/java.html">The Legion of the
  * Bouncy Castle</a>
  */
-public class OAuthSignerHmacSha1Bc extends OAuthSignerHmacSha1 {
+public class OAuthSignatureRsaSha1Bc
+        extends OAuthSignatureRsaSha1<CipherParameters> {
 
     @Override
-    byte[] sign(final byte[] keyBytes, final byte[] baseBytes)
+    byte[] get(final CipherParameters initParam, final byte[] baseBytes)
             throws Exception {
-        final Mac mac = new HMac(new SHA1Digest());
-        mac.init(new KeyParameter(keyBytes));
-        mac.update(baseBytes, 0, baseBytes.length);
-        final byte[] output = new byte[mac.getMacSize()];
-        mac.doFinal(output, 0);
-        return output;
+        final Signer signer = new RSADigestSigner(new SHA1Digest());
+        signer.init(true, initParam);
+        signer.update(baseBytes, 0, baseBytes.length);
+        return signer.generateSignature();
     }
 }

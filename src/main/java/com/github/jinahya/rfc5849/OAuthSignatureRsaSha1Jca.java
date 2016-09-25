@@ -15,26 +15,31 @@
  */
 package com.github.jinahya.rfc5849;
 
-import org.bouncycastle.crypto.CipherParameters;
-import org.bouncycastle.crypto.Signer;
-import org.bouncycastle.crypto.digests.SHA1Digest;
-import org.bouncycastle.crypto.signers.RSADigestSigner;
+import java.security.PrivateKey;
+import java.security.Signature;
 
 /**
- * A signature builder uses Bouncy Castle.
+ * A request signer uses Java Cryptography Architecture.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @see <a href="https://www.bouncycastle.org/java.html">The Legion of the
- * Bouncy Castle</a>
+ * @see
+ * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java
+ * Cryptography Architecture (JCA) Reference Guide</a>
  */
-public class OAuthSignerRsaSha1Bc extends OAuthSignerRsaSha1<CipherParameters> {
+public class OAuthSignatureRsaSha1Jca
+        extends OAuthSignatureRsaSha1<PrivateKey> {
+
+    /**
+     * The algorithm name whose value is {@value #ALGORITHM}.
+     */
+    protected static final String ALGORITHM = "SHA1withRSA";
 
     @Override
-    byte[] build(final CipherParameters initParam, final byte[] baseBytes)
+    byte[] get(final PrivateKey initParam, final byte[] baseBytes)
             throws Exception {
-        final Signer signer = new RSADigestSigner(new SHA1Digest());
-        signer.init(true, initParam);
-        signer.update(baseBytes, 0, baseBytes.length);
-        return signer.generateSignature();
+        final Signature signature = Signature.getInstance(ALGORITHM);
+        signature.initSign(initParam);
+        signature.update(baseBytes);
+        return signature.sign();
     }
 }
