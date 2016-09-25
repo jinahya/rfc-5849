@@ -23,54 +23,54 @@ baseString.protocolParameter(key, value); // key must start with 'oauth_'
 baseString.entityParameter(key, value);
 ```
 
-### OAuthSigner
+### OAuthSignature
 
 For generating a [Signature](https://tools.ietf.org/html/rfc5849#section-3.4).
 
 |class                   |method     |platform|
 |------------------------|-----------|--------|
-|`OAuthSignerHmacSha1Bc` |`HMAC-SHA1`|BC      |
-|`OAuthSignerHmacSha1Jca`|`HMAC-SHA1`|JCA     |
-|`OAuthSignerRsaSha1Bc`  |`RSA-SHA1` |BC      |
-|`OAuthSignerRsaSha1Jca` |`RSA-SHA1` |JCA     |
-|`OAuthSignerPlaintext`  |`PLAINTEXT`|        |
+|`OAuthSignatureHmacSha1Bc` |`HMAC-SHA1`|BC      |
+|`OAuthSignatureHmacSha1Jca`|`HMAC-SHA1`|JCA     |
+|`OAuthSignatureRsaSha1Bc`  |`RSA-SHA1` |BC      |
+|`OAuthSignatureRsaSha1Jca` |`RSA-SHA1` |JCA     |
+|`OAuthSignaturePlaintext`  |`PLAINTEXT`|        |
 
 #### HMAC-SHA1
 
 There are two implementations. One is for Java [Cryptograph Architexture](http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) and the other is for [Legion of the Bouncy Castle](http://www.bouncycastle.org/java.html).
-````java
-final OAuthSignerHmacSha1 signer = new OAuthSignerHmacSha1Bc();
-final OAuthSignerHmacSha1 signer = new OAuthSignerHmacSha1Jca();
-````
+```java
+final OAuthSignatureHmacSha1 signature = new OAuthSignatureHmacSha1Bc();
+final OAuthSignatureHmacSha1 signature = new OAuthSignatureHmacSha1Jca();
+```
 You can use following methods to set values.
-````java
-signer.consumerSecret(consumerSecret);
-signer.tokenSecret(tokenSecret);
-signer.baseString(baseString); // OAuthBaseString
-````
+```java
+signature.consumerSecret(consumerSecret);
+signature.tokenSecret(tokenSecret);
+signature.baseString(baseString); // OAuthBaseString
+```
 
 #### RSA-SHA1
 
 There are, again, two implementations.  One is for Java [Cryptograph Architexture](http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) and the other is for [Legion of the Bouncy Castle](http://www.bouncycastle.org/java.html).
-````java
-final OAuthSignerRsaSha1 signer = new OAuthSignerRsaSha1Bc(); // BC
-final OAuthSignerRsaSha1 signer = new OAuthSignerRsaSha1Jca(); // JCA
+```java
+final OAuthSignatureRsaSha1 signature = new OAuthSignatureRsaSha1Bc(); // BC
+final OAuthSignatureRsaSha1 signature = new OAuthSignatureRsaSha1Jca(); // JCA
 ```
 You can use following methods to set values.
-````java
-signer.initParam(PrivateKey privateKey); // JCA
-signer.initParam(CipherParameter cipherParameter); // BC
-````
+```java
+signature.initParam(PrivateKey privateKey); // JCA
+signature.initParam(CipherParameter cipherParameter); // BC
+```
 
 #### PLAINTEXT
 
-````java
-new OAuthSignerPlaintext();
-````
+```java
+new OAuthSignaturePlaintext();
+```
 
-### OAuthAuthentication
+### OAuthTransmission
 
-````java
+```java
 final OAuthAuthentication authentication = new OAuthAuthentication();
 authentication.realm(realm);
 authentication.signer(signer); // OAuthSigner
@@ -80,11 +80,11 @@ Three kinds of output defined in [3.5. Parameter Transmission](https://tools.iet
 final String header = authentication.toHeader(); // Authorization Header
 final String body = authentication.toBody(); // Form-Encoded Body
 final String query = authentication.toQuery(); // Request URI Query
-````
+```
 
 ## Examples
 
-````java
+```java
 final OAuthAuthentication authentication = new OAuthAuthentication()
     .realm("Example")
     .signer(
