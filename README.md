@@ -71,7 +71,7 @@ new OAuthSignaturePlaintext();
 ### OAuthRequest
 
 ```java
-final OAuthRequest request = new OAuthAuthentication();
+final OAuthRequest request = new OAuthRequest();
 request.realm(realm);
 request.signature(signature); // OAuthSignature
 ```
