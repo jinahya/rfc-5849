@@ -39,8 +39,8 @@ For generating a [Signature](https://tools.ietf.org/html/rfc5849#section-3.4).
 
 There are two implementations. One is for Java [Cryptograph Architexture](http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html) and the other is for [Legion of the Bouncy Castle](http://www.bouncycastle.org/java.html).
 ```java
-final OAuthSignatureHmacSha1 signature = new OAuthSignatureHmacSha1Bc();
-final OAuthSignatureHmacSha1 signature = new OAuthSignatureHmacSha1Jca();
+final OAuthSignatureHmacSha1 signature = new OAuthSignatureHmacSha1Bc(); // BC
+final OAuthSignatureHmacSha1 signature = new OAuthSignatureHmacSha1Jca(); // JCA
 ```
 You can use following methods to set values.
 ```java
@@ -59,7 +59,7 @@ final OAuthSignatureRsaSha1 signature = new OAuthSignatureRsaSha1Jca(); // JCA
 You can use following methods to set values.
 ```java
 signature.initParam(PrivateKey privateKey); // JCA
-signature.initParam(CipherParameter cipherParameter); // BC
+signature.initParam(CipherParameters cipherParameters); // BC
 ```
 
 #### PLAINTEXT
