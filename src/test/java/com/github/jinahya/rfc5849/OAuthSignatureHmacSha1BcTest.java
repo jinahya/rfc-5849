@@ -29,4 +29,5 @@ public class OAuthSignatureHmacSha1BcTest
     public OAuthSignatureHmacSha1BcTest() {
         super(OAuthSignatureHmacSha1Bc.class);
     }
+
 }

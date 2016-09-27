@@ -33,7 +33,7 @@ import java.util.TreeMap;
  */
 public class OAuthBaseString {//implements Builder<String> {
 
-    static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
+    private static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
 
     // -------------------------------------------------------------------------
     /**
@@ -87,11 +87,35 @@ public class OAuthBaseString {//implements Builder<String> {
     }
 
     // ------------------------------------------------------- requestParameters
+    /**
+     * Returns the request parameters.
+     *
+     * @return the request parameters.
+     */
     Map<String, List<String>> requestParameters() {
         if (requestParameters == null) {
             requestParameters = new HashMap<String, List<String>>();
         }
         return requestParameters;
+    }
+
+    /**
+     * Puts protocol parameters to given map.
+     *
+     * @param protocolParameters the map to which protocol parameters are put.
+     * @return given map.
+     */
+    Map<String, String> protocolParameters(
+            final Map<String, String> protocolParameters) {
+        for (final Entry<String, List<String>> entry
+             : requestParameters().entrySet()) {
+            final String key = entry.getKey();
+            if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+                continue;
+            }
+            protocolParameters.put(key, entry.getValue().get(0));
+        }
+        return protocolParameters;
     }
 
     private void addRequestParameter(final String key, final String value) {

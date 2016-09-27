@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * An abstract class for testing {@link OAuthSigner}.
+ * An abstract class for testing {@link OAuthSignature} implementations.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> signature builder type parameter.
@@ -33,30 +33,31 @@ public abstract class OAuthSignatureTest<T extends OAuthSignature> {
     /**
      * Creates a new instance.
      *
-     * @param singerClass the type of the {@link OAuthSigner}.
+     * @param signatureClass implementation class.
      */
-    public OAuthSignatureTest(final Class<T> singerClass) {
+    public OAuthSignatureTest(final Class<T> signatureClass) {
         super();
-        this.signerClass = requireNonNull(singerClass, "null signerClass");
+        this.signatureClass
+                = requireNonNull(signatureClass, "null signatureClass");
     }
 
     /**
-     * Creates a new instance of {@link #signerClass}. The {@code newInstance()}
-     * method of {@code OAuthSignerTest} class returns the result of
-     * {@code signerClass#newInstance()}.
+     * Creates a new instance of {@link #signatureClass}. The
+     * {@code newInstance()} method of {@code OAuthSignerTest} class returns the
+     * result of {@code signerClass#newInstance()}.
      *
-     * @return a new instance of {@link #signerClass}.
+     * @return a new instance of {@link #signatureClass}.
      */
-    protected T newInstance() {
+    protected T instance() {
         try {
-            return signerClass.newInstance();
+            return signatureClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * The type of the {@link OAuthSigner}.
+     * the implementation class.
      */
-    protected final Class<T> signerClass;
+    protected final Class<T> signatureClass;
 }

@@ -32,7 +32,7 @@ public class OAuthSignatureHmacSha1Jca extends OAuthSignatureHmacSha1 {
     /**
      * The algorithm name whose value is {@value #ALGORITHM}.
      */
-    protected static final String ALGORITHM = "HmacSHA1";
+    public static final String ALGORITHM = "HmacSHA1";
 
     @Override
     byte[] get(final byte[] keyBytes, final byte[] baseBytes)
