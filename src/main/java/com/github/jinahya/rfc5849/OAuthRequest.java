@@ -55,7 +55,7 @@ public class OAuthRequest {
      */
     private Map<String, String> protocolParameters() throws Exception {
         if (signature == null) {
-            throw new IllegalStateException("no signer set");
+            throw new IllegalStateException("no signature set");
         }
         final String oauthSignature = signature.get(); // ISE if no baseString
         final OAuthBaseString baseString = signature.baseString();

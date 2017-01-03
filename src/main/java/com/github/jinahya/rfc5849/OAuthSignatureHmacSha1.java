@@ -27,15 +27,10 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 public abstract class OAuthSignatureHmacSha1 extends OAuthSignaturePlaintext {
 
     /**
-     * The signature method name whose value is {@value #SIGNATURE_METHOD}.
-     */
-    public static final String SIGNATURE_METHOD = "HMAC-SHA1";
-
-    /**
      * Creates a new instance.
      */
     public OAuthSignatureHmacSha1() {
-        super(SIGNATURE_METHOD);
+        super(OAuthConstants.SIGNATURE_METHOD_HMAC_SHA1);
     }
 
     // -------------------------------------------------------------------------

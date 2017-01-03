@@ -24,18 +24,13 @@ import static com.github.jinahya.rfc5849._Percent.encodePercent;
  */
 public class OAuthSignaturePlaintext extends OAuthSignature {
 
-    /**
-     * The signature method name whose value is {@value #SIGNATURE_METHOD}.
-     */
-    public static final String SIGNATURE_METHOD = "PLAINTEXT";
-
     // -------------------------------------------------------------------------
     OAuthSignaturePlaintext(final String signatureMethod) {
         super(signatureMethod);
     }
 
     public OAuthSignaturePlaintext() {
-        this(SIGNATURE_METHOD);
+        this(OAuthConstants.SIGNATURE_METHOD_PLAINTEXT);
     }
 
     // -------------------------------------------------------------------------

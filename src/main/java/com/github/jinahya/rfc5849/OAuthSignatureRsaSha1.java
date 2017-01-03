@@ -27,17 +27,12 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
  */
 public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
 
-    /**
-     * The signature method name whose value is {@value #SIGNATURE_METHOD}.
-     */
-    public static final String SIGNATURE_METHOD = "RSA-SHA1";
-
     // -------------------------------------------------------------------------
     /**
      * Creates a new instance.
      */
     public OAuthSignatureRsaSha1() {
-        super(SIGNATURE_METHOD);
+        super(OAuthConstants.SIGNATURE_METHOD_RSA_SHA1);
     }
 
     // -------------------------------------------------------------------------
@@ -45,7 +40,7 @@ public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
     public String get() throws Exception {
         final OAuthBaseString baseStringBuilder = baseString();
         if (baseStringBuilder == null) {
-            throw new IllegalStateException("no baseStringBuilder set");
+            throw new IllegalStateException("no baseString set");
         }
         if (initParam == null) {
             throw new IllegalStateException("no initParam set");
