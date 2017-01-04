@@ -18,10 +18,8 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Formurl.encodeFormurl;
 import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -55,26 +53,20 @@ public class OAuthRequest {
      * @return all protocol parameters
      * @throws Exception if an error occurs.
      */
-    public SortedMap<String, String> protocolParameters() throws Exception {
+    private Map<String, String> protocolParameters() throws Exception {
         if (signature == null) {
-            throw new IllegalStateException("no signer set");
+            throw new IllegalStateException("no signature set");
         }
+        final String oauthSignature = signature.get(); // ISE if no baseString
         final OAuthBaseString baseString = signature.baseString();
-        if (baseString == null) {
-            throw new IllegalStateException("no baseString on the signer");
-        }
-        final SortedMap<String, String> protocolParameters
-                = new TreeMap<String, String>();
-        final String oauthSignature = signature.get();
+        assert baseString != null;
+//        if (baseString == null) {
+//            throw new IllegalStateException("no baseString on the signer");
+//        }
+        final Map<String, String> protocolParameters
+                = baseString.protocolParameters(new TreeMap<String, String>());
+//                = new TreeMap<String, String>();
         protocolParameters.put(OAuthConstants.OAUTH_SIGNATURE, oauthSignature);
-        for (final Entry<String, List<String>> entiry
-             : baseString.requestParameters().entrySet()) {
-            final String key = entiry.getKey();
-            if (!key.startsWith(OAuthBaseString.PROTOCOL_PARAMETER_PREFIX)) {
-                continue;
-            }
-            protocolParameters.put(key, entiry.getValue().get(0));
-        }
         return protocolParameters;
     }
 

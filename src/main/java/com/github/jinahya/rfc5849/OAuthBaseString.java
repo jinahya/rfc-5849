@@ -33,7 +33,7 @@ import java.util.TreeMap;
  */
 public class OAuthBaseString {//implements Builder<String> {
 
-    static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
+    private static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
 
     // -------------------------------------------------------------------------
     /**
@@ -48,14 +48,14 @@ public class OAuthBaseString {//implements Builder<String> {
         if (baseUri == null) {
             throw new IllegalStateException("no baseUri set");
         }
-        if (!requestParameters().containsKey(OAuthConstants.OAUTH_NONCE)) {
-            throw new IllegalStateException(
-                    "no " + OAuthConstants.OAUTH_NONCE);
-        }
-        if (!requestParameters().containsKey(OAuthConstants.OAUTH_TIMESTAMP)) {
-            throw new IllegalStateException(
-                    "no " + OAuthConstants.OAUTH_TIMESTAMP);
-        }
+//        if (!requestParameters().containsKey(OAuthConstants.OAUTH_NONCE)) {
+//            throw new IllegalStateException(
+//                    "no " + OAuthConstants.OAUTH_NONCE + " set");
+//        }
+//        if (!requestParameters().containsKey(OAuthConstants.OAUTH_TIMESTAMP)) {
+//            throw new IllegalStateException(
+//                    "no " + OAuthConstants.OAUTH_TIMESTAMP + " set");
+//        }
         final Map<String, List<String>> encoded
                 = new TreeMap<String, List<String>>();
         for (final Entry<String, List<String>> entry
@@ -82,36 +82,10 @@ public class OAuthBaseString {//implements Builder<String> {
             }
         }
         return encodePercent(httpMethod)
-               + "&" + encodePercent(baseUri)
-               + "&" + encodePercent(builder.toString());
-    }
-
-    // ------------------------------------------------------- requestParameters
-    Map<String, List<String>> requestParameters() {
-        if (requestParameters == null) {
-            requestParameters = new HashMap<String, List<String>>();
-        }
-        return requestParameters;
-    }
-
-    private void addRequestParameter(final String key, final String value) {
-        if (key == null) {
-            throw new NullPointerException("null key");
-        }
-        if (value == null) {
-            throw new NullPointerException("null value");
-        }
-        List<String> values = requestParameters().get(key);
-        if (values == null) {
-            values = new ArrayList<String>();
-            requestParameters().put(key, values);
-        }
-        values.add(value);
-    }
-
-    private void putRequestParameter(final String key, final String value) {
-        requestParameters().remove(key);
-        addRequestParameter(key, value);
+               + "&"
+               + encodePercent(baseUri)
+               + "&"
+               + encodePercent(builder.toString());
     }
 
     // -------------------------------------------------------------- httpMethod
@@ -145,6 +119,57 @@ public class OAuthBaseString {//implements Builder<String> {
         return this;
     }
 
+    // ------------------------------------------------------- requestParameters
+    /**
+     * Returns the request parameters.
+     *
+     * @return the request parameters.
+     */
+    Map<String, List<String>> requestParameters() {
+        if (requestParameters == null) {
+            requestParameters = new HashMap<String, List<String>>();
+        }
+        return requestParameters;
+    }
+
+    private void requestParameter(final String key, final String value,
+                                  final boolean protocol) {
+        if (key == null) {
+            throw new NullPointerException("null key");
+        }
+        if (value == null) {
+            throw new NullPointerException("null value");
+        }
+        List<String> values = requestParameters().get(key);
+        if (values == null) {
+            values = new ArrayList<String>();
+            requestParameters().put(key, values);
+        }
+        if (protocol) {
+            values.clear();
+        }
+        values.add(value);
+    }
+
+//    private void addRequestParameter(final String key, final String value) {
+//        if (key == null) {
+//            throw new NullPointerException("null key");
+//        }
+//        if (value == null) {
+//            throw new NullPointerException("null value");
+//        }
+//        List<String> values = requestParameters().get(key);
+//        if (values == null) {
+//            values = new ArrayList<String>();
+//            requestParameters().put(key, values);
+//        }
+//        values.add(value);
+//    }
+//
+//    private void putRequestParameter(final String key, final String value) {
+//        requestParameters().remove(key);
+//        addRequestParameter(key, value);
+//    }
     // ---------------------------------------------------------- queryParameter
     /**
      * Adds a query parameter.
@@ -166,7 +191,7 @@ public class OAuthBaseString {//implements Builder<String> {
                     "query parameter's key(" + key + ") starts with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
-        addRequestParameter(key, value);
+        requestParameter(key, value, false);
         return this;
     }
 
@@ -191,13 +216,33 @@ public class OAuthBaseString {//implements Builder<String> {
                     "key(" + key + ") doesn't start with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
-        putRequestParameter(key, value);
+        requestParameter(key, value, true);
         return this;
+    }
+
+    /**
+     * Puts protocol parameters to given map.
+     *
+     * @param map the map to which protocol parameters are put.
+     * @return given map.
+     */
+    Map<String, String> protocolParameters(final Map<String, String> map) {
+        for (final Entry<String, List<String>> entry
+             : requestParameters().entrySet()) {
+            final String key = entry.getKey();
+            if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+                continue;
+            }
+            map.put(key, entry.getValue().get(0));
+        }
+        return map;
     }
 
     // -------------------------------------------------------- entityParameters
     /**
-     * Adds an entity parameter.
+     * Adds an entity parameter. This method simply invokes
+     * {@link #queryParameter(java.lang.String, java.lang.String)} with given
+     * parameters.
      *
      * @param key key of the entity parameter
      * @param value value of the entity parameter

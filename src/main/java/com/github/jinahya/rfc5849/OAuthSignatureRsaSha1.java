@@ -18,7 +18,8 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
- * An abstract class for signing the request with {@value #SIGNATURE_METHOD}.
+ * An abstract class for signing the request with
+ * {@value OAuthConstants#SIGNATURE_METHOD_RSA_SHA1}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> initParam type parameter
@@ -27,31 +28,25 @@ import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
  */
 public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
 
-    /**
-     * The signature method name whose value is {@value #SIGNATURE_METHOD}.
-     */
-    public static final String SIGNATURE_METHOD = "RSA-SHA1";
-
     // -------------------------------------------------------------------------
     /**
      * Creates a new instance.
      */
     public OAuthSignatureRsaSha1() {
-        super(SIGNATURE_METHOD);
+        super(OAuthConstants.SIGNATURE_METHOD_RSA_SHA1);
     }
 
     // -------------------------------------------------------------------------
     @Override
-    public String get() throws Exception {
-        final OAuthBaseString baseStringBuilder = baseString();
-        if (baseStringBuilder == null) {
-            throw new IllegalStateException("no baseStringBuilder set");
+    String get() throws Exception {
+        final OAuthBaseString baseString = baseString();
+        if (baseString == null) {
+            throw new IllegalStateException("no baseString set");
         }
         if (initParam == null) {
             throw new IllegalStateException("no initParam set");
         }
-        final String baseString = baseStringBuilder.get();
-        final byte[] baseBytes = baseString.getBytes("ISO-8859-1");
+        final byte[] baseBytes = baseString.get().getBytes("ISO-8859-1");
         final byte[] signature = get(initParam, baseBytes);
         return encodeBase64ToString(signature);
     }
@@ -72,7 +67,7 @@ public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
 
     // -------------------------------------------------------------------------
     /**
-     * The init param.
+     * The initialization parameter.
      */
     private T initParam;
 }

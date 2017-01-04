@@ -90,6 +90,24 @@ public final class OAuthConstants {
      */
     public static final String OAUTH_VERSION = "oauth_version";
 
+    /**
+     * The signature method name whose value is
+     * {@value #SIGNATURE_METHOD_PLAINTEXT}.
+     */
+    public static final String SIGNATURE_METHOD_PLAINTEXT = "PLAINTEXT";
+
+    /**
+     * The signature method name whose value is
+     * {@value #SIGNATURE_METHOD_HMAC_SHA1}.
+     */
+    public static final String SIGNATURE_METHOD_HMAC_SHA1 = "HMAC-SHA1";
+
+    /**
+     * The signature method name whose value is
+     * {@value #SIGNATURE_METHOD_RSA_SHA1}.
+     */
+    public static final String SIGNATURE_METHOD_RSA_SHA1 = "RSA-SHA1";
+
     private OAuthConstants() {
         super();
     }

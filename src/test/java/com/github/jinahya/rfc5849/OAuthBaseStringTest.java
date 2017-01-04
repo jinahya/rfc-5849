@@ -31,11 +31,11 @@ public class OAuthBaseStringTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
-    static OAuthBaseString baseStringOf(final String prebuilt) {
+    static OAuthBaseString baseStringBuilderOf(final String baseString) {
         return new OAuthBaseString() {
             @Override
             public String get() {
-                return prebuilt;
+                return baseString;
             }
         };
     }
@@ -128,13 +128,11 @@ public class OAuthBaseStringTest {
     /**
      * Tests against nouncer example.
      *
-     * @throws Exception if an error occurs.
-     *
      * @see <a href="http://nouncer.com/oauth/authentication.html">OAuth 1.0
      * Authentication Sandbox</a>
      */
     @Test(enabled = true)
-    public void nouncerExample() throws Exception {
+    public void nouncerExample() {
         final OAuthBaseString baseString = baseString_nouncer();
         final String expected
                 = "GET"
@@ -154,12 +152,11 @@ public class OAuthBaseStringTest {
     /**
      * Test against the example from {@code 3.4.1.1.  String Construction}.
      *
-     * @throws Exception if an error occurs.
      * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.1">3.4.1.
      * Signature Base String</a>
      */
     @Test(enabled = true)
-    public void rfc5849_3_4_1_1() throws Exception {
+    public void rfc5849_3_4_1_1() {
         final OAuthBaseString baseString = baseString_rfc5849_3_4_1_1();
         final String actual = baseString.get();
         final String expected
@@ -197,7 +194,8 @@ public class OAuthBaseStringTest {
                 .get();
     }
 
-    @Test(expectedExceptions = {IllegalStateException.class})
+    @Test(expectedExceptions = {IllegalStateException.class},enabled = false)
+    @Deprecated
     public void buildWithoutOauthNonce() {
         new OAuthBaseString()
                 .httpMethod("httpMethod")
@@ -206,7 +204,8 @@ public class OAuthBaseStringTest {
                 .get();
     }
 
-    @Test(expectedExceptions = {IllegalStateException.class})
+    @Test(expectedExceptions = {IllegalStateException.class},enabled = false)
+    @Deprecated
     public void buildWithoutOauthTimestamp() {
         new OAuthBaseString()
                 .httpMethod("httpMethod")

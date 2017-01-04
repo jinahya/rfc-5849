@@ -15,25 +15,21 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.RsaSha1Keys.applyKeyFiles;
+import static com.github.jinahya.rfc5849.OAuthSignatureTest.random;
 import java.io.IOException;
 import static java.lang.invoke.MethodHandles.lookup;
-import static java.nio.file.Files.readAllBytes;
 import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import javax.crypto.Cipher;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.fail;
 import org.testng.annotations.Test;
 
 /**
@@ -58,38 +54,26 @@ public class OAuthSignatureRsaSah1JcaTest
     }
 
     static <R> R applyKeyPair(
-            final BiFunction<PublicKey, PrivateKey, R> function)
+            final Function<KeyPair, R> function)
             throws NoSuchAlgorithmException, IOException {
-        return applyKeyFiles((publicKeyFile, privateKeyFile) -> {
-            try {
-                final byte[] publicKeyBytes
-                        = readAllBytes(publicKeyFile.toPath());
-                final X509EncodedKeySpec publicKeySpec
-                        = new X509EncodedKeySpec(publicKeyBytes);
-                final PublicKey publicKey
-                        = KEY_FACTORY.generatePublic(publicKeySpec);
-                final byte[] privateKeyBytes
-                        = readAllBytes(privateKeyFile.toPath());
-                final PKCS8EncodedKeySpec privateKeySpec
-                        = new PKCS8EncodedKeySpec(privateKeyBytes);
-                final PrivateKey privateKey
-                        = KEY_FACTORY.generatePrivate(privateKeySpec);
-                return function.apply(publicKey, privateKey);
-            } catch (IOException | InvalidKeySpecException e) {
-                fail("fail", e);
-            }
-            return null;
-        });
+        final KeyPairGenerator keyPairGenerator
+                = KeyPairGenerator.getInstance("RSA");
+        final int keysize = random().nextBoolean() ? 1024 : 2048;
+        keyPairGenerator.initialize(keysize);
+        final KeyPair keyPair = keyPairGenerator.generateKeyPair();
+        final PublicKey publicKey = keyPair.getPublic();
+        final PrivateKey privateKey = keyPair.getPrivate();
+        return function.apply(new KeyPair(publicKey, privateKey));
     }
 
     static <R> R applyPublicKey(final Function<PublicKey, R> function)
             throws NoSuchAlgorithmException, IOException {
-        return applyKeyPair((publicKey, privateKey) -> function.apply(publicKey));
+        return applyKeyPair(keyPair -> function.apply(keyPair.getPublic()));
     }
 
     static <R> R applyPrivateKey(final Function<PrivateKey, R> function)
             throws NoSuchAlgorithmException, IOException {
-        return applyKeyPair((i, k) -> function.apply(k));
+        return applyKeyPair(keyPair -> function.apply(keyPair.getPrivate()));
     }
 
     /**
@@ -100,14 +84,16 @@ public class OAuthSignatureRsaSah1JcaTest
     }
 
     @Override
-    PrivateKey newInitParam() throws Exception {
+    PrivateKey initParam() throws Exception {
         return applyPrivateKey(k -> k);
     }
 
     @Test
-    public void encodePrivateDecodePrivate()
+    public void encodePrivateDecodePublic()
             throws NoSuchAlgorithmException, IOException {
-        applyKeyPair((publicKey, privateKey) -> {
+        applyKeyPair(keyPair -> {
+            final PublicKey publicKey = keyPair.getPublic();
+            final PrivateKey privateKey = keyPair.getPrivate();
             final int bits = ((RSAKey) privateKey).getModulus().bitLength();
             final byte[] expected = new byte[random().nextInt(bits / 8 - 11)];
             try {
@@ -117,7 +103,7 @@ public class OAuthSignatureRsaSah1JcaTest
                 cipher.init(Cipher.DECRYPT_MODE, publicKey);
                 final byte[] actual = cipher.doFinal(encrypted);
                 assertEquals(actual, expected);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 logger.error("failed", e);
             }
             return null;
@@ -127,7 +113,9 @@ public class OAuthSignatureRsaSah1JcaTest
     @Test
     public void encodePublicDecodePrivate()
             throws NoSuchAlgorithmException, IOException {
-        applyKeyPair((publicKey, privateKey) -> {
+        applyKeyPair(keyPair -> {
+            final PublicKey publicKey = keyPair.getPublic();
+            final PrivateKey privateKey = keyPair.getPrivate();
             final int bits = ((RSAKey) publicKey).getModulus().bitLength();
             final byte[] expected = new byte[random().nextInt(bits / 8 - 11)];
             try {
@@ -141,6 +129,7 @@ public class OAuthSignatureRsaSah1JcaTest
                 logger.error("failed", e);
             }
             return null;
-        });
+        }
+        );
     }
 }

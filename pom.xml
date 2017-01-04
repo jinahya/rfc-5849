@@ -11,7 +11,7 @@
 
   <groupId>com.github.jinahya</groupId>
   <artifactId>rfc5849</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1</version>
   <packaging>jar</packaging>
 
   <name>${project.artifactId}</name>
@@ -39,7 +39,7 @@
     <connection>scm:git:git@github.com:jinahya/${project.artifactId}.git</connection>
     <developerConnection>scm:git:git@github.com:jinahya/${project.artifactId}.git</developerConnection>
     <url>https://github.com/jinahya/${project.artifactId}</url>
-    <tag>1.1.0</tag>
+    <tag>1.1.1</tag>
   </scm>
   <issueManagement>
     <system>GitHub Issues</system>
@@ -59,7 +59,7 @@
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
-      <version>1.1.7</version>
+      <version>1.1.8</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -77,7 +77,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.4</version>
+      <version>3.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -90,7 +90,7 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>6.9.13.4</version>
+      <version>6.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -106,7 +106,8 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.5.1</version>
+          <!--<version>3.5.1</version>-->
+          <version>3.6.0</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -131,7 +132,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>3.5.1</version>
+          <version>3.6</version>
         </plugin>
         <!--        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -285,7 +286,8 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
-        <version>3.6</version>
+        <!--<version>3.6</version>-->
+        <version>3.7</version>
         <configuration>
           <targetJdk>1.6</targetJdk>
         </configuration>
