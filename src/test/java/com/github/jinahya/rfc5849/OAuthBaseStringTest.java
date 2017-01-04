@@ -194,7 +194,8 @@ public class OAuthBaseStringTest {
                 .get();
     }
 
-    @Test(expectedExceptions = {IllegalStateException.class})
+    @Test(expectedExceptions = {IllegalStateException.class},enabled = false)
+    @Deprecated
     public void buildWithoutOauthNonce() {
         new OAuthBaseString()
                 .httpMethod("httpMethod")
@@ -203,7 +204,8 @@ public class OAuthBaseStringTest {
                 .get();
     }
 
-    @Test(expectedExceptions = {IllegalStateException.class})
+    @Test(expectedExceptions = {IllegalStateException.class},enabled = false)
+    @Deprecated
     public void buildWithoutOauthTimestamp() {
         new OAuthBaseString()
                 .httpMethod("httpMethod")
