@@ -31,8 +31,7 @@ import org.bouncycastle.crypto.params.KeyParameter;
 public class OAuthSignatureHmacSha1Bc extends OAuthSignatureHmacSha1 {
 
     @Override
-    byte[] get(final byte[] keyBytes, final byte[] baseBytes)
-            throws Exception {
+    byte[] get(final byte[] keyBytes, final byte[] baseBytes) throws Exception {
         final Mac mac = new HMac(new SHA1Digest());
         mac.init(new KeyParameter(keyBytes));
         mac.update(baseBytes, 0, baseBytes.length);

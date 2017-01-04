@@ -48,14 +48,14 @@ public class OAuthBaseString {//implements Builder<String> {
         if (baseUri == null) {
             throw new IllegalStateException("no baseUri set");
         }
-        if (!requestParameters().containsKey(OAuthConstants.OAUTH_NONCE)) {
-            throw new IllegalStateException(
-                    "no " + OAuthConstants.OAUTH_NONCE + " set");
-        }
-        if (!requestParameters().containsKey(OAuthConstants.OAUTH_TIMESTAMP)) {
-            throw new IllegalStateException(
-                    "no " + OAuthConstants.OAUTH_TIMESTAMP + " set");
-        }
+//        if (!requestParameters().containsKey(OAuthConstants.OAUTH_NONCE)) {
+//            throw new IllegalStateException(
+//                    "no " + OAuthConstants.OAUTH_NONCE + " set");
+//        }
+//        if (!requestParameters().containsKey(OAuthConstants.OAUTH_TIMESTAMP)) {
+//            throw new IllegalStateException(
+//                    "no " + OAuthConstants.OAUTH_TIMESTAMP + " set");
+//        }
         final Map<String, List<String>> encoded
                 = new TreeMap<String, List<String>>();
         for (final Entry<String, List<String>> entry

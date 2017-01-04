@@ -41,7 +41,7 @@ public abstract class OAuthSignature {
      * @return a signature value
      * @throws Exception if an error occurs.
      */
-    public abstract String get() throws Exception;
+    abstract String get() throws Exception;
 
     // --------------------------------------------------------- signatureMethod
     /**
@@ -67,7 +67,7 @@ public abstract class OAuthSignature {
     /**
      * Sets the {@code baseString}.
      *
-     * @param baseString an instance of {@link OAuthBaseString}
+     * @param baseString the {@code baseString}.
      * @return this instance
      */
     public OAuthSignature baseString(final OAuthBaseString baseString) {

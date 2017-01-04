@@ -15,7 +15,6 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseStringOf;
 import static java.lang.invoke.MethodHandles.lookup;
 import java.math.BigInteger;
 import java.security.spec.RSAKeyGenParameterSpec;
@@ -23,6 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 import org.testng.annotations.Test;
+import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseStringBuilderOf;
 
 /**
  * Test class for {@link OAuthSignerRsaSha1}.
@@ -106,7 +106,7 @@ public abstract class OAuthSignatureRsaSha1Test<T extends OAuthSignatureRsaSha1<
         final OAuthSignature oauthSignature
                 = instance()
                 .initParam(initParam())
-                .baseString(baseStringOf(
+                .baseString(baseStringBuilderOf(
                         "POST"
                         + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
                         + "&include_entities%3Dtrue"
@@ -127,7 +127,7 @@ public abstract class OAuthSignatureRsaSha1Test<T extends OAuthSignatureRsaSha1<
         final OAuthSignature oauthSignature
                 = instance()
                 .initParam(initParam())
-                .baseString(baseStringOf(
+                .baseString(baseStringBuilderOf(
                         "POST"
                         + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
                         + "&include_entities%3Dtrue"

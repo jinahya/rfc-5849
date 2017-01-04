@@ -31,11 +31,11 @@ public class OAuthBaseStringTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
-    static OAuthBaseString baseStringOf(final String prebuilt) {
+    static OAuthBaseString baseStringBuilderOf(final String baseString) {
         return new OAuthBaseString() {
             @Override
             public String get() {
-                return prebuilt;
+                return baseString;
             }
         };
     }
