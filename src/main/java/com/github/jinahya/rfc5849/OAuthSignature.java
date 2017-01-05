@@ -39,6 +39,7 @@ public abstract class OAuthSignature {
      * Generates a signature value for {@link OAuthConstants#OAUTH_SIGNATURE}.
      *
      * @return a signature value
+     * @throws IllegalStateException if no {@code baseString} set.
      * @throws Exception if an error occurs.
      */
     abstract String get() throws Exception;

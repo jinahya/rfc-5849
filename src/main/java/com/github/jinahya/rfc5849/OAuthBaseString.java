@@ -56,23 +56,23 @@ public class OAuthBaseString {//implements Builder<String> {
 //            throw new IllegalStateException(
 //                    "no " + OAuthConstants.OAUTH_TIMESTAMP + " set");
 //        }
-        final Map<String, List<String>> encoded
+        final Map<String, List<String>> encodedRequestParameters
                 = new TreeMap<String, List<String>>();
         for (final Entry<String, List<String>> entry
              : requestParameters().entrySet()) {
             final String key = entry.getKey();
-            final String encodedKey = encodePercent(key);
+            final String key_ = encodePercent(key);
             final List<String> values = entry.getValue();
-            final List<String> encodedValues
-                    = new ArrayList<String>(values.size());
+            final List<String> values_ = new ArrayList<String>(values.size());
             for (final String value : values) {
-                encodedValues.add(encodePercent(value));
+                values_.add(encodePercent(value));
             }
-            Collections.sort(encodedValues);
-            encoded.put(encodedKey, encodedValues);
+            Collections.sort(values_);
+            encodedRequestParameters.put(key_, values_);
         }
         final StringBuilder builder = new StringBuilder();
-        for (final Entry<String, List<String>> entry : encoded.entrySet()) {
+        for (final Entry<String, List<String>> entry
+             : encodedRequestParameters.entrySet()) {
             final String key = entry.getKey();
             for (final String value : entry.getValue()) {
                 if (builder.length() > 0) {
@@ -132,8 +132,15 @@ public class OAuthBaseString {//implements Builder<String> {
         return requestParameters;
     }
 
-    private void requestParameter(final String key, final String value,
-                                  final boolean protocol) {
+    /**
+     * Adds a request parameter.
+     *
+     * @param key the key of the request parameter.
+     * @param value the value of the request parameter.
+     * @return this instance.
+     */
+    public OAuthBaseString requestParameter(final String key,
+                                            final String value) {
         if (key == null) {
             throw new NullPointerException("null key");
         }
@@ -145,31 +152,13 @@ public class OAuthBaseString {//implements Builder<String> {
             values = new ArrayList<String>();
             requestParameters().put(key, values);
         }
-        if (protocol) {
+        if (key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             values.clear();
         }
         values.add(value);
+        return this;
     }
 
-//    private void addRequestParameter(final String key, final String value) {
-//        if (key == null) {
-//            throw new NullPointerException("null key");
-//        }
-//        if (value == null) {
-//            throw new NullPointerException("null value");
-//        }
-//        List<String> values = requestParameters().get(key);
-//        if (values == null) {
-//            values = new ArrayList<String>();
-//            requestParameters().put(key, values);
-//        }
-//        values.add(value);
-//    }
-//
-//    private void putRequestParameter(final String key, final String value) {
-//        requestParameters().remove(key);
-//        addRequestParameter(key, value);
-//    }
     // ---------------------------------------------------------- queryParameter
     /**
      * Adds a query parameter.
@@ -177,22 +166,20 @@ public class OAuthBaseString {//implements Builder<String> {
      * @param key key
      * @param value value
      * @return this instance
+     * @throws IllegalArgumentException if the {@code key} start with
+     * {@value #PROTOCOL_PARAMETER_PREFIX}.
      */
     public OAuthBaseString queryParameter(final String key,
                                           final String value) {
         if (key == null) {
             throw new NullPointerException("null key");
         }
-        if (value == null) {
-            throw new NullPointerException("null value");
-        }
         if (key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
                     "query parameter's key(" + key + ") starts with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
-        requestParameter(key, value, false);
-        return this;
+        return requestParameter(key, value);
     }
 
     // ------------------------------------------------------- protocolParameter
@@ -202,22 +189,20 @@ public class OAuthBaseString {//implements Builder<String> {
      * @param key protocol parameter key
      * @param value protocol parameter value.
      * @return this instance
+     * @throws IllegalArgumentException if the {@code key} does not start with
+     * {@value #PROTOCOL_PARAMETER_PREFIX}.
      */
     public OAuthBaseString protocolParameter(final String key,
                                              final String value) {
         if (key == null) {
             throw new NullPointerException("null key");
         }
-        if (value == null) {
-            throw new NullPointerException("null value");
-        }
         if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
                     "key(" + key + ") doesn't start with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
-        requestParameter(key, value, true);
-        return this;
+        return requestParameter(key, value);
     }
 
     /**
@@ -226,7 +211,7 @@ public class OAuthBaseString {//implements Builder<String> {
      * @param map the map to which protocol parameters are put.
      * @return given map.
      */
-    Map<String, String> protocolParameters(final Map<String, String> map) {
+    Map<String, String> pickProtocolParameters(final Map<String, String> map) {
         for (final Entry<String, List<String>> entry
              : requestParameters().entrySet()) {
             final String key = entry.getKey();
@@ -242,7 +227,7 @@ public class OAuthBaseString {//implements Builder<String> {
     /**
      * Adds an entity parameter. This method simply invokes
      * {@link #queryParameter(java.lang.String, java.lang.String)} with given
-     * parameters.
+     * arguments.
      *
      * @param key key of the entity parameter
      * @param value value of the entity parameter
@@ -303,8 +288,7 @@ public class OAuthBaseString {//implements Builder<String> {
      * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_SIGNATURE_METHOD}
      * @return return this
      */
-    public OAuthBaseString oauthSignatureMethod(
-            final String oauthSignatureMethod) {
+    OAuthBaseString oauthSignatureMethod(final String oauthSignatureMethod) {
         return protocolParameter(OAuthConstants.OAUTH_SIGNATURE_METHOD,
                                  oauthSignatureMethod);
     }
@@ -359,8 +343,7 @@ public class OAuthBaseString {//implements Builder<String> {
      * @return this instance
      */
     public OAuthBaseString oauthVerifier(final String oauthVerifier) {
-        return protocolParameter(OAuthConstants.OAUTH_VERIFIER,
-                                 oauthVerifier);
+        return protocolParameter(OAuthConstants.OAUTH_VERIFIER, oauthVerifier);
     }
 
     // -------------------------------------------------------------------------

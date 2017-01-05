@@ -36,6 +36,7 @@ public class SimpleOAuthNonce implements OAuthNonce {
      * agent identifier.
      * @return a nonce builder
      */
+    @Deprecated
     public static OAuthNonce of(final String... identifiers) {
         final StringBuilder builder = new StringBuilder();
         for (final String identifier : identifiers) {

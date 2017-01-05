@@ -61,6 +61,9 @@ public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
      * @return this instance.
      */
     public OAuthSignatureRsaSha1<T> initParam(final T initParam) {
+        if (initParam == null) {
+            throw new NullPointerException("null initParam");
+        }
         this.initParam = initParam;
         return this;
     }
