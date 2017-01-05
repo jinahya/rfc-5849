@@ -18,6 +18,7 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Formurl.encodeFormurl;
 import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -29,7 +30,7 @@ import java.util.TreeMap;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.1">3.5.1.
  * Authorization Header (RFC 5849)</a>
  */
-public class OAuthRequest {
+public class OAuthProtocolParameters {
 
     private static final String REALM = "realm";
 
@@ -40,7 +41,7 @@ public class OAuthRequest {
      * @param realm the realm value
      * @return this instance
      */
-    public OAuthRequest realm(final String realm) {
+    public OAuthProtocolParameters realm(final String realm) {
         this.realm = realm;
         return this;
     }
@@ -57,11 +58,28 @@ public class OAuthRequest {
         if (signature == null) {
             throw new IllegalStateException("no signature set");
         }
-        final String oauthSignature = signature.get(); // ISE if no baseString
         final OAuthBaseString baseString = signature.baseString();
+        if (baseString == null) {
+            throw new IllegalStateException("no baseString set on signature");
+        }
         final Map<String, String> protocolParameters
-                = baseString.pickProtocolParameters(
-                        new TreeMap<String, String>());
+                = new TreeMap<String, String>();
+        final Map<String, List<String>> requestParameters
+                = baseString.requestParameters();
+        for (final Iterator<Entry<String, List<String>>> i
+                = requestParameters.entrySet().iterator(); i.hasNext();) {
+            final Entry<String, List<String>> entry = i.next();
+            final String key = entry.getKey();
+            if (!key.startsWith(OAuthBaseString.PROTOCOL_PARAMETER_PREFIX)) {
+                continue;
+            }
+            if (key.equals(OAuthConstants.OAUTH_SIGNATURE)) {
+                i.remove();
+                continue;
+            }
+            protocolParameters.put(key, entry.getValue().get(0));
+        }
+        final String oauthSignature = signature.get();
         protocolParameters.put(OAuthConstants.OAUTH_SIGNATURE, oauthSignature);
         return protocolParameters;
     }
@@ -186,7 +204,7 @@ public class OAuthRequest {
      * @param signature the signature.
      * @return this instance
      */
-    public OAuthRequest signature(final OAuthSignature signature) {
+    public OAuthProtocolParameters signature(final OAuthSignature signature) {
         this.signature = signature;
         return this;
     }

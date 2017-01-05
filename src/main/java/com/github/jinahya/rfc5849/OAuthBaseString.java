@@ -33,7 +33,7 @@ import java.util.TreeMap;
  */
 public class OAuthBaseString {//implements Builder<String> {
 
-    private static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
+    static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
 
     // -------------------------------------------------------------------------
     /**
@@ -206,16 +206,20 @@ public class OAuthBaseString {//implements Builder<String> {
     }
 
     /**
-     * Puts protocol parameters to given map.
+     * Puts protocol parameters added to this instance except the one for
+     * {@link OAuthConstants#OAUTH_SIGNATURE} to given map and returns the map.
      *
      * @param map the map to which protocol parameters are put.
      * @return given map.
+     * @deprecated not used anymore
      */
-    Map<String, String> pickProtocolParameters(final Map<String, String> map) {
+    @Deprecated
+    Map<String, String> protocolParameters(final Map<String, String> map) {
         for (final Entry<String, List<String>> entry
              : requestParameters().entrySet()) {
             final String key = entry.getKey();
-            if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+            if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)
+                || key.equals(OAuthConstants.OAUTH_SIGNATURE)) {
                 continue;
             }
             map.put(key, entry.getValue().get(0));
