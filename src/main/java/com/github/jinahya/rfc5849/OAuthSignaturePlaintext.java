@@ -21,6 +21,8 @@ import static com.github.jinahya.rfc5849._Percent.encodePercent;
  * A signature builder for {@code PLAINTEXT}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.4">3.4.4.
+ * PLAINTEXT (RFC-5849)</a>
  */
 public class OAuthSignaturePlaintext extends OAuthSignature {
 
@@ -29,6 +31,9 @@ public class OAuthSignaturePlaintext extends OAuthSignature {
         super(signatureMethod);
     }
 
+    /**
+     * Creates a new instance.
+     */
     public OAuthSignaturePlaintext() {
         this(OAuthConstants.SIGNATURE_METHOD_PLAINTEXT);
     }
@@ -47,7 +52,8 @@ public class OAuthSignaturePlaintext extends OAuthSignature {
 
     // ---------------------------------------------------------- consumerSecret
     /**
-     * Sets the consumer secret with given and return this instance.
+     * Replaces the value of {@code consumerSecret} with given and return this
+     * instance.
      *
      * @param consumerSecret the consumer secret.
      * @return this instance
@@ -59,7 +65,8 @@ public class OAuthSignaturePlaintext extends OAuthSignature {
 
     // ------------------------------------------------------------- tokenSecret
     /**
-     * Sets the token secret with given value and returns this instance.
+     * Replaces the value of {@code tokenSecrent} with given value and returns
+     * this instance.
      *
      * @param tokenSecret the token secret
      * @return this instance

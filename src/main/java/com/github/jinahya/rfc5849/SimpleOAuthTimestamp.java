@@ -27,8 +27,8 @@ import static java.lang.System.currentTimeMillis;
 public class SimpleOAuthTimestamp implements OAuthTimestamp {
 
     /**
-     * {@inheritDoc} This method returns the value
-     * {@link System#currentTimeMillis()} divided by {@code 1000}.
+     * {@inheritDoc} This method returns the value of
+     * {@link System#currentTimeMillis()} divided by {@code 1000L}.
      *
      * @return {@inheritDoc}
      */

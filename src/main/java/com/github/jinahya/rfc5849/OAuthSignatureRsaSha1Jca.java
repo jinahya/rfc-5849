@@ -42,4 +42,9 @@ public class OAuthSignatureRsaSha1Jca
         signature.update(baseBytes);
         return signature.sign();
     }
+
+    @Override
+    public OAuthSignatureRsaSha1Jca initParam(final PrivateKey initParam) {
+        return (OAuthSignatureRsaSha1Jca) super.initParam(initParam);
+    }
 }

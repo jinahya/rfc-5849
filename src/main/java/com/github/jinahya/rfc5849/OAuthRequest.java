@@ -59,13 +59,9 @@ public class OAuthRequest {
         }
         final String oauthSignature = signature.get(); // ISE if no baseString
         final OAuthBaseString baseString = signature.baseString();
-        assert baseString != null;
-//        if (baseString == null) {
-//            throw new IllegalStateException("no baseString on the signer");
-//        }
         final Map<String, String> protocolParameters
-                = baseString.protocolParameters(new TreeMap<String, String>());
-//                = new TreeMap<String, String>();
+                = baseString.pickProtocolParameters(
+                        new TreeMap<String, String>());
         protocolParameters.put(OAuthConstants.OAUTH_SIGNATURE, oauthSignature);
         return protocolParameters;
     }

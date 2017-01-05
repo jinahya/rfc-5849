@@ -38,4 +38,9 @@ public class OAuthSignatureRsaSha1Bc
         signer.update(baseBytes, 0, baseBytes.length);
         return signer.generateSignature();
     }
+
+    @Override
+    public OAuthSignatureRsaSha1Bc initParam(final CipherParameters initParam) {
+        return (OAuthSignatureRsaSha1Bc) super.initParam(initParam);
+    }
 }
