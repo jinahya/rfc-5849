@@ -18,7 +18,7 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Percent.encodePercent;
 
 /**
- * A signature builder for {@code PLAINTEXT}.
+ * A signature builder for {@link OAuthConstants#SIGNATURE_METHOD_PLAINTEXT}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.4">3.4.4.

@@ -22,11 +22,11 @@ import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
 /**
- * A test class for {@link OAuthRequest}.
+ * A test class for {@link OAuthProtocolParameters}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
-public class OAuthRequestTest {
+public class OAuthProtocolParametersTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
@@ -43,7 +43,7 @@ public class OAuthRequestTest {
      */
     @Test
     public void twitterExample() throws Exception {
-        final OAuthRequest builder = new OAuthRequest()
+        final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .signature(
                         new OAuthSignatureHmacSha1Jca()
                         .consumerSecret("kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw")
@@ -113,7 +113,7 @@ public class OAuthRequestTest {
                   + " oauth_timestamp=\"1191242096\","
                   + " oauth_token=\"nnch734d00sl2jdk\","
                   + " oauth_version=\"1.0\"";
-        final OAuthRequest builder = new OAuthRequest()
+        final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .realm("http://photos.example.net/photos")
                 .signature(
                         new OAuthSignatureHmacSha1Jca()
@@ -167,7 +167,7 @@ public class OAuthRequestTest {
                       + " oauth_signature=\"74KNZJeDHnMBp0EMJ9ZHt%2FXKycU%3D\","
                       + " oauth_signature_method=\"HMAC-SHA1\","
                       + " oauth_timestamp=\"137131200\"";
-            final OAuthRequest builder = new OAuthRequest()
+            final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                     .realm("Photos")
                     .signature(
                             new OAuthSignatureHmacSha1Bc()
@@ -210,7 +210,7 @@ public class OAuthRequestTest {
                       + " oauth_timestamp=\"137131201\","
                       + " oauth_token=\"hh5s93j4hdidpola\","
                       + " oauth_verifier=\"hfdp7dh39dks9884\"";
-            final OAuthRequest builder = new OAuthRequest()
+            final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                     .realm("Photos")
                     .signature(
                             new OAuthSignatureHmacSha1Bc()
@@ -251,7 +251,7 @@ public class OAuthRequestTest {
                       + " oauth_signature_method=\"HMAC-SHA1\","
                       + " oauth_timestamp=\"137131202\","
                       + " oauth_token=\"nnch734d00sl2jdk\"";
-            final OAuthRequest builder = new OAuthRequest()
+            final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                     .realm("Photos")
                     .signature(
                             new OAuthSignatureHmacSha1Bc()
@@ -297,7 +297,7 @@ public class OAuthRequestTest {
                   + " oauth_consumer_key=\"jd83jd92dhsh93js\","
                   + " oauth_signature=\"ja893SD9%26\","
                   + " oauth_signature_method=\"PLAINTEXT\"";
-        final OAuthRequest builder = new OAuthRequest()
+        final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .realm("Example")
                 .signature(
                         new OAuthSignaturePlaintext()
@@ -338,7 +338,7 @@ public class OAuthRequestTest {
                   + " oauth_signature_method=\"PLAINTEXT\","
                   + " oauth_token=\"hdk48Djdsa\","
                   + " oauth_verifier=\"473f82d3\"";
-        final OAuthRequest builder = new OAuthRequest()
+        final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .realm("Example")
                 .signature(
                         new OAuthSignaturePlaintext()
@@ -383,7 +383,7 @@ public class OAuthRequestTest {
                   + " oauth_signature_method=\"HMAC-SHA1\","
                   + " oauth_timestamp=\"137131201\","
                   + " oauth_token=\"kkk9d7dh3k39sjv7\"";
-        final OAuthRequest builder = new OAuthRequest()
+        final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .realm("Example")
                 .signature(
                         new OAuthSignatureHmacSha1Bc()
