@@ -32,7 +32,10 @@ import java.util.TreeMap;
  */
 public class OAuthProtocolParameters {
 
-    public static final String AUTH_SCHEME_NAME = "OAuth";
+    public static final String AUTH_SCHEME = "OAuth";
+
+    @Deprecated
+    public static final String AUTH_SCHEME_NAME = AUTH_SCHEME;
 
     private static final String REALM = "realm";
 
@@ -96,7 +99,7 @@ public class OAuthProtocolParameters {
      */
     public String authorizationHeader() throws Exception {
         final Map<String, String> protocolParameters = protocolParameters();
-        final StringBuilder builder = new StringBuilder(AUTH_SCHEME_NAME);
+        final StringBuilder builder = new StringBuilder(AUTH_SCHEME);
         {
             if (realm != null) {
                 builder
