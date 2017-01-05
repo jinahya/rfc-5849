@@ -68,24 +68,24 @@ signature.initParam(CipherParameters cipherParameters); // BC
 new OAuthSignaturePlaintext();
 ```
 
-### OAuthRequest
+### OAuthProtocolParameters
 
 ```java
-final OAuthRequest request = new OAuthRequest();
-request.realm(realm);
-request.signature(signature); // OAuthSignature
+final OAuthProtocolParameters protocolParameters = new OAuthProtocolParameters();
+protocolParameters.realm(realm);
+protocolParameters.signature(signature); // OAuthSignature
 ```
 Three kinds of output defined in [3.5. Parameter Transmission](https://tools.ietf.org/html/rfc5849#section-3.5) are supported.
 ```java
-final String header = request.authorizationHeader(); // Authorization Header
-final String body = request.formEncodedBody(); // Form-Encoded Body
-final String query = request.requestUriQuery(); // Request URI Query
+final String header = protocolParameters.authorizationHeader(); // Authorization Header
+final String body = protocolParameters.formEncodedBody(); // Form-Encoded Body
+final String query = protocolParameters.requestUriQuery(); // Request URI Query
 ```
 
 ## Examples
 
 ```java
-final OAuthRequest request = new OAuthRequest()
+final OAuthRequest protocolParameters = new OAuthRequest()
     .realm("Example")
     .signature(
         new OAuthSignatureHmacSha1Bc()
@@ -108,5 +108,5 @@ final OAuthRequest request = new OAuthRequest()
         )
     );
 
-final String header = request.authorizationHeader();
+final String authorizationHeader = protocolParameters.authorizationHeader();
 ```
