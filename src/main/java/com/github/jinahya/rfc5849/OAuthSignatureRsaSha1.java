@@ -18,8 +18,8 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
- * An abstract class for signing the request with
- * {@value OAuthConstants#SIGNATURE_METHOD_RSA_SHA1}.
+ * An abstract class for signing the request using
+ * {@link OAuthConstants#SIGNATURE_METHOD_RSA_SHA1}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> initParam type parameter
