@@ -53,6 +53,13 @@ public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
 
     abstract byte[] get(T initParam, byte[] baseBytes) throws Exception;
 
+    // -------------------------------------------------------------- baseString
+    @Override
+    public OAuthSignatureRsaSha1<T> baseString(
+            final OAuthBaseString baseString) {
+        return (OAuthSignatureRsaSha1<T>) super.baseString(baseString);
+    }
+
     // -------------------------------------------------------------------------
     /**
      * Sets a initialization parameter.

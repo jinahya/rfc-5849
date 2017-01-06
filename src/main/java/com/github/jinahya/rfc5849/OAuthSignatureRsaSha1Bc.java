@@ -39,6 +39,13 @@ public class OAuthSignatureRsaSha1Bc
         return signer.generateSignature();
     }
 
+    // -------------------------------------------------------------- baseString
+    @Override
+    public OAuthSignatureRsaSha1Bc baseString(
+            final OAuthBaseString baseString) {
+        return (OAuthSignatureRsaSha1Bc) super.baseString(baseString);
+    }
+
     @Override
     public OAuthSignatureRsaSha1Bc initParam(final CipherParameters initParam) {
         return (OAuthSignatureRsaSha1Bc) super.initParam(initParam);

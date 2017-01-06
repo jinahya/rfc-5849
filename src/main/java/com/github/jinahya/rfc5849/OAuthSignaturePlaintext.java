@@ -50,6 +50,13 @@ public class OAuthSignaturePlaintext extends OAuthSignature {
         return encodePercent(consumerSecret) + "&" + encodePercent(tokenSecret);
     }
 
+    // -------------------------------------------------------------- baseString
+    @Override
+    public OAuthSignaturePlaintext baseString(
+            final OAuthBaseString baseString) {
+        return (OAuthSignaturePlaintext) super.baseString(baseString);
+    }
+
     // ---------------------------------------------------------- consumerSecret
     /**
      * Replaces the value of {@code consumerSecret} with given and return this
