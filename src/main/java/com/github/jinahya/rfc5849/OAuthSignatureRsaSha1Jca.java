@@ -43,6 +43,14 @@ public class OAuthSignatureRsaSha1Jca
         return signature.sign();
     }
 
+    // -------------------------------------------------------------- baseString
+    @Override
+    public OAuthSignatureRsaSha1Jca baseString(
+            final OAuthBaseString baseString) {
+        return (OAuthSignatureRsaSha1Jca) super.baseString(baseString);
+    }
+
+    // --------------------------------------------------------------- initParam
     @Override
     public OAuthSignatureRsaSha1Jca initParam(final PrivateKey initParam) {
         return (OAuthSignatureRsaSha1Jca) super.initParam(initParam);
