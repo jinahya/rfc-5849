@@ -34,9 +34,6 @@ public class OAuthProtocolParameters {
 
     public static final String AUTH_SCHEME = "OAuth";
 
-    @Deprecated
-    public static final String AUTH_SCHEME_NAME = AUTH_SCHEME;
-
     private static final String REALM = "realm";
 
     // ------------------------------------------------------------------- realm

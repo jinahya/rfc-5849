@@ -36,7 +36,7 @@ public abstract class OAuthSignatureHmacSha1 extends OAuthSignaturePlaintext {
 
     // -------------------------------------------------------------------------
     @Override
-    String get() throws Exception {
+    public String get() throws Exception {
         final OAuthBaseString baseString = baseString();
         if (baseString == null) {
             throw new IllegalStateException("no baseString set");

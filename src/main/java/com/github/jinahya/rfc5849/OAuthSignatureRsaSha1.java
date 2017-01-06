@@ -38,7 +38,7 @@ public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
 
     // -------------------------------------------------------------------------
     @Override
-    String get() throws Exception {
+    public String get() throws Exception {
         final OAuthBaseString baseString = baseString();
         if (baseString == null) {
             throw new IllegalStateException("no baseString set");
