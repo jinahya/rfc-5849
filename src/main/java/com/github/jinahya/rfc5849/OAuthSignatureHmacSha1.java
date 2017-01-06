@@ -49,4 +49,15 @@ public abstract class OAuthSignatureHmacSha1 extends OAuthSignaturePlaintext {
     }
 
     abstract byte[] get(byte[] keyBytes, byte[] baseBytes) throws Exception;
+
+    // -------------------------------------------------------------------------
+    @Override
+    public OAuthSignatureHmacSha1 consumerSecret(final String consumerSecret) {
+        return (OAuthSignatureHmacSha1) super.consumerSecret(consumerSecret);
+    }
+
+    @Override
+    public OAuthSignatureHmacSha1 tokenSecret(final String tokenSecret) {
+        return (OAuthSignatureHmacSha1) super.tokenSecret(tokenSecret);
+    }
 }
