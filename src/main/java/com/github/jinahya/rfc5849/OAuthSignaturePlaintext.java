@@ -40,7 +40,7 @@ public class OAuthSignaturePlaintext extends OAuthSignature {
 
     // -------------------------------------------------------------------------
     @Override
-    String get() throws Exception {
+    public String get() throws Exception {
         if (consumerSecret == null) {
             throw new IllegalStateException("no consumerSecret set");
         }

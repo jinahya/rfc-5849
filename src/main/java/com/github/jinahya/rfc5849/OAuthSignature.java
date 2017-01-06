@@ -42,7 +42,7 @@ public abstract class OAuthSignature {
      * @throws IllegalStateException if no {@code baseString} set.
      * @throws Exception if an error occurs.
      */
-    abstract String get() throws Exception;
+    public abstract String get() throws Exception;
 
     // --------------------------------------------------------- signatureMethod
     /**
