@@ -85,7 +85,7 @@ final String query = protocolParameters.requestUriQuery(); // Request URI Query
 ## Examples
 
 ```java
-final OAuthRequest protocolParameters = new OAuthRequest()
+final OAuthProtocolParameters protocolParameters = new OAuthProtocolParameters()
     .realm("Example")
     .signature(
         new OAuthSignatureHmacSha1Bc()
