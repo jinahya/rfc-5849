@@ -16,15 +16,11 @@
 package com.github.jinahya.rfc5849;
 
 import static java.lang.invoke.MethodHandles.lookup;
-import java.security.NoSuchAlgorithmException;
-import java.util.function.Function;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * Tests {@link OAuthSignerHmacSha1Jca}.
+ * Tests {@link OAuthSignatureHmacSha1Jca}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
@@ -33,19 +29,10 @@ public class OAuthSignatureHmacSha1JcaTest
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
-    static <R> R applySecretKey(final Function<SecretKey, R> function)
-            throws NoSuchAlgorithmException {
-        final KeyGenerator keyGenerator = KeyGenerator.getInstance(
-                OAuthSignatureHmacSha1Jca.ALGORITHM);
-        final SecretKey secretKey = keyGenerator.generateKey();
-        return function.apply(secretKey);
-    }
-
     /**
      * Creates a new instance.
      */
     public OAuthSignatureHmacSha1JcaTest() {
         super(OAuthSignatureHmacSha1Jca.class);
     }
-
 }

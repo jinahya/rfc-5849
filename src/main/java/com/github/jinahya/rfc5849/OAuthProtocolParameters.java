@@ -15,6 +15,8 @@
  */
 package com.github.jinahya.rfc5849;
 
+import static com.github.jinahya.rfc5849.OAuthConstants.OAUTH_SIGNATURE;
+import static com.github.jinahya.rfc5849.OAuthConstants.PROTOCOL_PARAMETER_PREFIX;
 import static com.github.jinahya.rfc5849._Formurl.encodeFormurl;
 import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.util.Iterator;
@@ -72,10 +74,10 @@ public class OAuthProtocolParameters {
                 = requestParameters.entrySet().iterator(); i.hasNext();) {
             final Entry<String, List<String>> entry = i.next();
             final String key = entry.getKey();
-            if (!key.startsWith(OAuthBaseString.PROTOCOL_PARAMETER_PREFIX)) {
+            if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
                 continue;
             }
-            if (key.equals(OAuthConstants.OAUTH_SIGNATURE)) {
+            if (key.equals(OAUTH_SIGNATURE)) {
                 i.remove();
                 continue;
             }

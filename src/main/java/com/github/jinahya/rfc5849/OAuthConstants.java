@@ -25,17 +25,20 @@ package com.github.jinahya.rfc5849;
  */
 public final class OAuthConstants {
 
+    static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
+
     /**
      * A protocol parameter name whose value is {@value #OAUTH_CALLBACK}.
      */
-    public static final String OAUTH_CALLBACK = "oauth_callback";
+    public static final String OAUTH_CALLBACK
+            = PROTOCOL_PARAMETER_PREFIX + "callback";
 
     /**
      * A protocol parameter name whose value is
      * {@value #OAUTH_CALLBACK_CONFIRMED}.
      */
     public static final String OAUTH_CALLBACK_CONFIRMED
-            = "oauth_callback_confirmed";
+            = PROTOCOL_PARAMETER_PREFIX + "callback_confirmed";
 
     /**
      * A protocol parameter value for {@link #OAUTH_CALLBACK} which is

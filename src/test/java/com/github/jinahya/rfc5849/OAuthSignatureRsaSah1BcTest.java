@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
- * Tests {@link OAuthSignerRsaSha1Bc}.
+ * Tests {@link OAuthSignatureRsaSha1Bc}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */

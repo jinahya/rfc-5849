@@ -16,7 +16,7 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * Tests {@link OAuthSignerHmacSha1Bc}.
+ * Tests {@link OAuthSignatureHmacSha1Bc}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
@@ -29,5 +29,4 @@ public class OAuthSignatureHmacSha1BcTest
     public OAuthSignatureHmacSha1BcTest() {
         super(OAuthSignatureHmacSha1Bc.class);
     }
-
 }

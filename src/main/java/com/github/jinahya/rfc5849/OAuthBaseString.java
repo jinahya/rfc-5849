@@ -15,6 +15,8 @@
  */
 package com.github.jinahya.rfc5849;
 
+import static com.github.jinahya.rfc5849.OAuthConstants.OAUTH_SIGNATURE;
+import static com.github.jinahya.rfc5849.OAuthConstants.PROTOCOL_PARAMETER_PREFIX;
 import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,15 +33,15 @@ import java.util.TreeMap;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.1">3.4.1.
  * Signature Base String (RFC 5849)</a>
  */
-public class OAuthBaseString {//implements Builder<String> {
-
-    static final String PROTOCOL_PARAMETER_PREFIX = "oauth_";
+public class OAuthBaseString {
 
     // -------------------------------------------------------------------------
     /**
      * Builds the signature base string.
      *
      * @return the signature base string.
+     * @throws IllegalStateException if either {@code httpMethod} or
+     * {@code baseUri} is not set
      */
     public String get() {
         if (httpMethod == null) {
@@ -48,31 +50,22 @@ public class OAuthBaseString {//implements Builder<String> {
         if (baseUri == null) {
             throw new IllegalStateException("no baseUri set");
         }
-//        if (!requestParameters().containsKey(OAuthConstants.OAUTH_NONCE)) {
-//            throw new IllegalStateException(
-//                    "no " + OAuthConstants.OAUTH_NONCE + " set");
-//        }
-//        if (!requestParameters().containsKey(OAuthConstants.OAUTH_TIMESTAMP)) {
-//            throw new IllegalStateException(
-//                    "no " + OAuthConstants.OAUTH_TIMESTAMP + " set");
-//        }
-        final Map<String, List<String>> encodedRequestParameters
+        final Map<String, List<String>> map
                 = new TreeMap<String, List<String>>();
         for (final Entry<String, List<String>> entry
              : requestParameters().entrySet()) {
             final String key = entry.getKey();
-            final String key_ = encodePercent(key);
+            final String ekey = encodePercent(key);
             final List<String> values = entry.getValue();
-            final List<String> values_ = new ArrayList<String>(values.size());
+            final List<String> evalues = new ArrayList<String>(values.size());
             for (final String value : values) {
-                values_.add(encodePercent(value));
+                evalues.add(encodePercent(value));
             }
-            Collections.sort(values_);
-            encodedRequestParameters.put(key_, values_);
+            Collections.sort(evalues);
+            map.put(ekey, evalues);
         }
         final StringBuilder builder = new StringBuilder();
-        for (final Entry<String, List<String>> entry
-             : encodedRequestParameters.entrySet()) {
+        for (final Entry<String, List<String>> entry : map.entrySet()) {
             final String key = entry.getKey();
             for (final String value : entry.getValue()) {
                 if (builder.length() > 0) {
@@ -98,10 +91,10 @@ public class OAuthBaseString {//implements Builder<String> {
      * Signature Base String (RFC 5849)</a>
      */
     public OAuthBaseString httpMethod(final String httpMethod) {
-        if (httpMethod == null) {
-            throw new NullPointerException("null httpMethod");
+        this.httpMethod = httpMethod;
+        if (this.httpMethod != null) {
+            this.httpMethod = this.httpMethod.toUpperCase();
         }
-        this.httpMethod = httpMethod.toUpperCase();
         return this;
     }
 
@@ -153,6 +146,10 @@ public class OAuthBaseString {//implements Builder<String> {
             requestParameters().put(key, values);
         }
         if (key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
+            if (key.equals(OAUTH_SIGNATURE)) {
+                throw new IllegalArgumentException(
+                        OAUTH_SIGNATURE + " can't be added");
+            }
             values.clear();
         }
         values.add(value);
@@ -166,8 +163,8 @@ public class OAuthBaseString {//implements Builder<String> {
      * @param key key
      * @param value value
      * @return this instance
-     * @throws IllegalArgumentException if the {@code key} start with
-     * {@value #PROTOCOL_PARAMETER_PREFIX}.
+     * @throws IllegalArgumentException if the {@code key} starts with
+     * {@code oauth_}.
      */
     public OAuthBaseString queryParameter(final String key,
                                           final String value) {
@@ -190,7 +187,7 @@ public class OAuthBaseString {//implements Builder<String> {
      * @param value protocol parameter value.
      * @return this instance
      * @throws IllegalArgumentException if the {@code key} does not start with
-     * {@value #PROTOCOL_PARAMETER_PREFIX}.
+     * {@code oauth_}.
      */
     public OAuthBaseString protocolParameter(final String key,
                                              final String value) {
@@ -199,32 +196,10 @@ public class OAuthBaseString {//implements Builder<String> {
         }
         if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
             throw new IllegalArgumentException(
-                    "key(" + key + ") doesn't start with "
+                    "protocol parameter's key(" + key + ") doesn't start with "
                     + PROTOCOL_PARAMETER_PREFIX);
         }
         return requestParameter(key, value);
-    }
-
-    /**
-     * Puts protocol parameters added to this instance except the one for
-     * {@link OAuthConstants#OAUTH_SIGNATURE} to given map and returns the map.
-     *
-     * @param map the map to which protocol parameters are put.
-     * @return given map.
-     * @deprecated not used anymore
-     */
-    @Deprecated
-    Map<String, String> protocolParameters(final Map<String, String> map) {
-        for (final Entry<String, List<String>> entry
-             : requestParameters().entrySet()) {
-            final String key = entry.getKey();
-            if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)
-                || key.equals(OAuthConstants.OAUTH_SIGNATURE)) {
-                continue;
-            }
-            map.put(key, entry.getValue().get(0));
-        }
-        return map;
     }
 
     // -------------------------------------------------------- entityParameters

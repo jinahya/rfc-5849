@@ -31,6 +31,7 @@ public class OAuthBaseStringTest {
 
     private static final Logger logger = getLogger(lookup().lookupClass());
 
+    // -------------------------------------------------------------------------
     static OAuthBaseString baseStringBuilderOf(final String baseString) {
         return new OAuthBaseString() {
             @Override
@@ -194,7 +195,7 @@ public class OAuthBaseStringTest {
                 .get();
     }
 
-    @Test(expectedExceptions = {IllegalStateException.class},enabled = false)
+    @Test(expectedExceptions = {IllegalStateException.class}, enabled = false)
     @Deprecated
     public void buildWithoutOauthNonce() {
         new OAuthBaseString()
@@ -204,7 +205,7 @@ public class OAuthBaseStringTest {
                 .get();
     }
 
-    @Test(expectedExceptions = {IllegalStateException.class},enabled = false)
+    @Test(expectedExceptions = {IllegalStateException.class}, enabled = false)
     @Deprecated
     public void buildWithoutOauthTimestamp() {
         new OAuthBaseString()
