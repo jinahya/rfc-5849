@@ -21,8 +21,7 @@ import org.bouncycastle.crypto.macs.HMac;
 import org.bouncycastle.crypto.params.KeyParameter;
 
 /**
- * A signature builder using the <b>Legion of the Bouncy Castle</b> Java
- * cryptography APIs.
+ * A signature builder using the <b>Legion of the Bouncy Castle</b> Java cryptography APIs.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://www.bouncycastle.org/java.html">The Legion of the

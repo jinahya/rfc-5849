@@ -15,23 +15,21 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.invoke.MethodHandles.lookup;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
-import static org.testng.Assert.assertEquals;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * Tests {@link OAuthBaseString}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public class OAuthBaseStringTest {
 
-    private static final Logger logger = getLogger(lookup().lookupClass());
-
-    // -------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
     static OAuthBaseString baseStringBuilderOf(final String baseString) {
         return new OAuthBaseString() {
             @Override
@@ -45,19 +43,13 @@ public class OAuthBaseStringTest {
         return new OAuthBaseString()
                 .httpMethod("POST")
                 .baseUri("https://api.twitter.com/1/statuses/update.json")
-                .entityParameter(
-                        "status",
-                        "Hello Ladies + Gentlemen, a signed OAuth request!")
+                .entityParameter("status", "Hello Ladies + Gentlemen, a signed OAuth request!")
                 .entityParameter("include_entities", "true")
-                .protocolParameter("oauth_consumer_key",
-                                   "xvz1evFS4wEEPTGEFPHBog")
-                .protocolParameter("oauth_nonce",
-                                   "kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg")
+                .protocolParameter("oauth_consumer_key", "xvz1evFS4wEEPTGEFPHBog")
+                .protocolParameter("oauth_nonce", "kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg")
                 .protocolParameter("oauth_signature_method", "HMAC-SHA1")
                 .protocolParameter("oauth_timestamp", "1318622958")
-                .protocolParameter(
-                        "oauth_token",
-                        "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb")
+                .protocolParameter("oauth_token", "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb")
                 .protocolParameter("oauth_version", "1.0");
     }
 
@@ -94,18 +86,17 @@ public class OAuthBaseStringTest {
 
     @DataProvider
     static Object[][] baseStrings() {
-        return new Object[][]{
-            {baseString_twitter()},
-            {baseString_nouncer()},
-            {baseString_rfc5849_3_4_1_1()}
+        return new Object[][] {
+                {baseString_twitter()},
+                {baseString_nouncer()},
+                {baseString_rfc5849_3_4_1_1()}
         };
     }
 
     /**
      * Tests against twitter example.
      *
-     * @see
-     * <a href="https://dev.twitter.com/oauth/overview/creating-signatures">Creating
+     * @see <a href="https://dev.twitter.com/oauth/overview/creating-signatures">Creating
      * a signature</a>
      */
     @Test

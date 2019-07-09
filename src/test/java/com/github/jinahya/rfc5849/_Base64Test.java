@@ -15,22 +15,19 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849._Base64.encodeBase64;
-import static java.lang.invoke.MethodHandles.lookup;
-import static java.util.concurrent.ThreadLocalRandom.current;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
+import static com.github.jinahya.rfc5849._Base64.encodeBase64;
+import static java.util.concurrent.ThreadLocalRandom.current;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+
 /**
- *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public class _Base64Test {
-
-    private static final Logger logger = getLogger(lookup().lookupClass());
 
     @Test(invocationCount = 128)
     public void encode() {

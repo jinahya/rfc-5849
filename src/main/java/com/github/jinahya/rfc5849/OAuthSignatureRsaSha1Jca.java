@@ -22,12 +22,10 @@ import java.security.Signature;
  * A request signer uses Java Cryptography Architecture.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @see
- * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java
+ * @see <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java
  * Cryptography Architecture (JCA) Reference Guide</a>
  */
-public class OAuthSignatureRsaSha1Jca
-        extends OAuthSignatureRsaSha1<PrivateKey> {
+public class OAuthSignatureRsaSha1Jca extends OAuthSignatureRsaSha1<PrivateKey> {
 
     /**
      * The algorithm name whose value is {@value #ALGORITHM}.
@@ -35,8 +33,7 @@ public class OAuthSignatureRsaSha1Jca
     protected static final String ALGORITHM = "SHA1withRSA";
 
     @Override
-    byte[] get(final PrivateKey initParam, final byte[] baseBytes)
-            throws Exception {
+    byte[] get(final PrivateKey initParam, final byte[] baseBytes) throws Exception {
         final Signature signature = Signature.getInstance(ALGORITHM);
         signature.initSign(initParam);
         signature.update(baseBytes);
@@ -45,8 +42,7 @@ public class OAuthSignatureRsaSha1Jca
 
     // -------------------------------------------------------------- baseString
     @Override
-    public OAuthSignatureRsaSha1Jca baseString(
-            final OAuthBaseString baseString) {
+    public OAuthSignatureRsaSha1Jca baseString(final OAuthBaseString baseString) {
         return (OAuthSignatureRsaSha1Jca) super.baseString(baseString);
     }
 

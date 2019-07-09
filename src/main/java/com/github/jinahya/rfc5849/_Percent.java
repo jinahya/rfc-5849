@@ -15,9 +15,10 @@
  */
 package com.github.jinahya.rfc5849;
 
+import java.io.UnsupportedEncodingException;
+
 import static com.github.jinahya.rfc5849._Hex.decodeHexSingle;
 import static com.github.jinahya.rfc5849._Hex.encodeHexSingle;
-import java.io.UnsupportedEncodingException;
 
 /**
  * A class for encoding/decoding percent.

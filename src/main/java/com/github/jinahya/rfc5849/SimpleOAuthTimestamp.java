@@ -21,14 +21,12 @@ import static java.lang.System.currentTimeMillis;
  * A simple timestamp generator.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
- * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
- * Timestamp (RFC 5849)</a>
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and Timestamp (RFC 5849)</a>
  */
 public class SimpleOAuthTimestamp implements OAuthTimestamp {
 
     /**
-     * {@inheritDoc} This method returns the value of
-     * {@link System#currentTimeMillis()} divided by {@code 1000L}.
+     * {@inheritDoc} This method returns the value of {@link System#currentTimeMillis()} divided by {@code 1000L}.
      *
      * @return {@inheritDoc}
      */

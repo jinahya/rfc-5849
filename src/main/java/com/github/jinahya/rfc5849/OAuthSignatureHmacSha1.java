@@ -18,8 +18,7 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
- * An abstract class generating signatures using
- * {@link OAuthConstants#SIGNATURE_METHOD_HMAC_SHA1}.
+ * An abstract class generating signatures using {@link OAuthConstants#SIGNATURE_METHOD_HMAC_SHA1}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.2">3.4.2.

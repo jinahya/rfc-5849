@@ -15,26 +15,25 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.invoke.MethodHandles.lookup;
+import lombok.extern.slf4j.Slf4j;
+import org.testng.annotations.Test;
+
 import java.math.BigInteger;
 import java.security.spec.RSAKeyGenParameterSpec;
 import java.util.concurrent.ThreadLocalRandom;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
-import org.testng.annotations.Test;
+
 import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseStringBuilderOf;
 
 /**
  * Test class for {@link OAuthSignatureRsaSha1}.
  *
- * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> implementation type parameter
  * @param <P> initParam type parameter
+ * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public abstract class OAuthSignatureRsaSha1Test<T extends OAuthSignatureRsaSha1<P>, P>
         extends OAuthSignatureTest<T> {
-
-    private static final Logger logger = getLogger(lookup().lookupClass());
 
     static BigInteger modulus() {
         if (true) {
@@ -105,41 +104,41 @@ public abstract class OAuthSignatureRsaSha1Test<T extends OAuthSignatureRsaSha1<
     public void test() throws Exception {
         final OAuthSignature oauthSignature
                 = instance()
-                        .initParam(initParam())
-                        .baseString(baseStringBuilderOf(
-                                "POST"
-                                + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
-                                + "&include_entities%3Dtrue"
-                                + "%26oauth_consumer_key%3Dxvz1evFS4wEEPTGEFPHBog"
-                                + "%26oauth_nonce%3DkYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg"
-                                + "%26oauth_signature_method%3DHMAC-SHA1"
-                                + "%26oauth_timestamp%3D1318622958"
-                                + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
-                                + "%26oauth_version%3D1.0"
-                                + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521"
-                        ));
+                .initParam(initParam())
+                .baseString(baseStringBuilderOf(
+                        "POST"
+                        + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
+                        + "&include_entities%3Dtrue"
+                        + "%26oauth_consumer_key%3Dxvz1evFS4wEEPTGEFPHBog"
+                        + "%26oauth_nonce%3DkYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg"
+                        + "%26oauth_signature_method%3DHMAC-SHA1"
+                        + "%26oauth_timestamp%3D1318622958"
+                        + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
+                        + "%26oauth_version%3D1.0"
+                        + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521"
+                ));
         final String signature = oauthSignature.get();
-        logger.debug("signature: {}", signature);
+        log.debug("signature: {}", signature);
     }
 
     @Test
     public void get() throws Exception {
         final OAuthSignature oauthSignature
                 = instance()
-                        .initParam(initParam())
-                        .baseString(baseStringBuilderOf(
-                                "POST"
-                                + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
-                                + "&include_entities%3Dtrue"
-                                + "%26oauth_consumer_key%3Dxvz1evFS4wEEPTGEFPHBog"
-                                + "%26oauth_nonce%3DkYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg"
-                                + "%26oauth_signature_method%3DHMAC-SHA1"
-                                + "%26oauth_timestamp%3D1318622958"
-                                + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
-                                + "%26oauth_version%3D1.0"
-                                + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521"
-                        ));
+                .initParam(initParam())
+                .baseString(baseStringBuilderOf(
+                        "POST"
+                        + "&https%3A%2F%2Fapi.twitter.com%2F1%2Fstatuses%2Fupdate.json"
+                        + "&include_entities%3Dtrue"
+                        + "%26oauth_consumer_key%3Dxvz1evFS4wEEPTGEFPHBog"
+                        + "%26oauth_nonce%3DkYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg"
+                        + "%26oauth_signature_method%3DHMAC-SHA1"
+                        + "%26oauth_timestamp%3D1318622958"
+                        + "%26oauth_token%3D370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb"
+                        + "%26oauth_version%3D1.0"
+                        + "%26status%3DHello%2520Ladies%2520%252B%2520Gentlemen%252C%2520a%2520signed%2520OAuth%2520request%2521"
+                ));
         final String signature = oauthSignature.get();
-        logger.debug("signature: {}", signature);
+        log.debug("signature: {}", signature);
     }
 }

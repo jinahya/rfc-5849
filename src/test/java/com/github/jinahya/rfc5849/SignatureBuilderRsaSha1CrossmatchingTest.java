@@ -16,7 +16,6 @@
 package com.github.jinahya.rfc5849;
 
 import java.io.File;
-import static java.io.File.createTempFile;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,14 +28,14 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+import static java.io.File.createTempFile;
+
 /**
- *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public class SignatureBuilderRsaSha1CrossmatchingTest {
 
-    private static File store(final byte[] bytes, final File file)
-            throws IOException {
+    private static File store(final byte[] bytes, final File file) throws IOException {
         try (OutputStream output = new FileOutputStream(file)) {
             output.write(bytes);
             output.flush();
@@ -50,29 +49,21 @@ public class SignatureBuilderRsaSha1CrossmatchingTest {
         return store(bytes, file);
     }
 
-    static <R> R applyKeyFiles(final BiFunction<File, File, R> function)
-            throws NoSuchAlgorithmException, IOException {
+    static <R> R applyKeyFiles(final BiFunction<File, File, R> function) throws NoSuchAlgorithmException, IOException {
         final KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
-        final int keysize
-                = ThreadLocalRandom.current().nextBoolean() ? 1024 : 2048;
+        final int keysize = ThreadLocalRandom.current().nextBoolean() ? 1024 : 2048;
         generator.initialize(keysize);
         final KeyPair pair = generator.generateKeyPair();
-        final File publicKeyFile = store(
-                new X509EncodedKeySpec(pair.getPublic().getEncoded())
-                .getEncoded());
-        final File privateKeyFile = store(
-                new PKCS8EncodedKeySpec(pair.getPrivate().getEncoded())
-                .getEncoded());
+        final File publicKeyFile = store(new X509EncodedKeySpec(pair.getPublic().getEncoded()).getEncoded());
+        final File privateKeyFile = store(new PKCS8EncodedKeySpec(pair.getPrivate().getEncoded()).getEncoded());
         return function.apply(publicKeyFile, privateKeyFile);
     }
 
-    static <R> R applyPublicKeyFile(final Function<File, R> function)
-            throws NoSuchAlgorithmException, IOException {
+    static <R> R applyPublicKeyFile(final Function<File, R> function) throws NoSuchAlgorithmException, IOException {
         return applyKeyFiles((f, i) -> function.apply(f));
     }
 
-    static <R> R applyPrivateKeyFile(final Function<File, R> function)
-            throws NoSuchAlgorithmException, IOException {
+    static <R> R applyPrivateKeyFile(final Function<File, R> function) throws NoSuchAlgorithmException, IOException {
         return applyKeyFiles((i, f) -> function.apply(f));
     }
 }

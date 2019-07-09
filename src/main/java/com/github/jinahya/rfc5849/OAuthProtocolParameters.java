@@ -15,22 +15,22 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.OAuthConstants.OAUTH_SIGNATURE;
-import static com.github.jinahya.rfc5849.OAuthConstants.PROTOCOL_PARAMETER_PREFIX;
-import static com.github.jinahya.rfc5849._Formurl.encodeFormurl;
-import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import static com.github.jinahya.rfc5849.OAuthConstants.OAUTH_SIGNATURE;
+import static com.github.jinahya.rfc5849.OAuthConstants.PROTOCOL_PARAMETER_PREFIX;
+import static com.github.jinahya.rfc5849._Formurl.encodeFormurl;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
+
 /**
  * A builder for building request authentication information.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.1">3.5.1.
- * Authorization Header (RFC 5849)</a>
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.5.1">3.5.1. Authorization Header (RFC 5849)</a>
  */
 public class OAuthProtocolParameters {
 
@@ -39,6 +39,7 @@ public class OAuthProtocolParameters {
     private static final String REALM = "realm";
 
     // ------------------------------------------------------------------- realm
+
     /**
      * Sets the realm value.
      *
@@ -51,9 +52,9 @@ public class OAuthProtocolParameters {
     }
 
     // -------------------------------------------------------------------------
+
     /**
-     * Returns all protocol parameters including an entry for
-     * {@link OAuthConstants#OAUTH_SIGNATURE}.
+     * Returns all protocol parameters including an entry for {@link OAuthConstants#OAUTH_SIGNATURE}.
      *
      * @return all protocol parameters
      * @throws Exception if an error occurs.
@@ -71,7 +72,7 @@ public class OAuthProtocolParameters {
         final Map<String, List<String>> requestParameters
                 = baseString.requestParameters();
         for (final Iterator<Entry<String, List<String>>> i
-                = requestParameters.entrySet().iterator(); i.hasNext();) {
+             = requestParameters.entrySet().iterator(); i.hasNext(); ) {
             final Entry<String, List<String>> entry = i.next();
             final String key = entry.getKey();
             if (!key.startsWith(PROTOCOL_PARAMETER_PREFIX)) {
@@ -202,6 +203,7 @@ public class OAuthProtocolParameters {
     }
 
     // --------------------------------------------------------------- signature
+
     /**
      * Sets a signature.
      *

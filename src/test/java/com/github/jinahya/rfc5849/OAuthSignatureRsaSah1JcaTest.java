@@ -15,9 +15,11 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.OAuthSignatureTest.random;
+import lombok.extern.slf4j.Slf4j;
+import org.testng.annotations.Test;
+
+import javax.crypto.Cipher;
 import java.io.IOException;
-import static java.lang.invoke.MethodHandles.lookup;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -26,20 +28,15 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.interfaces.RSAKey;
 import java.util.function.Function;
-import javax.crypto.Cipher;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
+
 import static org.testng.Assert.assertEquals;
-import org.testng.annotations.Test;
 
 /**
- *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public class OAuthSignatureRsaSah1JcaTest
         extends OAuthSignatureRsaSha1Test<OAuthSignatureRsaSha1Jca, PrivateKey> {
-
-    private static final Logger logger = getLogger(lookup().lookupClass());
 
     private static final String ALGORITHM = "RSA";
 
@@ -104,7 +101,7 @@ public class OAuthSignatureRsaSah1JcaTest
                 final byte[] actual = cipher.doFinal(encrypted);
                 assertEquals(actual, expected);
             } catch (final Exception e) {
-                logger.error("failed", e);
+                log.error("failed", e);
             }
             return null;
         });
@@ -114,22 +111,22 @@ public class OAuthSignatureRsaSah1JcaTest
     public void encodePublicDecodePrivate()
             throws NoSuchAlgorithmException, IOException {
         applyKeyPair(keyPair -> {
-            final PublicKey publicKey = keyPair.getPublic();
-            final PrivateKey privateKey = keyPair.getPrivate();
-            final int bits = ((RSAKey) publicKey).getModulus().bitLength();
-            final byte[] expected = new byte[random().nextInt(bits / 8 - 11)];
-            try {
-                final Cipher cipher = Cipher.getInstance(ALGORITHM);
-                cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-                final byte[] encrypted = cipher.doFinal(expected);
-                cipher.init(Cipher.DECRYPT_MODE, privateKey);
-                final byte[] actual = cipher.doFinal(encrypted);
-                assertEquals(actual, expected);
-            } catch (final Exception e) {
-                logger.error("failed", e);
-            }
-            return null;
-        }
+                         final PublicKey publicKey = keyPair.getPublic();
+                         final PrivateKey privateKey = keyPair.getPrivate();
+                         final int bits = ((RSAKey) publicKey).getModulus().bitLength();
+                         final byte[] expected = new byte[random().nextInt(bits / 8 - 11)];
+                         try {
+                             final Cipher cipher = Cipher.getInstance(ALGORITHM);
+                             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+                             final byte[] encrypted = cipher.doFinal(expected);
+                             cipher.init(Cipher.DECRYPT_MODE, privateKey);
+                             final byte[] actual = cipher.doFinal(encrypted);
+                             assertEquals(actual, expected);
+                         } catch (final Exception e) {
+                             log.error("failed", e);
+                         }
+                         return null;
+                     }
         );
     }
 }

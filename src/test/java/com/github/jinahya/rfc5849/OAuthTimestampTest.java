@@ -18,16 +18,14 @@ package com.github.jinahya.rfc5849;
 import static java.util.Objects.requireNonNull;
 
 /**
- *
- * @author Jin Kwon &lt;onacit at gmail.com&gt;
  * @param <T> OAuthTimestamp type parameter
+ * @author Jin Kwon &lt;onacit at gmail.com&gt;
  */
 public abstract class OAuthTimestampTest<T extends OAuthTimestamp> {
 
     public OAuthTimestampTest(final Class<T> oAuthTimestampClass) {
         super();
-        this.oAuthTimestampClass
-                = requireNonNull(oAuthTimestampClass, "null oAuthNonceClass");
+        this.oAuthTimestampClass = requireNonNull(oAuthTimestampClass, "null oAuthNonceClass");
     }
 
     protected T newInstance() {

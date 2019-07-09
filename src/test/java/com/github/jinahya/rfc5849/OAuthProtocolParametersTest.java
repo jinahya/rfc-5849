@@ -15,51 +15,48 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.invoke.MethodHandles.lookup;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
-import static org.testng.Assert.assertEquals;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
 
 /**
  * A test class for {@link OAuthProtocolParameters}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public class OAuthProtocolParametersTest {
-
-    private static final Logger logger = getLogger(lookup().lookupClass());
 
     /**
      * Tests against the example from {@code dev.twitter.com/oauth}.
      *
      * @throws Exception if an error occurs.
-     * @see
-     * <a href="https://dev.twitter.com/oauth/overview/creating-signatures">Creating
+     * @see <a href="https://dev.twitter.com/oauth/overview/creating-signatures">Creating
      * a signature Overview</a>
-     * @see
-     * <a href="https://dev.twitter.com/oauth/overview/authorizing-requests">Authorizing
+     * @see <a href="https://dev.twitter.com/oauth/overview/authorizing-requests">Authorizing
      * a request Overview</a>
      */
     @Test
     public void twitterExample() throws Exception {
-        final OAuthProtocolParameters builder = new OAuthProtocolParameters()
-                .signature(new OAuthSignatureHmacSha1Jca()
+        final OAuthProtocolParameters builder = new OAuthProtocolParameters().signature(
+                new OAuthSignatureHmacSha1Jca()
                         .consumerSecret("kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw")
                         .tokenSecret("LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE")
-                        .baseString(new OAuthBaseString()
-                                .httpMethod("POST")
-                                .baseUri("https://api.twitter.com/1/statuses/update.json")
-                                .queryParameter("include_entities", "true")
-                                .oauthConsumerKey("xvz1evFS4wEEPTGEFPHBog")
-                                .oauthNonce("kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg")
-                                .oauthSignatureMethod("HMAC-SHA1")
-                                .oauthTimestamp("1318622958")
-                                .oauthToken("370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb")
-                                .oauthVersion("1.0")
-                                .entityParameter("status", "Hello Ladies + Gentlemen, a signed OAuth request!")
+                        .baseString(
+                                new OAuthBaseString()
+                                        .httpMethod("POST")
+                                        .baseUri("https://api.twitter.com/1/statuses/update.json")
+                                        .queryParameter("include_entities", "true")
+                                        .oauthConsumerKey("xvz1evFS4wEEPTGEFPHBog")
+                                        .oauthNonce("kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg")
+                                        .oauthSignatureMethod("HMAC-SHA1")
+                                        .oauthTimestamp("1318622958")
+                                        .oauthToken("370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb")
+                                        .oauthVersion("1.0")
+                                        .entityParameter("status", "Hello Ladies + Gentlemen, a signed OAuth request!")
                         )
-                );
+        );
         final String actual = builder.authorizationHeader();
         final String documented
                 = "OAuth"
@@ -114,20 +111,20 @@ public class OAuthProtocolParametersTest {
         final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .realm("http://photos.example.net/photos")
                 .signature(new OAuthSignatureHmacSha1Jca()
-                        .consumerSecret("kd94hf93k423kf44")
-                        .tokenSecret("pfkkdhi9sl3r4s00")
-                        .baseString(new OAuthBaseString()
-                                .httpMethod("GET")
-                                .baseUri("http://photos.example.net/photos")
-                                .queryParameter("size", "original")
-                                .queryParameter("file", "vacation.jpg")
-                                .oauthConsumerKey("dpf43f3p2l4k3l03")
-                                .oauthNonce("kllo9940pd9333jh")
-                                .oauthSignatureMethod("HMAC-SHA1")
-                                .oauthTimestamp("1191242096")
-                                .oauthToken("nnch734d00sl2jdk")
-                                .oauthVersion("1.0")
-                        )
+                                   .consumerSecret("kd94hf93k423kf44")
+                                   .tokenSecret("pfkkdhi9sl3r4s00")
+                                   .baseString(new OAuthBaseString()
+                                                       .httpMethod("GET")
+                                                       .baseUri("http://photos.example.net/photos")
+                                                       .queryParameter("size", "original")
+                                                       .queryParameter("file", "vacation.jpg")
+                                                       .oauthConsumerKey("dpf43f3p2l4k3l03")
+                                                       .oauthNonce("kllo9940pd9333jh")
+                                                       .oauthSignatureMethod("HMAC-SHA1")
+                                                       .oauthTimestamp("1191242096")
+                                                       .oauthToken("nnch734d00sl2jdk")
+                                                       .oauthVersion("1.0")
+                                   )
                 );
         final String actual = builder.authorizationHeader();
         assertEquals(actual, expected);
@@ -137,8 +134,7 @@ public class OAuthProtocolParametersTest {
      * Tests against rfc5849.
      *
      * @throws Exception if any error occurs
-     * @see <a href="http://tools.ietf.org/html/rfc5849#section-1.2">1.2.
-     * Example</a>
+     * @see <a href="http://tools.ietf.org/html/rfc5849#section-1.2">1.2. Example</a>
      */
     @Test
     public void rfc5849_1_2() throws Exception {
@@ -166,16 +162,16 @@ public class OAuthProtocolParametersTest {
             final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                     .realm("Photos")
                     .signature(new OAuthSignatureHmacSha1Bc()
-                            .consumerSecret(consumerSecret)
-                            .tokenSecret("")
-                            .baseString(new OAuthBaseString()
-                                    .httpMethod("POST")
-                                    .baseUri("https://photos.example.net/initiate")
-                                    .oauthConsumerKey(consumerKey)
-                                    .oauthTimestamp("137131200")
-                                    .oauthNonce("wIjqoS")
-                                    .oauthCallback("http://printer.example.com/ready")
-                            )
+                                       .consumerSecret(consumerSecret)
+                                       .tokenSecret("")
+                                       .baseString(new OAuthBaseString()
+                                                           .httpMethod("POST")
+                                                           .baseUri("https://photos.example.net/initiate")
+                                                           .oauthConsumerKey(consumerKey)
+                                                           .oauthTimestamp("137131200")
+                                                           .oauthNonce("wIjqoS")
+                                                           .oauthCallback("http://printer.example.com/ready")
+                                       )
                     );
             final String actual = builder.authorizationHeader();
             assertEquals(actual, expected);
@@ -207,17 +203,17 @@ public class OAuthProtocolParametersTest {
             final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                     .realm("Photos")
                     .signature(new OAuthSignatureHmacSha1Bc()
-                            .consumerSecret(consumerSecret)
-                            .tokenSecret(oauthTokenSecret)
-                            .baseString(new OAuthBaseString()
-                                    .httpMethod("POST")
-                                    .baseUri("https://photos.example.net/token")
-                                    .oauthConsumerKey(consumerKey)
-                                    .oauthTimestamp("137131201")
-                                    .oauthNonce("walatlh")
-                                    .oauthToken(oauthToken)
-                                    .oauthVerifier(oauthVerifier)
-                            )
+                                       .consumerSecret(consumerSecret)
+                                       .tokenSecret(oauthTokenSecret)
+                                       .baseString(new OAuthBaseString()
+                                                           .httpMethod("POST")
+                                                           .baseUri("https://photos.example.net/token")
+                                                           .oauthConsumerKey(consumerKey)
+                                                           .oauthTimestamp("137131201")
+                                                           .oauthNonce("walatlh")
+                                                           .oauthToken(oauthToken)
+                                                           .oauthVerifier(oauthVerifier)
+                                       )
                     );
             final String actual = builder.authorizationHeader();
             assertEquals(actual, expected);
@@ -246,18 +242,18 @@ public class OAuthProtocolParametersTest {
             final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                     .realm("Photos")
                     .signature(new OAuthSignatureHmacSha1Bc()
-                            .consumerSecret(consumerSecret)
-                            .tokenSecret(oauthTokenSecret)
-                            .baseString(new OAuthBaseString()
-                                    .httpMethod("GET")
-                                    .baseUri("http://photos.example.net/photos")
-                                    .oauthConsumerKey(consumerKey)
-                                    .oauthTimestamp("137131202")
-                                    .oauthNonce("chapoH")
-                                    .oauthToken(oauthToken)
-                                    .queryParameter("file", "vacation.jpg")
-                                    .queryParameter("size", "original")
-                            )
+                                       .consumerSecret(consumerSecret)
+                                       .tokenSecret(oauthTokenSecret)
+                                       .baseString(new OAuthBaseString()
+                                                           .httpMethod("GET")
+                                                           .baseUri("http://photos.example.net/photos")
+                                                           .oauthConsumerKey(consumerKey)
+                                                           .oauthTimestamp("137131202")
+                                                           .oauthNonce("chapoH")
+                                                           .oauthToken(oauthToken)
+                                                           .queryParameter("file", "vacation.jpg")
+                                                           .queryParameter("size", "original")
+                                       )
                     );
             final String actual = builder.authorizationHeader();
             assertEquals(actual, expected);
@@ -290,12 +286,12 @@ public class OAuthProtocolParametersTest {
         final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .realm("Example")
                 .signature(new OAuthSignaturePlaintext()
-                        .consumerSecret("ja893SD9")
-                        .tokenSecret("")
-                        .baseString(new OAuthBaseString()
-                                .oauthConsumerKey("jd83jd92dhsh93js")
-                                .oauthCallback("http://client.example.net/cb?x=1")
-                        )
+                                   .consumerSecret("ja893SD9")
+                                   .tokenSecret("")
+                                   .baseString(new OAuthBaseString()
+                                                       .oauthConsumerKey("jd83jd92dhsh93js")
+                                                       .oauthCallback("http://client.example.net/cb?x=1")
+                                   )
                 );
         final String actual = builder.authorizationHeader();
         assertEquals(actual, expected);
@@ -329,13 +325,13 @@ public class OAuthProtocolParametersTest {
         final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .realm("Example")
                 .signature(new OAuthSignaturePlaintext()
-                        .consumerSecret("ja893SD9")
-                        .tokenSecret("xyz4992k83j47x0b")
-                        .baseString(new OAuthBaseString()
-                                .oauthConsumerKey("jd83jd92dhsh93js")
-                                .oauthToken("hdk48Djdsa")
-                                .oauthVerifier("473f82d3")
-                        )
+                                   .consumerSecret("ja893SD9")
+                                   .tokenSecret("xyz4992k83j47x0b")
+                                   .baseString(new OAuthBaseString()
+                                                       .oauthConsumerKey("jd83jd92dhsh93js")
+                                                       .oauthToken("hdk48Djdsa")
+                                                       .oauthVerifier("473f82d3")
+                                   )
                 );
         final String actual = builder.authorizationHeader();
         assertEquals(actual, expected);
@@ -372,22 +368,22 @@ public class OAuthProtocolParametersTest {
         final OAuthProtocolParameters builder = new OAuthProtocolParameters()
                 .realm("Example")
                 .signature(new OAuthSignatureHmacSha1Bc()
-                        .consumerSecret("j49sk3j29djd")
-                        .tokenSecret("dh893hdasih9")
-                        .baseString(new OAuthBaseString()
-                                .httpMethod("POST")
-                                .baseUri("http://example.com/request")
-                                .oauthConsumerKey("9djdj82h48djs9d2")
-                                .oauthNonce("7d8f3e4a")
-                                .oauthTimestamp("137131201")
-                                .oauthToken("kkk9d7dh3k39sjv7")
-                                .queryParameter("b5", "=%3D")
-                                .queryParameter("a3", "a")
-                                .queryParameter("c@", "")
-                                .queryParameter("a2", "r b")
-                                .entityParameter("c2", "")
-                                .entityParameter("a3", "2 q")
-                        )
+                                   .consumerSecret("j49sk3j29djd")
+                                   .tokenSecret("dh893hdasih9")
+                                   .baseString(new OAuthBaseString()
+                                                       .httpMethod("POST")
+                                                       .baseUri("http://example.com/request")
+                                                       .oauthConsumerKey("9djdj82h48djs9d2")
+                                                       .oauthNonce("7d8f3e4a")
+                                                       .oauthTimestamp("137131201")
+                                                       .oauthToken("kkk9d7dh3k39sjv7")
+                                                       .queryParameter("b5", "=%3D")
+                                                       .queryParameter("a3", "a")
+                                                       .queryParameter("c@", "")
+                                                       .queryParameter("a2", "r b")
+                                                       .entityParameter("c2", "")
+                                                       .entityParameter("a3", "2 q")
+                                   )
                 );
         final String actual = builder.authorizationHeader();
         assertEquals(actual, expected);

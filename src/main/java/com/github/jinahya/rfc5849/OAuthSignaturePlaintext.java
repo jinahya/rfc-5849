@@ -58,9 +58,9 @@ public class OAuthSignaturePlaintext extends OAuthSignature {
     }
 
     // ---------------------------------------------------------- consumerSecret
+
     /**
-     * Replaces the value of {@code consumerSecret} with given and return this
-     * instance.
+     * Replaces the value of {@code consumerSecret} with given and return this instance.
      *
      * @param consumerSecret the consumer secret.
      * @return this instance
@@ -71,9 +71,9 @@ public class OAuthSignaturePlaintext extends OAuthSignature {
     }
 
     // ------------------------------------------------------------- tokenSecret
+
     /**
-     * Replaces the value of {@code tokenSecrent} with given value and returns
-     * this instance.
+     * Replaces the value of {@code tokenSecrent} with given value and returns this instance.
      *
      * @param tokenSecret the token secret
      * @return this instance

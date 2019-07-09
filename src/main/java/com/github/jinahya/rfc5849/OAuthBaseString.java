@@ -15,9 +15,6 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.OAuthConstants.OAUTH_SIGNATURE;
-import static com.github.jinahya.rfc5849.OAuthConstants.PROTOCOL_PARAMETER_PREFIX;
-import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,22 +23,25 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import static com.github.jinahya.rfc5849.OAuthConstants.OAUTH_SIGNATURE;
+import static com.github.jinahya.rfc5849.OAuthConstants.PROTOCOL_PARAMETER_PREFIX;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
+
 /**
  * A builder for generating signature base strings.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.1">3.4.1.
- * Signature Base String (RFC 5849)</a>
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.1">3.4.1. Signature Base String (RFC 5849)</a>
  */
 public class OAuthBaseString {
 
     // -------------------------------------------------------------------------
+
     /**
      * Builds the signature base string.
      *
      * @return the signature base string.
-     * @throws IllegalStateException if either {@code httpMethod} or
-     * {@code baseUri} is not set
+     * @throws IllegalStateException if either {@code httpMethod} or {@code baseUri} is not set
      */
     public String get() {
         if (httpMethod == null) {
@@ -53,7 +53,7 @@ public class OAuthBaseString {
         final Map<String, List<String>> map
                 = new TreeMap<String, List<String>>();
         for (final Entry<String, List<String>> entry
-             : requestParameters().entrySet()) {
+                : requestParameters().entrySet()) {
             final String key = entry.getKey();
             final String ekey = encodePercent(key);
             final List<String> values = entry.getValue();
@@ -82,6 +82,7 @@ public class OAuthBaseString {
     }
 
     // -------------------------------------------------------------- httpMethod
+
     /**
      * Sets a value for {@code httpMethod}.
      *
@@ -99,6 +100,7 @@ public class OAuthBaseString {
     }
 
     // ----------------------------------------------------------------- baseUri
+
     /**
      * Set a value for {@code baseUri}.
      *
@@ -113,6 +115,7 @@ public class OAuthBaseString {
     }
 
     // ------------------------------------------------------- requestParameters
+
     /**
      * Returns the request parameters.
      *
@@ -128,7 +131,7 @@ public class OAuthBaseString {
     /**
      * Adds a request parameter.
      *
-     * @param key the key of the request parameter.
+     * @param key   the key of the request parameter.
      * @param value the value of the request parameter.
      * @return this instance.
      */
@@ -157,14 +160,14 @@ public class OAuthBaseString {
     }
 
     // ---------------------------------------------------------- queryParameter
+
     /**
      * Adds a query parameter.
      *
-     * @param key key
+     * @param key   key
      * @param value value
      * @return this instance
-     * @throws IllegalArgumentException if the {@code key} starts with
-     * {@code oauth_}.
+     * @throws IllegalArgumentException if the {@code key} starts with {@code oauth_}.
      */
     public OAuthBaseString queryParameter(final String key,
                                           final String value) {
@@ -180,14 +183,14 @@ public class OAuthBaseString {
     }
 
     // ------------------------------------------------------- protocolParameter
+
     /**
      * Sets a protocol parameter.
      *
-     * @param key protocol parameter key
+     * @param key   protocol parameter key
      * @param value protocol parameter value.
      * @return this instance
-     * @throws IllegalArgumentException if the {@code key} does not start with
-     * {@code oauth_}.
+     * @throws IllegalArgumentException if the {@code key} does not start with {@code oauth_}.
      */
     public OAuthBaseString protocolParameter(final String key,
                                              final String value) {
@@ -203,12 +206,12 @@ public class OAuthBaseString {
     }
 
     // -------------------------------------------------------- entityParameters
+
     /**
-     * Adds an entity parameter. This method simply invokes
-     * {@link #queryParameter(java.lang.String, java.lang.String)} with given
-     * arguments.
+     * Adds an entity parameter. This method simply invokes {@link #queryParameter(java.lang.String, java.lang.String)}
+     * with given arguments.
      *
-     * @param key key of the entity parameter
+     * @param key   key of the entity parameter
      * @param value value of the entity parameter
      * @return this instance
      */
@@ -218,12 +221,11 @@ public class OAuthBaseString {
     }
 
     // ----------------------------------------------------------- oauthCallback
+
     /**
-     * Set a protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_CALLBACK}.
+     * Set a protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_CALLBACK}.
      *
-     * @param oauthCallback the protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_CALLBACK}
+     * @param oauthCallback the protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_CALLBACK}
      * @return this instance
      */
     public OAuthBaseString oauthCallback(final String oauthCallback) {
@@ -232,12 +234,11 @@ public class OAuthBaseString {
     }
 
     // -------------------------------------------------------- oauthConsumerKey
+
     /**
-     * Sets a protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_CONSUMER_KEY}.
+     * Sets a protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_CONSUMER_KEY}.
      *
-     * @param oauthConsumerKey the protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_CONSUMER_KEY}
+     * @param oauthConsumerKey the protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_CONSUMER_KEY}
      * @return this instance.
      */
     public OAuthBaseString oauthConsumerKey(final String oauthConsumerKey) {
@@ -246,12 +247,11 @@ public class OAuthBaseString {
     }
 
     // -------------------------------------------------------------- oauthNonce
+
     /**
-     * Sets a protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_NONCE}
+     * Sets a protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_NONCE}
      *
-     * @param oauthNonce the protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_NONCE}
+     * @param oauthNonce the protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_NONCE}
      * @return this instance.
      */
     public OAuthBaseString oauthNonce(final String oauthNonce) {
@@ -259,12 +259,11 @@ public class OAuthBaseString {
     }
 
     // ---------------------------------------------------- oauthSignatureMethod
+
     /**
-     * Sets a protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_SIGNATURE_METHOD}.
+     * Sets a protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_SIGNATURE_METHOD}.
      *
-     * @param oauthSignatureMethod the protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_SIGNATURE_METHOD}
+     * @param oauthSignatureMethod the protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_SIGNATURE_METHOD}
      * @return return this
      */
     OAuthBaseString oauthSignatureMethod(final String oauthSignatureMethod) {
@@ -273,12 +272,11 @@ public class OAuthBaseString {
     }
 
     // ---------------------------------------------------------- oauthTimestamp
+
     /**
-     * Sets a protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_TIMESTAMP}.
+     * Sets a protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_TIMESTAMP}.
      *
-     * @param oauthTimestamp the protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_TIMESTAMP}
+     * @param oauthTimestamp the protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_TIMESTAMP}
      * @return this instance
      */
     public OAuthBaseString oauthTimestamp(final String oauthTimestamp) {
@@ -287,12 +285,11 @@ public class OAuthBaseString {
     }
 
     // -------------------------------------------------------------- oauthToken
+
     /**
-     * Sets a protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_TOKEN}.
+     * Sets a protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_TOKEN}.
      *
-     * @param oauthToken the protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_TOKEN}
+     * @param oauthToken the protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_TOKEN}
      * @return this instance
      */
     public OAuthBaseString oauthToken(final String oauthToken) {
@@ -300,12 +297,11 @@ public class OAuthBaseString {
     }
 
     // ------------------------------------------------------------ oauthVersion
+
     /**
-     * Sets a protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_VERSION}.
+     * Sets a protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_VERSION}.
      *
-     * @param oauthVersion the protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_VERSION}
+     * @param oauthVersion the protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_VERSION}
      * @return this instance
      */
     public OAuthBaseString oauthVersion(final String oauthVersion) {
@@ -313,12 +309,11 @@ public class OAuthBaseString {
     }
 
     // ----------------------------------------------------------- oauthVerifier
+
     /**
-     * Sets a protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_VERIFIER}.
+     * Sets a protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_VERIFIER}.
      *
-     * @param oauthVerifier the protocol parameter value for
-     * {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_VERIFIER}
+     * @param oauthVerifier the protocol parameter value for {@value com.github.jinahya.rfc5849.OAuthConstants#OAUTH_VERIFIER}
      * @return this instance
      */
     public OAuthBaseString oauthVerifier(final String oauthVerifier) {

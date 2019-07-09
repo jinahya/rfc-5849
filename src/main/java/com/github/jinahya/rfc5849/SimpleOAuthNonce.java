@@ -15,25 +15,23 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849._Percent.encodePercent;
 import java.security.SecureRandom;
 import java.util.Random;
+
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
 
 /**
  * A simple nonce generator.
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
- * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
- * Timestamp (RFC 5849)</a>
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and Timestamp (RFC 5849)</a>
  */
 public class SimpleOAuthNonce implements OAuthNonce {
 
     /**
-     * Creates a new instance which generates nonce values with given
-     * identifiers as a prefix.
+     * Creates a new instance which generates nonce values with given identifiers as a prefix.
      *
-     * @param identifiers identifies for specifying client such as device or
-     * agent identifier.
+     * @param identifiers identifies for specifying client such as device or agent identifier.
      * @return a nonce builder
      */
     @Deprecated
@@ -53,8 +51,8 @@ public class SimpleOAuthNonce implements OAuthNonce {
     }
 
     /**
-     * {@inheritDoc} This methods returns the value of {@link Random#nextLong()}
-     * invoked on what {@link #random()} returns.
+     * {@inheritDoc} This methods returns the value of {@link Random#nextLong()} invoked on what {@link #random()}
+     * returns.
      *
      * @return {@inheritDoc}
      */

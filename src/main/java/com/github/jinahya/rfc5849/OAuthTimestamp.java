@@ -16,12 +16,10 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * An interface for generating values for
- * {@link OAuthConstants#OAUTH_TIMESTAMP}.
+ * An interface for generating values for {@link OAuthConstants#OAUTH_TIMESTAMP}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and
- * Timestamp (RFC 5849)</a>
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.3">3.3. Nonce and Timestamp (RFC 5849)</a>
  */
 public interface OAuthTimestamp {
 

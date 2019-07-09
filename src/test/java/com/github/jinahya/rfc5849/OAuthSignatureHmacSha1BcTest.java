@@ -15,11 +15,14 @@
  */
 package com.github.jinahya.rfc5849;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Tests {@link OAuthSignatureHmacSha1Bc}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public class OAuthSignatureHmacSha1BcTest
         extends OAuthSignatureHmacSha1Test<OAuthSignatureHmacSha1Bc> {
 

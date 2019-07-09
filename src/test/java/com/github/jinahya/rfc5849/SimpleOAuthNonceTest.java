@@ -15,9 +15,7 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.invoke.MethodHandles.lookup;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
+import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.Test;
 
 /**
@@ -25,9 +23,8 @@ import org.testng.annotations.Test;
  *
  * @author Jin Kwon &lt;jinahya at gmail.com&gt;
  */
+@Slf4j
 public class SimpleOAuthNonceTest extends OAuthNonceTest<SimpleOAuthNonce> {
-
-    private static final Logger logger = getLogger(lookup().lookupClass());
 
     @Test
     public static void of() throws Exception {

@@ -15,16 +15,15 @@
  */
 package com.github.jinahya.rfc5849;
 
-import java.security.Key;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 
 /**
  * An implementation using the Java Cryptography Architecture.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @see
- * <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java
+ * @see <a href="http://docs.oracle.com/javase/8/docs/technotes/guides/security/crypto/CryptoSpec.html">Java
  * Cryptography Architecture (JCA) Reference Guide</a>
  */
 public class OAuthSignatureHmacSha1Jca extends OAuthSignatureHmacSha1 {

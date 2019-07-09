@@ -16,12 +16,10 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * Constants for <a href="https://tools.ietf.org/html/rfc5849">The OAuth 1.0
- * Protocol (RFC 5849)</a>
+ * Constants for <a href="https://tools.ietf.org/html/rfc5849">The OAuth 1.0 Protocol (RFC 5849)</a>
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @see <a href="https://tools.ietf.org/html/rfc5849">The OAuth 1.0 Protocol
- * (RFC 5849)</a>
+ * @see <a href="https://tools.ietf.org/html/rfc5849">The OAuth 1.0 Protocol (RFC 5849)</a>
  */
 public final class OAuthConstants {
 
@@ -34,15 +32,13 @@ public final class OAuthConstants {
             = PROTOCOL_PARAMETER_PREFIX + "callback";
 
     /**
-     * A protocol parameter name whose value is
-     * {@value #OAUTH_CALLBACK_CONFIRMED}.
+     * A protocol parameter name whose value is {@value #OAUTH_CALLBACK_CONFIRMED}.
      */
     public static final String OAUTH_CALLBACK_CONFIRMED
             = PROTOCOL_PARAMETER_PREFIX + "callback_confirmed";
 
     /**
-     * A protocol parameter value for {@link #OAUTH_CALLBACK} which is
-     * {@value #OAUTH_CALLBACK_OUT_OF_BAND}.
+     * A protocol parameter value for {@link #OAUTH_CALLBACK} which is {@value #OAUTH_CALLBACK_OUT_OF_BAND}.
      */
     public static final String OAUTH_CALLBACK_OUT_OF_BAND = "oob";
 
@@ -62,8 +58,7 @@ public final class OAuthConstants {
     public static final String OAUTH_SIGNATURE = "oauth_signature";
 
     /**
-     * A protocol parameter name whose value is
-     * {@value #OAUTH_SIGNATURE_METHOD}.
+     * A protocol parameter name whose value is {@value #OAUTH_SIGNATURE_METHOD}.
      */
     public static final String OAUTH_SIGNATURE_METHOD
             = "oauth_signature_method";
@@ -94,20 +89,17 @@ public final class OAuthConstants {
     public static final String OAUTH_VERSION = "oauth_version";
 
     /**
-     * The signature method name whose value is
-     * {@value #SIGNATURE_METHOD_PLAINTEXT}.
+     * The signature method name whose value is {@value #SIGNATURE_METHOD_PLAINTEXT}.
      */
     public static final String SIGNATURE_METHOD_PLAINTEXT = "PLAINTEXT";
 
     /**
-     * The signature method name whose value is
-     * {@value #SIGNATURE_METHOD_HMAC_SHA1}.
+     * The signature method name whose value is {@value #SIGNATURE_METHOD_HMAC_SHA1}.
      */
     public static final String SIGNATURE_METHOD_HMAC_SHA1 = "HMAC-SHA1";
 
     /**
-     * The signature method name whose value is
-     * {@value #SIGNATURE_METHOD_RSA_SHA1}.
+     * The signature method name whose value is {@value #SIGNATURE_METHOD_RSA_SHA1}.
      */
     public static final String SIGNATURE_METHOD_RSA_SHA1 = "RSA-SHA1";
 

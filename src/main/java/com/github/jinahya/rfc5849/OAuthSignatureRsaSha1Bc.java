@@ -27,12 +27,10 @@ import org.bouncycastle.crypto.signers.RSADigestSigner;
  * @see <a href="https://www.bouncycastle.org/java.html">The Legion of the
  * Bouncy Castle</a>
  */
-public class OAuthSignatureRsaSha1Bc
-        extends OAuthSignatureRsaSha1<CipherParameters> {
+public class OAuthSignatureRsaSha1Bc extends OAuthSignatureRsaSha1<CipherParameters> {
 
     @Override
-    byte[] get(final CipherParameters initParam, final byte[] baseBytes)
-            throws Exception {
+    byte[] get(final CipherParameters initParam, final byte[] baseBytes) throws Exception {
         final Signer signer = new RSADigestSigner(new SHA1Digest());
         signer.init(true, initParam);
         signer.update(baseBytes, 0, baseBytes.length);

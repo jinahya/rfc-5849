@@ -18,17 +18,17 @@ package com.github.jinahya.rfc5849;
 import static com.github.jinahya.rfc5849._Base64.encodeBase64ToString;
 
 /**
- * An abstract class for signing the request using
- * {@link OAuthConstants#SIGNATURE_METHOD_RSA_SHA1}.
+ * An abstract class for signing the request using {@link OAuthConstants#SIGNATURE_METHOD_RSA_SHA1}.
  *
- * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> initParam type parameter
+ * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4.3">3.4.3.
  * RSA-SHA1 (RFC 5849)</a>
  */
 public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
 
     // -------------------------------------------------------------------------
+
     /**
      * Creates a new instance.
      */
@@ -55,12 +55,12 @@ public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
 
     // -------------------------------------------------------------- baseString
     @Override
-    public OAuthSignatureRsaSha1<T> baseString(
-            final OAuthBaseString baseString) {
+    public OAuthSignatureRsaSha1<T> baseString(final OAuthBaseString baseString) {
         return (OAuthSignatureRsaSha1<T>) super.baseString(baseString);
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Sets a initialization parameter.
      *
@@ -76,6 +76,7 @@ public abstract class OAuthSignatureRsaSha1<T> extends OAuthSignature {
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * The initialization parameter.
      */

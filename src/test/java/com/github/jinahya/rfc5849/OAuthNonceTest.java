@@ -15,20 +15,22 @@
  */
 package com.github.jinahya.rfc5849;
 
+import lombok.extern.slf4j.Slf4j;
+
 import static java.util.Objects.requireNonNull;
 
 /**
  * An abstract class for testing {@link OAuthNonce}.
  *
- * @author Jin Kwon &lt;onacit at gmail.com&gt;
  * @param <T> OAuthNonce type parameter
+ * @author Jin Kwon &lt;onacit at gmail.com&gt;
  */
+@Slf4j
 public abstract class OAuthNonceTest<T extends OAuthNonce> {
 
     public OAuthNonceTest(final Class<T> oAuthNonceClass) {
         super();
-        this.oAuthNonceClass
-                = requireNonNull(oAuthNonceClass, "null oAuthNonceClass");
+        this.oAuthNonceClass = requireNonNull(oAuthNonceClass, "null oAuthNonceClass");
     }
 
     protected T newInstance() {

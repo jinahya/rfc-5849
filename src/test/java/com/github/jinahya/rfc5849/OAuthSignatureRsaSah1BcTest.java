@@ -15,28 +15,25 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.invoke.MethodHandles.lookup;
-import java.security.SecureRandom;
-import java.util.function.Function;
+import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.generators.RSAKeyPairGenerator;
 import org.bouncycastle.crypto.params.RSAKeyGenerationParameters;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
+
+import java.security.SecureRandom;
+import java.util.function.Function;
 
 /**
  * Tests {@link OAuthSignatureRsaSha1Bc}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public class OAuthSignatureRsaSah1BcTest
         extends OAuthSignatureRsaSha1Test<OAuthSignatureRsaSha1Bc, CipherParameters> {
 
-    private static final Logger logger = getLogger(lookup().lookupClass());
-
-    static <R> R applyKeyPair(
-            final Function<AsymmetricCipherKeyPair, R> function) {
+    static <R> R applyKeyPair(final Function<AsymmetricCipherKeyPair, R> function) {
         final RSAKeyPairGenerator generator = new RSAKeyPairGenerator();
         generator.init(new RSAKeyGenerationParameters(
                 exponent(), // publicExponent

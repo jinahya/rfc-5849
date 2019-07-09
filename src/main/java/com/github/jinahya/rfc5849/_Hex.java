@@ -43,13 +43,11 @@ class _Hex {
             case 0x0F:
                 return decoded + 0x37; // 0x41('A') ~ 0x46('F')
             default:
-                throw new IllegalArgumentException(
-                        "illegal nibble: " + decoded);
+                throw new IllegalArgumentException("illegal nibble: " + decoded);
         }
     }
 
-    static void encodeHexSingle(final int input, final byte[] output,
-                                final int outoff) {
+    static void encodeHexSingle(final int input, final byte[] output, final int outoff) {
         output[outoff] = (byte) encodeHalf((input >> 4) & 0x0F);
         output[outoff + 1] = (byte) encodeHalf(input & 0x0F);
     }
@@ -87,8 +85,7 @@ class _Hex {
     }
 
     static int decodeHexSingle(final byte[] input, final int inoff) {
-        return (decodeHalf(input[inoff] & 0xFF) << 4)
-               | decodeHalf(input[inoff + 1] & 0xFF);
+        return (decodeHalf(input[inoff] & 0xFF) << 4) | decodeHalf(input[inoff + 1] & 0xFF);
     }
 
     private _Hex() {

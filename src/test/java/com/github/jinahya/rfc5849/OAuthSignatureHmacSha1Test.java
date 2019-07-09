@@ -15,27 +15,26 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseString_nouncer;
-import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseString_twitter;
-import static java.lang.invoke.MethodHandles.lookup;
-import java.math.BigInteger;
+import lombok.extern.slf4j.Slf4j;
+import org.testng.annotations.Test;
+
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
+import java.math.BigInteger;
+
+import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseString_nouncer;
+import static com.github.jinahya.rfc5849.OAuthBaseStringTest.baseString_twitter;
 import static org.testng.Assert.assertEquals;
-import org.testng.annotations.Test;
 
 /**
  * An abstract class for testing {@link OAuthSignatureHmacSha1} implementations.
  *
- * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> implementation type parameter
+ * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public abstract class OAuthSignatureHmacSha1Test<T extends OAuthSignatureHmacSha1>
         extends OAuthSignatureTest<T> {
-
-    private static final Logger logger = getLogger(lookup().lookupClass());
 
     /**
      * Creates a new instance.
@@ -61,7 +60,7 @@ public abstract class OAuthSignatureHmacSha1Test<T extends OAuthSignatureHmacSha
         instance.tokenSecret(tokenSecret);
         instance.baseString(baseString);
         final String signature = instance.get();
-        logger.debug("signature: {}", signature);
+        log.debug("signature: {}", signature);
     }
 
     @Test

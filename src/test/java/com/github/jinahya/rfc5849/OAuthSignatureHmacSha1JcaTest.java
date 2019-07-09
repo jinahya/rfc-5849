@@ -15,19 +15,16 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.lang.invoke.MethodHandles.lookup;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Tests {@link OAuthSignatureHmacSha1Jca}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public class OAuthSignatureHmacSha1JcaTest
         extends OAuthSignatureHmacSha1Test<OAuthSignatureHmacSha1Jca> {
-
-    private static final Logger logger = getLogger(lookup().lookupClass());
 
     /**
      * Creates a new instance.

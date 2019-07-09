@@ -16,12 +16,10 @@
 package com.github.jinahya.rfc5849;
 
 /**
- * An interface for signing requests and generating values for
- * {@link OAuthConstants#OAUTH_SIGNATURE}.
+ * An interface for signing requests and generating values for {@link OAuthConstants#OAUTH_SIGNATURE}.
  *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
- * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4">3.4. Signature
- * (RFC 5849)</a>
+ * @see <a href="https://tools.ietf.org/html/rfc5849#section-3.4">3.4. Signature (RFC 5849)</a>
  */
 public abstract class OAuthSignature {
 
@@ -35,16 +33,18 @@ public abstract class OAuthSignature {
     }
 
     // -------------------------------------------------------------------------
+
     /**
      * Generates a signature value for {@link OAuthConstants#OAUTH_SIGNATURE}.
      *
      * @return a signature value
      * @throws IllegalStateException if no {@code baseString} set.
-     * @throws Exception if an error occurs.
+     * @throws Exception             if an error occurs.
      */
     public abstract String get() throws Exception;
 
     // --------------------------------------------------------- signatureMethod
+
     /**
      * Returns signature method.
      *
@@ -56,6 +56,7 @@ public abstract class OAuthSignature {
     }
 
     // -------------------------------------------------------------- baseString
+
     /**
      * Returns the {@code baseString}.
      *

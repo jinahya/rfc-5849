@@ -15,14 +15,15 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static java.util.Objects.requireNonNull;
 import java.util.concurrent.ThreadLocalRandom;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * An abstract class for testing {@link OAuthSignature} implementations.
  *
- * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  * @param <T> signature builder type parameter.
+ * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
 public abstract class OAuthSignatureTest<T extends OAuthSignature> {
 
@@ -42,9 +43,8 @@ public abstract class OAuthSignatureTest<T extends OAuthSignature> {
     }
 
     /**
-     * Creates a new instance of {@link #signatureClass}. The
-     * {@code newInstance()} method of {@code OAuthSignerTest} class returns the
-     * result of {@code signerClass#newInstance()}.
+     * Creates a new instance of {@link #signatureClass}. The {@code newInstance()} method of {@code OAuthSignerTest}
+     * class returns the result of {@code signerClass#newInstance()}.
      *
      * @return a new instance of {@link #signatureClass}.
      */

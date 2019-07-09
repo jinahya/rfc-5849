@@ -15,28 +15,24 @@
  */
 package com.github.jinahya.rfc5849;
 
-import static com.github.jinahya.rfc5849._Percent.decodePercent;
-import static com.github.jinahya.rfc5849._Percent.encodePercent;
-import static java.lang.invoke.MethodHandles.lookup;
-import static java.util.concurrent.ThreadLocalRandom.current;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.slf4j.Logger;
-import static org.slf4j.LoggerFactory.getLogger;
-import static org.testng.Assert.assertEquals;
 import org.testng.annotations.Test;
 
+import static com.github.jinahya.rfc5849._Percent.decodePercent;
+import static com.github.jinahya.rfc5849._Percent.encodePercent;
+import static java.util.concurrent.ThreadLocalRandom.current;
+import static org.testng.Assert.assertEquals;
+
 /**
- *
  * @author Jin Kwon &lt;jinahya_at_gmail.com&gt;
  */
+@Slf4j
 public class _PercentTest {
-
-    private static final Logger logger = getLogger(lookup().lookupClass());
 
     @Test(invocationCount = 128)
     public void encodeDecode() {
-        final String expected
-                = RandomStringUtils.random(current().nextInt(0, 1024));
+        final String expected = RandomStringUtils.random(current().nextInt(0, 1024));
         final String encoded = encodePercent(expected);
         final String actual = decodePercent(encoded);
         assertEquals(actual, expected);
